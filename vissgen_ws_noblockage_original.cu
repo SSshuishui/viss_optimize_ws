@@ -56,8 +56,44 @@ __device__ float norm(float x, float y, float z) {
 struct timeval start, finish;
 float total_time;
 
-string address = "./ws_earth_1Mhz/";
+string address = "./earth_1Mhz/";
 
+
+void writeToFile(const thrust::device_vector<Complex>& device_vector, const std::string& filename) {
+    // 将数据从设备内存复制到主机内存
+    std::vector<Complex> host_vector(device_vector.size());
+    thrust::copy(device_vector.begin(), device_vector.end(), host_vector.begin());
+    // 打开文件
+    std::ofstream file(filename);
+    if (file.is_open()) {
+        // 按照指定格式写入文件
+        for(const Complex& value : host_vector)
+        {
+            // file << value.real() << " " << value.imag() << std::endl;
+            file << value.real() << std::endl;
+        }
+    }
+    // 关闭文件
+    file.close();
+}
+
+
+// void writeToFile(const thrust::device_vector<float>& device_vector, const std::string& filename) {
+//     // 将数据从设备内存复制到主机内存
+//     std::vector<float> host_vector(device_vector.size());
+//     thrust::copy(device_vector.begin(), device_vector.end(), host_vector.begin());
+//     // 打开文件
+//     std::ofstream file(filename);
+//     if (file.is_open()) {
+//         // 按照指定格式写入文件
+//         for(const float& value : host_vector)
+//         {
+//             file << value << std::endl;
+//         }
+//     }
+//     // 关闭文件
+//     file.close();
+// }
 
 __global__ void healpix_moonback_pre(float *theta_heal, float *phi_heal,
                                 float *l, float *m, float *n,
@@ -195,15 +231,17 @@ __global__ void computeC(
 
             // Find indices where il == q
             int count = 0;
-            Complex Vissp(0.0, 0.0);
+            Complex Vissgu(0.0, 0.0);
             for (int i = 0; i < uvw_index; i++) {
                 if (il[i] == q) {
-                    Vissp += Viss[i] * complexExp(two * CPI * I1 * Complex((ugu * fa + vgu * fb) * n[idx], 0.0));
+                    Vissgu += Viss[i];
                     count++;
                 }
             }
-            Vissp = Vissp / Complex(count, 0.0f);   // 一个数值
+            
+            Vissgu = Vissgu / Complex(count, 0.0f);   // 一个数值
 
+            Complex Vissp = Vissgu * complexExp(two * CPI * I1 * Complex((ugu * fa + vgu * fb) * n[idx], 0.0));
             C[idx] += Vissp * complexExp(two * I1 * CPI * Complex(ugu * l[idx] + vgu * m[idx], 0.0));
 
             if (idx == 0 && q == 0) {
@@ -239,9 +277,9 @@ int vissGen(float frequency)
     cout << "days: " << days << endl;
 
     // 读取 B.txt, theta_heal.txt, phi_heal.txt 文件
-    string address_B = "B.txt";
-    string address_theta_heal = "theta_heal.txt";
-    string address_phi_heal = "phi_heal.txt";
+    string address_B = address + "B.txt";
+    string address_theta_heal = address + "theta_heal.txt";
+    string address_phi_heal = address + "phi_heal.txt";
     ifstream BFile, thetaFile, phiFile;
     BFile.open(address_B);
     thetaFile.open(address_theta_heal);

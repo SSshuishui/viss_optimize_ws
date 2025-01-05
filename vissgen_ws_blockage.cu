@@ -59,6 +59,42 @@ float total_time;
 string address = "./earth_1Mhz/";
 
 
+void writeToFile(const thrust::device_vector<Complex>& device_vector, const std::string& filename) {
+    // 将数据从设备内存复制到主机内存
+    std::vector<Complex> host_vector(device_vector.size());
+    thrust::copy(device_vector.begin(), device_vector.end(), host_vector.begin());
+    // 打开文件
+    std::ofstream file(filename);
+    if (file.is_open()) {
+        // 按照指定格式写入文件
+        for(const Complex& value : host_vector)
+        {
+            // file << value.real() << " " << value.imag() << std::endl;
+            file << value.real() << std::endl;
+        }
+    }
+    // 关闭文件
+    file.close();
+}
+
+
+// void writeToFile(const thrust::device_vector<float>& device_vector, const std::string& filename) {
+//     // 将数据从设备内存复制到主机内存
+//     std::vector<float> host_vector(device_vector.size());
+//     thrust::copy(device_vector.begin(), device_vector.end(), host_vector.begin());
+//     // 打开文件
+//     std::ofstream file(filename);
+//     if (file.is_open()) {
+//         // 按照指定格式写入文件
+//         for(const float& value : host_vector)
+//         {
+//             file << value << std::endl;
+//         }
+//     }
+//     // 关闭文件
+//     file.close();
+// }
+
 __global__ void healpix_moonback_pre(float *theta_heal, float *phi_heal,
                                 float *l, float *m, float *n,
                                 float *B, int npix, float s)
@@ -123,10 +159,12 @@ __global__ void viss_trans(Complex* Viss, float* w, int size,
     }
 }
 
+
             
 __host__ float calculate_fa(const thrust::device_vector<float>& u,
                             const thrust::device_vector<float>& v,
-                            const thrust::device_vector<float>& w) {
+                            const thrust::device_vector<float>& w) 
+{
     float sum_v2 = thrust::transform_reduce(v.begin(), v.end(), thrust::square<float>(), 0.0f, thrust::plus<float>());
     float sum_u_w = thrust::inner_product(u.begin(), u.end(), w.begin(), 0.0f);
     float sum_u_v = thrust::inner_product(u.begin(), u.end(), v.begin(), 0.0f);
@@ -139,7 +177,8 @@ __host__ float calculate_fa(const thrust::device_vector<float>& u,
 
 __host__ float calculate_fb(const thrust::device_vector<float>& u,
                             const thrust::device_vector<float>& v,
-                            const thrust::device_vector<float>& w) {
+                            const thrust::device_vector<float>& w) 
+{
     float sum_v2 = thrust::transform_reduce(v.begin(), v.end(), thrust::square<float>(), 0.0f, thrust::plus<float>());
     float sum_u_w = thrust::inner_product(u.begin(), u.end(), w.begin(), 0.0f);
     float sum_u_v = thrust::inner_product(u.begin(), u.end(), v.begin(), 0.0f);
@@ -150,7 +189,8 @@ __host__ float calculate_fb(const thrust::device_vector<float>& u,
 }
 
 
-__global__ void meshgrid_kernel(float* ug, float* vg, int RES, float start, float step) {
+__global__ void meshgrid_kernel(float* ug, float* vg, int RES, float start, float step) 
+{
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < RES * RES) {
         int i = idx / RES;
@@ -161,7 +201,8 @@ __global__ void meshgrid_kernel(float* ug, float* vg, int RES, float start, floa
 }
 
 
-__global__ void round_divide_kernel(float* vec, float du, int size) {
+__global__ void round_divide_kernel(float* vec, float du, int size) 
+{
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < size) {
         vec[idx] = roundf(vec[idx] / du);
@@ -169,13 +210,53 @@ __global__ void round_divide_kernel(float* vec, float du, int size) {
 }
 
 
-__global__ void calculate_locg(const float* u, const float* v, int* locg, int n, int RES) {
+__global__ void calculate_locg(const float* u, const float* v, int* locg, int n, int RES)
+{
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < n) {
         locg[idx] = (u[idx] + (RES - 1) / 2) * RES + (v[idx] + (RES - 1) / 2) + 1;
     }
 }
 
+
+// 计算特定 q 值的索引有几个
+__global__ void computeLocCount(
+    int* il, int* countLoc, int nulocg, int uvw_index) 
+{
+    int q = blockIdx.x * blockDim.x + threadIdx.x;
+    if (q < nulocg) {
+        // countLoc: (nulocg, 1)
+        int count = 0;
+        for (int i = 0; i < uvw_index; i++) {
+            if (il[i] == q) {
+                count++;
+            }
+        }
+        countLoc[q] = count;
+    }
+}
+
+
+// 把每个 q 值对应的索引保存下来
+__global__ void computeLocViss(
+    int* il, int* ilq, int* countLoc, int nulocg, int uvw_index) 
+{
+    int q = blockIdx.x * blockDim.x + threadIdx.x;
+    if (q < nulocg) {
+        // ilq: (uvw_index, 1)
+        // countLoc: (nulocg, 1)
+        int start_idx=0;
+        for(int i=1; i<=q; i++){
+            start_idx += countLoc[i-1];
+        }
+        for (int i = 0; i < uvw_index; i++) {
+            if (il[i] == q) {
+                ilq[start_idx] = i;
+                start_idx++;
+            }
+        }
+    }
+}
 
 
 __global__ void computeC(
@@ -184,6 +265,7 @@ __global__ void computeC(
         float *xyz1a, float *xyz1b, float *xyz1c, 
         float *xyz2a, float *xyz2b, float *xyz2c,
         float* l, float* m, float* n, 
+        int* ilq, int* countLoc,
         int nulocg, float fa, float fb, float phi,
         int uvw_index, Complex two, Complex I1, Complex CPI)
 {
@@ -196,43 +278,63 @@ __global__ void computeC(
             float vgu = vg[loc-1];
 
             // Find indices where il == q
-            int count = 0;
+            // 传入一个ilq数组，用来存储所有等于q的索引，维度是il的维度(uvw_index)
+            // 每个索引的数量countLoc  维度是nulocg
+            int start_idx = 0;
             Complex Vissgu(0.0, 0.0);
-            for (int i = 0; i < uvw_index; i++) {
-                if (il[i] == q) {
-                    Vissgu += Viss[i];
-                    count++;
+
+            // 在每一个等于 q 值的索引里面计算
+            for(int con=0; con < countLoc[q]; con++){
+                int locViss = ilq[con + start_idx];
+
+                // Compute acosbeta1 and beta1
+                float dotProd = l[idx] * xyz1a[locViss] + m[idx] * xyz1b[locViss] + n[idx] * xyz1c[locViss];
+                float normVal = norm(xyz1a[locViss], xyz1b[locViss], xyz1c[locViss]);
+                float acosbeta1 = dotProd / normVal;
+                if (fabsf(acosbeta1) > 1.0f) {
+                    acosbeta1 = copysignf(1.0f, acosbeta1);
+                }
+                float beta1 = acosf(acosbeta1);
+
+                // Compute acosbeta2 and beta2
+                dotProd = l[idx] * xyz2a[locViss] + m[idx] * xyz2b[locViss] + n[idx] * xyz2c[locViss];
+                normVal = norm(xyz2a[locViss], xyz2b[locViss], xyz2c[locViss]);
+                float acosbeta2 = dotProd / normVal;
+                if (fabsf(acosbeta2) > 1.0f) {
+                    acosbeta2 = copysignf(1.0f, acosbeta2);
+                }
+                float beta2 = acosf(acosbeta2);
+
+                if (beta1 < phi && beta2 < phi) {
+                    Vissgu += Viss[locViss];
                 }
             }
+            start_idx += countLoc[q];
+            Vissgu = Vissgu / Complex(countLoc[q], 0.0f);   // 一个数值
 
-            // Compute acosbeta1 and beta1
-            float acosbeta1[count];
-            for (int i = 0; i < count; i++) {
-                int locIdx = locViss[i];
-                float dotProd = l[idx] * x1[locIdx] + m[idx] * y1[locIdx] + n[idx] * z1[locIdx];
-                float norm = sqrtf(x1[locIdx] * x1[locIdx] + y1[locIdx] * y1[locIdx] + z1[locIdx] * z1[locIdx]);
-                acosbeta1[i] = dotProd / norm;
-                if (fabsf(acosbeta1[i]) > 1.0f) {
-                    acosbeta1[i] = copysignf(1.0f, acosbeta1[i]);
-                }
+            if (isnan(Vissgu.real())){
+                Vissgu = Complex(0.0, 0.0);
             }
 
-            float beta1[100];
-            for (int i = 0; i < locVissCount; i++) {
-                beta1[i] = acosf(acosbeta1[i]);
-            }
-
-
-            Vissgu = Vissgu / Complex(count, 0.0);   // 一个数值
-            
-            Complex Vissp = Vissgu * complexExp(two * I1 * CPI * Complex((ugu * fa + vgu * fb) * n[idx], 0.0));
-
-            // Update gC
+            Complex Vissp = Vissgu * complexExp(two * CPI * I1 * Complex((ugu * fa + vgu * fb) * n[idx], 0.0));
             C[idx] += Vissp * complexExp(two * I1 * CPI * Complex(ugu * l[idx] + vgu * m[idx], 0.0));
+
+            if (idx == 0 && q == 0) {
+                printf("loc: %d, ugu: %f, vgu: %f\n", loc, ugu, vgu);
+                printf("count: %d, Vissgu: %f, %f\n", countLoc[q], Vissgu.real(), Vissgu.imag());
+                printf("Vissp: %f, %f\n", Vissp.real(), Vissp.imag());
+                printf("C: %f, %f\n", C[idx].real(), C[idx].imag());
+            }
+
+            if (idx == 1 && q == 0) {
+                printf("idx %d, loc: %d, ugu: %f, vgu: %f\n", idx, loc, ugu, vgu);
+                printf("idx %d,count: %d, Vissgu: %f, %f\n", idx, countLoc[q], Vissgu.real(), Vissgu.imag());
+                printf("idx %d,Vissp: %f, %f\n", idx, Vissp.real(), Vissp.imag());
+                printf("idx %d,C: %f, %f\n", idx, C[idx].real(), C[idx].imag());
+            }
         }
     }
 }
-
 
 
 int vissGen(float frequency) 
@@ -257,9 +359,9 @@ int vissGen(float frequency)
     cout << "days: " << days << endl;
 
     // 读取 B.txt, theta_heal.txt, phi_heal.txt 文件
-    string address_B = "B.txt";
-    string address_theta_heal = "theta_heal.txt";
-    string address_phi_heal = "phi_heal.txt";
+    string address_B = address + "B.txt";
+    string address_theta_heal = address + "theta_heal.txt";
+    string address_phi_heal = address + "phi_heal.txt";
     ifstream BFile, thetaFile, phiFile;
     BFile.open(address_B);
     thetaFile.open(address_theta_heal);
@@ -448,7 +550,6 @@ int vissGen(float frequency)
                 cout << "viss_index: " << viss_index << endl;
                 // 复制到GPU上
                 thrust::copy(cViss.begin(), cViss.begin() + viss_index, Viss.begin());
-            
             }
 
             // 计算可见度
@@ -587,17 +688,43 @@ int vissGen(float frequency)
             // 填充 il 设备向量
             thrust::lower_bound(ulocg.begin(), ulocg.end(), locg.begin(), locg.end(), il.begin());
 
-// -----------------------------------------------------------------------------------------------------------------------------------------------------
+
             // 计算 C
             int nulocg = ulocg.size();
+            cout << "nulocg: " << nulocg << endl;
 
-            调用核函数计算C
+            // 先提前计算每个 q 值的索引有几个
+            thrust::device_vector<int> countLoc(nulocg);
+            cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, computeLocCount, 0, 0);
+            gridSize = floor(nulocg + blockSize - 1) / blockSize;
+            computeLocCount<<<gridSize, blockSize>>>(
+                thrust::raw_pointer_cast(il.data()), 
+                thrust::raw_pointer_cast(countLoc.data()), 
+                nulocg, uvw_index);
+            CHECK(cudaDeviceSynchronize());
+
+            // 然后存下来每个 q 值对应的索引
+            thrust::device_vector<int> ilq(il.size());
+            cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, computeLocViss, 0, 0);
+            gridSize = floor(nulocg + blockSize - 1) / blockSize;
+            cout << "Compute LocViss, girdSize: " << gridSize << endl;
+            cout << "Compute LocViss, blockSize: " << blockSize << endl;
+            printf("Compute LocViss... Here is gpu %d running process %d\n", omp_get_thread_num(), p+1);
+            computeLocViss<<<gridSize, blockSize>>>(
+                thrust::raw_pointer_cast(il.data()), 
+                thrust::raw_pointer_cast(ilq.data()), 
+                thrust::raw_pointer_cast(countLoc.data()), 
+                nulocg, uvw_index);
+            CHECK(cudaDeviceSynchronize());
+
+            // 计算的时候直接根据 q 对应的索引个数加载索引值
             cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, computeC, 0, 0);
             gridSize = floor(npix + blockSize - 1) / blockSize;
             cout << "Compute C, girdSize: " << gridSize << endl;
             cout << "Compute C, blockSize: " << blockSize << endl;
             printf("Compute C... Here is gpu %d running process %d\n", omp_get_thread_num(), p+1);
             computeC<<<gridSize, blockSize>>>(
+                npix,
                 thrust::raw_pointer_cast(ug.data()), 
                 thrust::raw_pointer_cast(vg.data()), 
                 thrust::raw_pointer_cast(Viss.data()),
@@ -605,16 +732,48 @@ int vissGen(float frequency)
                 thrust::raw_pointer_cast(ulocg.data()),
                 thrust::raw_pointer_cast(locg.data()),
                 thrust::raw_pointer_cast(C.data()),
+                thrust::raw_pointer_cast(xyz1a.data()),
+                thrust::raw_pointer_cast(xyz1b.data()),
+                thrust::raw_pointer_cast(xyz1c.data()),
+                thrust::raw_pointer_cast(xyz2a.data()),
+                thrust::raw_pointer_cast(xyz2b.data()),
+                thrust::raw_pointer_cast(xyz2c.data()),
                 thrust::raw_pointer_cast(l.data()),
                 thrust::raw_pointer_cast(m.data()),
                 thrust::raw_pointer_cast(n.data()),
-                nulocg, fa, fb,
-                RES, npix, two, I1, CPI);
-            cudaDeviceSynchronize();
+                thrust::raw_pointer_cast(ilq.data()),
+                thrust::raw_pointer_cast(countLoc.data()),
+                nulocg, fa, fb, phi,
+                uvw_index, two, I1, CPI);
+            CHECK(cudaDeviceSynchronize());
             cout << "Period " << p+1 << " compute C success" << endl;
 
-            string address_C = "wsblockage/C" + to_string(p+1) + "day1M.txt";
-            writeToFile(C, address_C);
+            cout << "C size: " << C.size() << endl;
+            for (int i=0; i<=6; i++){
+                cout << "C[" << i << "]: " << C[i] << endl;
+            }
+
+            // 创建一个临界区，用于保存结果
+            #pragma omp critical
+            {   
+                // 将数据从设备内存复制到主机内存
+                std::vector<Complex> host_C(C.size());
+                cudaMemcpy(host_C.data(), thrust::raw_pointer_cast(C.data()), C.size() * sizeof(Complex), cudaMemcpyDeviceToHost);
+                CHECK(cudaDeviceSynchronize());
+                // 打开文件
+                string address_C = "wsblockage/C" + to_string(p+1) + "day1M.txt";
+                std::ofstream file(address_C);
+                if (file.is_open()) {
+                    // 按照指定格式写入文件
+                    for(const Complex& value : host_C)
+                    {
+                        file << value.real() << std::endl;
+                    }
+                }
+                // 关闭文件
+                file.close();
+                std::cout << "Period " << p+1 << " save C success!" << std::endl;
+            }
         }
     }
     

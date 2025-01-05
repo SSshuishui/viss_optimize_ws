@@ -163,7 +163,8 @@ __global__ void viss_trans(Complex* Viss, float* w, int size,
             
 __host__ float calculate_fa(const thrust::device_vector<float>& u,
                             const thrust::device_vector<float>& v,
-                            const thrust::device_vector<float>& w) {
+                            const thrust::device_vector<float>& w) 
+{
     float sum_v2 = thrust::transform_reduce(v.begin(), v.end(), thrust::square<float>(), 0.0f, thrust::plus<float>());
     float sum_u_w = thrust::inner_product(u.begin(), u.end(), w.begin(), 0.0f);
     float sum_u_v = thrust::inner_product(u.begin(), u.end(), v.begin(), 0.0f);
@@ -176,7 +177,8 @@ __host__ float calculate_fa(const thrust::device_vector<float>& u,
 
 __host__ float calculate_fb(const thrust::device_vector<float>& u,
                             const thrust::device_vector<float>& v,
-                            const thrust::device_vector<float>& w) {
+                            const thrust::device_vector<float>& w) 
+{
     float sum_v2 = thrust::transform_reduce(v.begin(), v.end(), thrust::square<float>(), 0.0f, thrust::plus<float>());
     float sum_u_w = thrust::inner_product(u.begin(), u.end(), w.begin(), 0.0f);
     float sum_u_v = thrust::inner_product(u.begin(), u.end(), v.begin(), 0.0f);
@@ -187,7 +189,8 @@ __host__ float calculate_fb(const thrust::device_vector<float>& u,
 }
 
 
-__global__ void meshgrid_kernel(float* ug, float* vg, int RES, float start, float step) {
+__global__ void meshgrid_kernel(float* ug, float* vg, int RES, float start, float step) 
+{
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < RES * RES) {
         int i = idx / RES;
@@ -198,7 +201,8 @@ __global__ void meshgrid_kernel(float* ug, float* vg, int RES, float start, floa
 }
 
 
-__global__ void round_divide_kernel(float* vec, float du, int size) {
+__global__ void round_divide_kernel(float* vec, float du, int size) 
+{
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < size) {
         vec[idx] = roundf(vec[idx] / du);
@@ -206,7 +210,8 @@ __global__ void round_divide_kernel(float* vec, float du, int size) {
 }
 
 
-__global__ void calculate_locg(const float* u, const float* v, int* locg, int n, int RES) {
+__global__ void calculate_locg(const float* u, const float* v, int* locg, int n, int RES)
+{
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < n) {
         locg[idx] = (u[idx] + (RES - 1) / 2) * RES + (v[idx] + (RES - 1) / 2) + 1;
@@ -214,11 +219,52 @@ __global__ void calculate_locg(const float* u, const float* v, int* locg, int n,
 }
 
 
+// 计算特定 q 值的索引有几个
+__global__ void computeLocCount(
+    int* il, int* countLoc, int nulocg, int uvw_index) 
+{
+    int q = blockIdx.x * blockDim.x + threadIdx.x;
+    if (q < nulocg) {
+        // countLoc: (nulocg, 1)
+        int count = 0;
+        for (int i = 0; i < uvw_index; i++) {
+            if (il[i] == q) {
+                count++;
+            }
+        }
+        countLoc[q] = count;
+    }
+}
+
+
+// 把每个 q 值对应的索引保存下来
+__global__ void computeLocViss(
+    int* il, int* ilq, int* countLoc, int nulocg, int uvw_index) 
+{
+    int q = blockIdx.x * blockDim.x + threadIdx.x;
+    if (q < nulocg) {
+        // ilq: (uvw_index, 1)
+        // countLoc: (nulocg, 1)
+        int start_idx=0;
+        for(int i=1; i<=q; i++){
+            start_idx += countLoc[i-1];
+        }
+        for (int i = 0; i < uvw_index; i++) {
+            if (il[i] == q) {
+                ilq[start_idx] = i;
+                start_idx++;
+            }
+        }
+    }
+}
+
+
 __global__ void computeC(
         int npix, float* ug, float* vg, Complex* Viss, 
-        int* il, int* ulocg, int* locg, 
-        Complex* C, float* l, float* m, float* n, 
-        int nulocg, float fa, float fb,
+        int* il, int* ulocg, int* locg, Complex* C, 
+        float* l, float* m, float* n, 
+        int* ilq, int* countLoc,
+        int nulocg, float fa, float fb, 
         int uvw_index, Complex two, Complex I1, Complex CPI)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -230,23 +276,24 @@ __global__ void computeC(
             float vgu = vg[loc-1];
 
             // Find indices where il == q
-            int count = 0;
+            // 传入一个ilq数组，用来存储所有等于q的索引，维度是il的维度(uvw_index)
+            // 每个索引的数量countLoc  维度是nulocg
+            int start_idx = 0;
             Complex Vissgu(0.0, 0.0);
-            for (int i = 0; i < uvw_index; i++) {
-                if (il[i] == q) {
-                    Vissgu += Viss[i];
-                    count++;
-                }
+
+            for(int con=0; con < countLoc[q]; con++){
+                int locViss = ilq[con + start_idx];
+                Vissgu += Viss[locViss];
             }
-            
-            Vissgu = Vissgu / Complex(count, 0.0f);   // 一个数值
+            start_idx += countLoc[q];
+            Vissgu = Vissgu / Complex(countLoc[q], 0.0f);   // 一个数值
 
             Complex Vissp = Vissgu * complexExp(two * CPI * I1 * Complex((ugu * fa + vgu * fb) * n[idx], 0.0));
             C[idx] += Vissp * complexExp(two * I1 * CPI * Complex(ugu * l[idx] + vgu * m[idx], 0.0));
 
             if (idx == 0 && q == 0) {
                 printf("loc: %d, ugu: %f, vgu: %f\n", loc, ugu, vgu);
-                printf("count: %d, Vissgu: %f, %f\n", count, Vissgu.real(), Vissgu.imag());
+                printf("count: %d, Vissgu: %f, %f\n", countLoc[q], Vissgu.real(), Vissgu.imag());
                 printf("Vissp: %f, %f\n", Vissp.real(), Vissp.imag());
                 printf("C: %f, %f\n", C[idx].real(), C[idx].imag());
             }
@@ -255,6 +302,7 @@ __global__ void computeC(
 }
 
 
+// 优化后的版本
 int vissGen(float frequency) 
 {   
     gettimeofday(&start, NULL);
@@ -357,9 +405,6 @@ int vissGen(float frequency)
         std::vector<float> cbll(uvw_presize);
         thrust::device_vector<float> bll(uvw_presize);
 
-        std::vector<Complex> cViss(uvw_presize);
-        thrust::device_vector<Complex> Viss(uvw_presize);
-
         // 存储最终的计算结果
         thrust::device_vector<Complex> C(npix, zero);
 
@@ -450,24 +495,6 @@ int vissGen(float frequency)
                 cout << "bll_index: " << bll_index << endl;
                 // 复制到GPU上
                 thrust::copy(cbll.begin(), cbll.begin() + bll_index, bll.begin());
-
-                // 读取Viss
-                int viss_index;
-                string address_viss = address + "Viss" + to_string(p+1) + "day1M.txt";
-                cout << "address_viss: " << address_viss << endl;
-                ifstream vissFile(address_viss);
-                viss_index = 0;
-                if (vissFile.is_open()) {
-                    vissFile >> a_point >> b_point;
-                    while (vissFile >> a_point >> b_point) {
-                        cViss[viss_index].real(a_point);
-                        cViss[viss_index].imag(b_point);
-                        viss_index++;
-                    }
-                }
-                cout << "viss_index: " << viss_index << endl;
-                // 复制到GPU上
-                thrust::copy(cViss.begin(), cViss.begin() + viss_index, Viss.begin());
             }
 
             // 计算可见度
@@ -490,31 +517,31 @@ int vissGen(float frequency)
             CHECK(cudaDeviceSynchronize());  
 
 
-            // thrust::device_vector<Complex> Viss(uvw_index);
-            // cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, healpix_moonback_viss, 0, 0);
-            // gridSize = floor(amount + blockSize - 1) / blockSize;
-            // cout << "Viss Computing, girdSize: " << gridSize << endl;
-            // cout << "Viss Computing, blockSize: " << blockSize << endl;
-            // printf("Viss Computing... Here is gpu %d running process %d\n", omp_get_thread_num(), p+1);
-            // healpix_moonback_viss<<<gridSize, blockSize>>>(
-            //     thrust::raw_pointer_cast(B.data()),
-            //     thrust::raw_pointer_cast(Viss.data()),
-            //     thrust::raw_pointer_cast(u.data()),
-            //     thrust::raw_pointer_cast(v.data()),
-            //     thrust::raw_pointer_cast(w.data()),
-            //     thrust::raw_pointer_cast(xyz1a.data()),
-            //     thrust::raw_pointer_cast(xyz1b.data()),
-            //     thrust::raw_pointer_cast(xyz1c.data()),
-            //     thrust::raw_pointer_cast(xyz2a.data()),
-            //     thrust::raw_pointer_cast(xyz2b.data()),
-            //     thrust::raw_pointer_cast(xyz2c.data()),
-            //     thrust::raw_pointer_cast(l.data()),
-            //     thrust::raw_pointer_cast(m.data()),
-            //     thrust::raw_pointer_cast(n.data()),
-            //     amount, npix, phi,
-            //     zero, I1, two, CPI);
-            // CHECK(cudaDeviceSynchronize());
-            // cout << "Period " << p+1 << " Viss Computing Success!" << endl;
+            thrust::device_vector<Complex> Viss(uvw_index);
+            cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, healpix_moonback_viss, 0, 0);
+            gridSize = floor(amount + blockSize - 1) / blockSize;
+            cout << "Viss Computing, girdSize: " << gridSize << endl;
+            cout << "Viss Computing, blockSize: " << blockSize << endl;
+            printf("Viss Computing... Here is gpu %d running process %d\n", omp_get_thread_num(), p+1);
+            healpix_moonback_viss<<<gridSize, blockSize>>>(
+                thrust::raw_pointer_cast(B.data()),
+                thrust::raw_pointer_cast(Viss.data()),
+                thrust::raw_pointer_cast(u.data()),
+                thrust::raw_pointer_cast(v.data()),
+                thrust::raw_pointer_cast(w.data()),
+                thrust::raw_pointer_cast(xyz1a.data()),
+                thrust::raw_pointer_cast(xyz1b.data()),
+                thrust::raw_pointer_cast(xyz1c.data()),
+                thrust::raw_pointer_cast(xyz2a.data()),
+                thrust::raw_pointer_cast(xyz2b.data()),
+                thrust::raw_pointer_cast(xyz2c.data()),
+                thrust::raw_pointer_cast(l.data()),
+                thrust::raw_pointer_cast(m.data()),
+                thrust::raw_pointer_cast(n.data()),
+                amount, npix, phi,
+                zero, I1, two, CPI);
+            CHECK(cudaDeviceSynchronize());
+            cout << "Period " << p+1 << " Viss Computing Success!" << endl;
              
 
             // 图像重构
@@ -606,11 +633,36 @@ int vissGen(float frequency)
             // 填充 il 设备向量
             thrust::lower_bound(ulocg.begin(), ulocg.end(), locg.begin(), locg.end(), il.begin());
 
-// -----------------------------------------------------------------------------------------------------------------------------------------------------
+
             // 计算 C
             int nulocg = ulocg.size();
             cout << "nulocg: " << nulocg << endl;
 
+            // 先提前计算每个 q 值的索引有几个
+            thrust::device_vector<int> countLoc(nulocg);
+            cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, computeLocCount, 0, 0);
+            gridSize = floor(nulocg + blockSize - 1) / blockSize;
+            computeLocCount<<<gridSize, blockSize>>>(
+                thrust::raw_pointer_cast(il.data()), 
+                thrust::raw_pointer_cast(countLoc.data()), 
+                nulocg, uvw_index);
+            CHECK(cudaDeviceSynchronize());
+
+            // 然后存下来每个 q 值对应的索引
+            thrust::device_vector<int> ilq(il.size());
+            cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, computeLocViss, 0, 0);
+            gridSize = floor(nulocg + blockSize - 1) / blockSize;
+            cout << "Compute LocViss, girdSize: " << gridSize << endl;
+            cout << "Compute LocViss, blockSize: " << blockSize << endl;
+            printf("Compute LocViss... Here is gpu %d running process %d\n", omp_get_thread_num(), p+1);
+            computeLocViss<<<gridSize, blockSize>>>(
+                thrust::raw_pointer_cast(il.data()), 
+                thrust::raw_pointer_cast(ilq.data()), 
+                thrust::raw_pointer_cast(countLoc.data()), 
+                nulocg, uvw_index);
+            CHECK(cudaDeviceSynchronize());
+
+            // 计算的时候直接根据 q 对应的索引个数加载索引值
             cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, computeC, 0, 0);
             gridSize = floor(npix + blockSize - 1) / blockSize;
             cout << "Compute C, girdSize: " << gridSize << endl;
@@ -628,6 +680,8 @@ int vissGen(float frequency)
                 thrust::raw_pointer_cast(l.data()),
                 thrust::raw_pointer_cast(m.data()),
                 thrust::raw_pointer_cast(n.data()),
+                thrust::raw_pointer_cast(ilq.data()),
+                thrust::raw_pointer_cast(countLoc.data()),
                 nulocg, fa, fb,
                 uvw_index, two, I1, CPI);
             CHECK(cudaDeviceSynchronize());
