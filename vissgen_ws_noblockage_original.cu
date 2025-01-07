@@ -238,18 +238,10 @@ __global__ void computeC(
                     count++;
                 }
             }
-            
             Vissgu = Vissgu / Complex(count, 0.0f);   // 一个数值
-
+            
             Complex Vissp = Vissgu * complexExp(two * CPI * I1 * Complex((ugu * fa + vgu * fb) * n[idx], 0.0));
             C[idx] += Vissp * complexExp(two * I1 * CPI * Complex(ugu * l[idx] + vgu * m[idx], 0.0));
-
-            if (idx == 0 && q == 0) {
-                printf("loc: %d, ugu: %f, vgu: %f\n", loc, ugu, vgu);
-                printf("count: %d, Vissgu: %f, %f\n", count, Vissgu.real(), Vissgu.imag());
-                printf("Vissp: %f, %f\n", Vissp.real(), Vissp.imag());
-                printf("C: %f, %f\n", C[idx].real(), C[idx].imag());
-            }
         }
     }
 }
@@ -337,35 +329,35 @@ int vissGen(float frequency)
         cudaSetDevice(tid);
         std::cout << "Thread " << tid << " is running on device " << tid << endl;
 
-        // 将 B, theta_heal, phi_heal 数据从CPU搬到GPU上        
-        thrust::device_vector<float> B(cB.begin(), cB.end());
-        thrust::device_vector<float> theta_heal(ctheta_heal.begin(), ctheta_heal.end());
-        thrust::device_vector<float> phi_heal(cphi_heal.begin(), cphi_heal.end());
-
-        // 创建 l m n
-        thrust::device_vector<float> l(npix), m(npix), n(npix);
-
-        std::vector<float> cu(uvw_presize), cv(uvw_presize), cw(uvw_presize);
-        thrust::device_vector<float> u(uvw_presize), v(uvw_presize), w(uvw_presize);
-
-        std::vector<float> cxyz1a(uvw_presize), cxyz1b(uvw_presize), cxyz1c(uvw_presize);
-        thrust::device_vector<float> xyz1a(uvw_presize), xyz1b(uvw_presize), xyz1c(uvw_presize);
-
-        std::vector<float> cxyz2a(uvw_presize), cxyz2b(uvw_presize), cxyz2c(uvw_presize);
-        thrust::device_vector<float> xyz2a(uvw_presize), xyz2b(uvw_presize), xyz2c(uvw_presize);
-
-        std::vector<float> cbll(uvw_presize);
-        thrust::device_vector<float> bll(uvw_presize);
-
-        std::vector<Complex> cViss(uvw_presize);
-        thrust::device_vector<Complex> Viss(uvw_presize);
-
-        // 存储最终的计算结果
-        thrust::device_vector<Complex> C(npix, zero);
 
         // 遍历所有开启的线程处理， 一个线程控制一个GPU 处理一个id*amount/total的块
         for (int p = tid; p < days; p += nDevices) {
             cout << "for loop: " << p+1 << endl;
+
+            // 将 B, theta_heal, phi_heal 数据从CPU搬到GPU上        
+            thrust::device_vector<float> B(cB.begin(), cB.end());
+            thrust::device_vector<float> theta_heal(ctheta_heal.begin(), ctheta_heal.end());
+            thrust::device_vector<float> phi_heal(cphi_heal.begin(), cphi_heal.end());
+
+            // 创建 l m n
+            thrust::device_vector<float> l(npix), m(npix), n(npix);
+
+            std::vector<float> cu(uvw_presize), cv(uvw_presize), cw(uvw_presize);
+            thrust::device_vector<float> u(uvw_presize), v(uvw_presize), w(uvw_presize);
+
+            std::vector<float> cxyz1a(uvw_presize), cxyz1b(uvw_presize), cxyz1c(uvw_presize);
+            thrust::device_vector<float> xyz1a(uvw_presize), xyz1b(uvw_presize), xyz1c(uvw_presize);
+
+            std::vector<float> cxyz2a(uvw_presize), cxyz2b(uvw_presize), cxyz2c(uvw_presize);
+            thrust::device_vector<float> xyz2a(uvw_presize), xyz2b(uvw_presize), xyz2c(uvw_presize);
+
+            std::vector<float> cbll(uvw_presize);
+            thrust::device_vector<float> bll(uvw_presize);
+
+            thrust::device_vector<Complex> Viss(uvw_presize);
+
+            // 存储最终的计算结果
+            thrust::device_vector<Complex> C(npix);
 
             int uvw_index, xyz1_index, xyz2_index, bll_index; 
             #pragma omp critical
@@ -490,31 +482,33 @@ int vissGen(float frequency)
             CHECK(cudaDeviceSynchronize());  
 
 
-            // thrust::device_vector<Complex> Viss(uvw_index);
-            // cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, healpix_moonback_viss, 0, 0);
-            // gridSize = floor(amount + blockSize - 1) / blockSize;
-            // cout << "Viss Computing, girdSize: " << gridSize << endl;
-            // cout << "Viss Computing, blockSize: " << blockSize << endl;
-            // printf("Viss Computing... Here is gpu %d running process %d\n", omp_get_thread_num(), p+1);
-            // healpix_moonback_viss<<<gridSize, blockSize>>>(
-            //     thrust::raw_pointer_cast(B.data()),
-            //     thrust::raw_pointer_cast(Viss.data()),
-            //     thrust::raw_pointer_cast(u.data()),
-            //     thrust::raw_pointer_cast(v.data()),
-            //     thrust::raw_pointer_cast(w.data()),
-            //     thrust::raw_pointer_cast(xyz1a.data()),
-            //     thrust::raw_pointer_cast(xyz1b.data()),
-            //     thrust::raw_pointer_cast(xyz1c.data()),
-            //     thrust::raw_pointer_cast(xyz2a.data()),
-            //     thrust::raw_pointer_cast(xyz2b.data()),
-            //     thrust::raw_pointer_cast(xyz2c.data()),
-            //     thrust::raw_pointer_cast(l.data()),
-            //     thrust::raw_pointer_cast(m.data()),
-            //     thrust::raw_pointer_cast(n.data()),
-            //     amount, npix, phi,
-            //     zero, I1, two, CPI);
-            // CHECK(cudaDeviceSynchronize());
-            // cout << "Period " << p+1 << " Viss Computing Success!" << endl;
+            cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, healpix_moonback_viss, 0, 0);
+            gridSize = floor(amount + blockSize - 1) / blockSize;
+            cout << "Viss Computing, girdSize: " << gridSize << endl;
+            cout << "Viss Computing, blockSize: " << blockSize << endl;
+            printf("Viss Computing... Here is gpu %d running process %d\n", omp_get_thread_num(), p+1);
+            healpix_moonback_viss<<<gridSize, blockSize>>>(
+                thrust::raw_pointer_cast(B.data()),
+                thrust::raw_pointer_cast(Viss.data()),
+                thrust::raw_pointer_cast(u.data()),
+                thrust::raw_pointer_cast(v.data()),
+                thrust::raw_pointer_cast(w.data()),
+                thrust::raw_pointer_cast(xyz1a.data()),
+                thrust::raw_pointer_cast(xyz1b.data()),
+                thrust::raw_pointer_cast(xyz1c.data()),
+                thrust::raw_pointer_cast(xyz2a.data()),
+                thrust::raw_pointer_cast(xyz2b.data()),
+                thrust::raw_pointer_cast(xyz2c.data()),
+                thrust::raw_pointer_cast(l.data()),
+                thrust::raw_pointer_cast(m.data()),
+                thrust::raw_pointer_cast(n.data()),
+                amount, npix, phi,
+                zero, I1, two, CPI);
+            CHECK(cudaDeviceSynchronize());
+            cout << "Period " << p+1 << " Viss Computing Success!" << endl;
+            for (int i=0; i<=2; i++){
+                cout << "Viss[" << i << "]: " << Viss[i] << endl;
+            }
              
 
             // 图像重构
@@ -606,8 +600,13 @@ int vissGen(float frequency)
             // 填充 il 设备向量
             thrust::lower_bound(ulocg.begin(), ulocg.end(), locg.begin(), locg.end(), il.begin());
 
-// -----------------------------------------------------------------------------------------------------------------------------------------------------
             // 计算 C
+            // 记录imagerecon开始事件
+            cudaEvent_t imagereconstart, imagereconstop;
+            cudaEventCreate(&imagereconstart);
+            cudaEventCreate(&imagereconstop);
+            cudaEventRecord(imagereconstart);
+
             int nulocg = ulocg.size();
             cout << "nulocg: " << nulocg << endl;
 
@@ -633,8 +632,19 @@ int vissGen(float frequency)
             CHECK(cudaDeviceSynchronize());
             cout << "Period " << p+1 << " compute C success" << endl;
 
+            // 记录imagerecon结束事件
+            cudaEventRecord(imagereconstop);
+            cudaEventSynchronize(imagereconstop);
+            // 计算经过的时间
+            float imagereconMS = 0;
+            cudaEventElapsedTime(&imagereconMS, imagereconstart, imagereconstop);
+            printf("Period %d Image Reconstruction Cost Time is: %f s\n", p+1, imagereconMS/1000);
+            // 销毁事件
+            cudaEventDestroy(imagereconstart);
+            cudaEventDestroy(imagereconstop);
+
             cout << "C size: " << C.size() << endl;
-            for (int i=0; i<=6; i++){
+            for (int i=0; i<=2; i++){
                 cout << "C[" << i << "]: " << C[i] << endl;
             }
 
@@ -646,7 +656,7 @@ int vissGen(float frequency)
                 cudaMemcpy(host_C.data(), thrust::raw_pointer_cast(C.data()), C.size() * sizeof(Complex), cudaMemcpyDeviceToHost);
                 CHECK(cudaDeviceSynchronize());
                 // 打开文件
-                string address_C = "wsnoblockage/C" + to_string(p+1) + "day1M.txt";
+                string address_C = "wsnoblockage_original/C" + to_string(p+1) + "day1M.txt";
                 std::ofstream file(address_C);
                 if (file.is_open()) {
                     // 按照指定格式写入文件
