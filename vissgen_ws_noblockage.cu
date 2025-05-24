@@ -34,7 +34,7 @@
 
 using namespace std;
 using Complex = thrust::complex<float>;
-const int uvw_presize = 4000000;
+const int uvw_presize = 400000;
 
 
 // complexExp 函数的实现
@@ -269,7 +269,7 @@ int vissGen(float frequency)
 
     cout << "frequency: " << frequency << endl;
 
-    int days = 450;
+    int days = 2;
     Complex I1(0.0, 1.0);
     Complex zero(0.0, 0.0);
     Complex one(1.0, 0.0);
@@ -338,7 +338,7 @@ int vissGen(float frequency)
         cudaSetDevice(tid);
         std::cout << "Thread " << tid << " is running on device " << tid << endl;
 
-        // 遍历所有开启的线程处理， 一个线程控制一个GPU 处理一个id*amount/total的块
+        // 遍历所有开启的线程处理， 一个线程控制一个GPU 处理一个id的块
         for (int p = tid; p < days; p += nDevices) {
             cout << "for loop: " << p+1 << endl;
 
@@ -367,18 +367,23 @@ int vissGen(float frequency)
             // 存储最终的计算结果
             thrust::device_vector<Complex> C(npix);
 
+            cudaEvent_t compute_start, compute_stop;
+            cudaEventCreate(&compute_start);
+            cudaEventCreate(&compute_stop);
+            cudaEventRecord(compute_start);
+
             int uvw_index, xyz1_index, xyz2_index, bll_index; 
             #pragma omp critical
             {   
                 // 读取 uvw
-                string address_uvw = address + "uvw" + to_string(p+1) + "day1M.txt";
+                string address_uvw = address + "updated_uvw" + to_string(p+1) + "day1M.txt";
                 cout << "address_uvw: " << address_uvw << endl;
                 ifstream uvwFile(address_uvw);
                 uvw_index = 0;
-                float u_point, v_point, w_point;
+                float u_point, v_point, w_point, f_point;
                 if (uvwFile.is_open()) {
-                    uvwFile >> u_point >> v_point >> w_point; // 读取第一行，删除
-                    while (uvwFile >> u_point >> v_point >> w_point) {
+                    uvwFile >> u_point >> v_point >> w_point >> f_point; // 读取第一行，删除
+                    while (uvwFile >> u_point >> v_point >> w_point >> f_point) {
                         // cu, cv, cw 需要存储原始坐标
                         cu[uvw_index] = u_point;
                         cv[uvw_index] = v_point;
@@ -499,7 +504,6 @@ int vissGen(float frequency)
                 cout << "Viss[" << i << "]: " << Viss[i] << endl;
             }
              
-
             // 图像重构
             // fa=(sum(v.^2)*sum(u.*w)-sum(u.*v)*sum(v.*w))/(sum(u.^2)*sum(v.^2)-sum(u.*v)^2);
             // fb=(sum(u.^2)*sum(v.*w)-sum(u.*v)*sum(u.*w))/(sum(u.^2)*sum(v.^2)-sum(u.*v)^2);
@@ -660,11 +664,21 @@ int vissGen(float frequency)
             cudaEventDestroy(imagereconstart);
             cudaEventDestroy(imagereconstop);
 
-            cout << "C size: " << C.size() << endl;
+            // 记录compute结束事件
+            cudaEventRecord(compute_stop);
+            cudaEventSynchronize(compute_stop);
+            // 计算经过的时间
+            float computeMS = 0;
+            cudaEventElapsedTime(&computeMS, compute_start, compute_stop);
+            printf("Period %d Compute Cost Time is: %f s\n", p+1, computeMS/1000);
+            // 销毁事件
+            cudaEventDestroy(compute_start);
+            cudaEventDestroy(compute_stop);
+
             for (int i=0; i<=2; i++){
                 cout << "C[" << i << "]: " << C[i] << endl;
             }
-            
+
 
             // 创建一个临界区，用于保存结果
             #pragma omp critical
@@ -693,7 +707,7 @@ int vissGen(float frequency)
     
     gettimeofday(&finish, NULL);
     total_time = ((finish.tv_sec - start.tv_sec) * 1000000 + (finish.tv_usec - start.tv_usec)) / 1000000.0;
-    cout << "total time: " << total_time << "s" << endl;
+    cout << "total time: " << total_time << " s" << endl;
     return 0;
 }
 

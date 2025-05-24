@@ -58,56 +58,187 @@ float total_time;
 
 string address = "./earth_1Mhz/";
 
-__global__ void healpix_moonback_pre(float *theta_heal, float *phi_heal,
-                                float *l, float *m, float *n,
-                                float *B, int npix, float s)
+__global__ void healpix_moonback_pre(
+    float * __restrict__ theta_heal, 
+    float * __restrict__ phi_heal,
+    float * __restrict__ l, 
+    float * __restrict__ m, 
+    float * __restrict__ n,
+    float * __restrict__ B, 
+    int npix, 
+    float s)
 {
+    // 获取线程索引
     int index = blockIdx.x * blockDim.x + threadIdx.x;
-    if (index < npix) {
-        // Convert theta_heal
-        theta_heal[index] = M_PI / 2 - theta_heal[index];
-        
-        // Modify phi_heal
-        if (phi_heal[index] > M_PI) {
-            phi_heal[index] -= 2 * M_PI;
-        }
-        phi_heal[index] = -phi_heal[index];
-        // Compute n, l, m
-        l[index] = cosf(theta_heal[index]) * cosf(phi_heal[index]);
-        m[index] = cosf(theta_heal[index]) * sinf(phi_heal[index]);
-        n[index] = sinf(theta_heal[index]);
+    if (index >= npix) return;
 
-        B[index] = B[index] * s;
+    // 预先加载频繁使用的数据到寄存器
+    float theta_val = theta_heal[index];
+    float phi_val = phi_heal[index];
+
+    // 优化角度计算
+    theta_val = M_PI / 2 - theta_val;
+    if (phi_val > M_PI) {
+        phi_val -= 2 * M_PI;
     }
+    phi_val = -phi_val;
+
+    // 计算l, m, n
+    float cos_theta = cosf(theta_val);
+    l[index] = cos_theta * cosf(phi_val);
+    m[index] = cos_theta * sinf(phi_val);
+    n[index] = sinf(theta_val);
+
+    // 更新theta_heal和phi_heal
+    theta_heal[index] = theta_val;
+    phi_heal[index] = phi_val;
+
+    // 缩放B
+    B[index] *= s;
 }
 
-__global__ void healpix_moonback_viss(float *B, Complex *Viss,
-                                float *u, float *v, float *w,
-                                float *xyz1a, float *xyz1b, float *xyz1c, 
-                                float *xyz2a, float *xyz2b, float *xyz2c,
-                                float *l, float *m, float *n, 
-                                int amount, int npix, float phi,
-                                Complex zero, Complex I1, Complex two, Complex CPI)  
+// 启动核函数的包装函数
+void launch_healpix_moonback_pre(
+    float *d_theta_heal, 
+    float *d_phi_heal,
+    float *d_l, 
+    float *d_m, 
+    float *d_n,
+    float *d_B, 
+    int npix, 
+    float s)
+{
+    // 计算网格和块的大小
+    int threadsPerBlock;
+    int minGridSize; // 最小网格大小
+    cudaOccupancyMaxPotentialBlockSize(&minGridSize, &threadsPerBlock, healpix_moonback_pre, 0, 0);
+    int blocksPerGrid = floor(npix + threadsPerBlock - 1) / threadsPerBlock;
+
+    // 创建CUDA流
+    cudaStream_t stream;
+    cudaStreamCreate(&stream);
+
+    // 启动核函数
+    healpix_moonback_pre<<<blocksPerGrid, threadsPerBlock, 0, stream>>>(
+        d_theta_heal, d_phi_heal, d_l, d_m, d_n, d_B, npix, s);
+
+    // 检查错误
+    cudaError_t err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        printf("CUDA Error: %s\n", cudaGetErrorString(err));
+    }
+
+    // 销毁流
+    cudaStreamDestroy(stream);
+}
+
+
+__global__ void healpix_moonback_viss(
+    float * __restrict__ B, 
+    Complex * __restrict__ Viss,
+    float * __restrict__ u, 
+    float * __restrict__ v, 
+    float * __restrict__ w,
+    float * __restrict__ xyz1a, 
+    float * __restrict__ xyz1b, 
+    float * __restrict__ xyz1c, 
+    float * __restrict__ xyz2a, 
+    float * __restrict__ xyz2b, 
+    float * __restrict__ xyz2c,
+    float * __restrict__ l, 
+    float * __restrict__ m, 
+    float * __restrict__ n, 
+    int amount, 
+    int npix, 
+    float phi,
+    Complex zero, 
+    Complex I1, 
+    Complex two, 
+    Complex CPI)
 {
     int i = blockIdx.x * blockDim.x + threadIdx.x; 
-    if (i < amount) {
-        Viss[i] = zero;
-        for (int index = 0; index < npix; index++){
-            // 天空每个点与视场中心的夹角
-            float gb1_comp = l[index]*xyz1a[i] + m[index]*xyz1b[i] + n[index]*xyz1c[i];
-            float gb2_comp = l[index]*xyz2a[i] + m[index]*xyz2b[i] + n[index]*xyz2c[i];
-            float beta1 = acosf(gb1_comp / norm(xyz1a[i], xyz1b[i], xyz1c[i]));
-            float beta2 = acosf(gb2_comp / norm(xyz2a[i], xyz2b[i], xyz2c[i]));
+    if (i >= amount) return;
 
-            Complex temp;
-            if(beta1<=phi && beta2<=phi){
-                Complex vari((u[i]*l[index] + v[i]*m[index] + w[i]*(n[index]-1)), 0.0f);
-                temp = Complex(B[index], 0) * complexExp((zero - I1) * two * CPI * vari);
-                Viss[i] += temp;
-            }
+    // 预先加载频繁使用的数据到寄存器
+    float u_val = u[i];
+    float v_val = v[i];
+    float w_val = w[i];
+    float xyz1a_val = xyz1a[i];
+    float xyz1b_val = xyz1b[i];
+    float xyz1c_val = xyz1c[i];
+    float xyz2a_val = xyz2a[i];
+    float xyz2b_val = xyz2b[i];
+    float xyz2c_val = xyz2c[i];
+    float norm1 = norm(xyz1a_val, xyz1b_val, xyz1c_val);
+    float norm2 = norm(xyz2a_val, xyz2b_val, xyz2c_val);
+
+    Complex acc = zero;
+    for (int index = 0; index < npix; index++) {
+        // 天空每个点与视场中心的夹角
+        float gb1_comp = l[index] * xyz1a_val + m[index] * xyz1b_val + n[index] * xyz1c_val;
+        float gb2_comp = l[index] * xyz2a_val + m[index] * xyz2b_val + n[index] * xyz2c_val;
+        float beta1 = acosf(gb1_comp / norm1);
+        float beta2 = acosf(gb2_comp / norm2);
+
+        if (beta1 <= phi && beta2 <= phi) {
+            float phase = u_val * l[index] + v_val * m[index] + w_val * (n[index] - 1.0f);
+            Complex vari(phase, 0.0f);
+            acc += Complex(B[index], 0) * thrust::exp((zero - I1) * two * CPI * vari);
         }
-        Viss[i+amount] = thrust::conj(Viss[i]);
     }
+
+    Viss[i] = acc;
+    Viss[i + amount] = thrust::conj(acc);
+}
+
+// 启动核函数的包装函数
+void launch_healpix_moonback_viss(
+    float *d_B, 
+    Complex *d_Viss,
+    float *d_u, 
+    float *d_v, 
+    float *d_w,
+    float *d_xyz1a, 
+    float *d_xyz1b, 
+    float *d_xyz1c, 
+    float *d_xyz2a, 
+    float *d_xyz2b, 
+    float *d_xyz2c,
+    float *d_l, 
+    float *d_m, 
+    float *d_n, 
+    int amount, 
+    int npix, 
+    float phi,
+    Complex zero, 
+    Complex I1, 
+    Complex two, 
+    Complex CPI)
+{
+    // 计算网格和块的大小
+    int threadsPerBlock;
+    int minGridSize; // 最小网格大小
+    cudaOccupancyMaxPotentialBlockSize(&minGridSize, &threadsPerBlock, healpix_moonback_viss, 0, 0);
+    int blocksPerGrid = floor(amount + threadsPerBlock - 1) / threadsPerBlock;
+
+    // 创建CUDA流
+    cudaStream_t stream;
+    cudaStreamCreate(&stream);
+
+    // 启动核函数
+    healpix_moonback_viss<<<blocksPerGrid, threadsPerBlock, 0, stream>>>(
+        d_B, d_Viss, d_u, d_v, d_w, d_xyz1a, d_xyz1b, d_xyz1c, 
+        d_xyz2a, d_xyz2b, d_xyz2c, d_l, d_m, d_n, amount, npix, phi, 
+        zero, I1, two, CPI);
+
+    // 检查错误
+    cudaError_t err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        printf("CUDA Error: %s\n", cudaGetErrorString(err));
+    }
+
+    // 销毁流
+    cudaStreamDestroy(stream);
 }
 
             
@@ -139,159 +270,457 @@ __host__ float calculate_fb(const thrust::device_vector<float>& u,
 }
 
 
-__global__ void viss_trans(Complex* Viss, float* w, int size, 
-                Complex zero, Complex two, Complex CPI, Complex I1) 
+__global__ void viss_trans(
+    Complex* __restrict__ Viss,
+    float* __restrict__ w,
+    int size,
+    Complex zero,
+    Complex I1,
+    Complex two,
+    Complex CPI)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    if (idx < size) {
-        // gViss = gViss * exp(-1i * 2 * M_PI * gw)
-        Complex cw(w[idx], 0.0);
-        Viss[idx] = Viss[idx] * complexExp((zero-I1) * two * CPI * cw);
+    if (idx >= size) return;
+
+    // gViss = gViss * exp(-1i * 2 * M_PI * gw)
+    Complex cw(w[idx], 0.0);
+    Viss[idx] = Viss[idx] * complexExp((zero-I1) * two * CPI * cw);
+}
+
+// 启动核函数的包装函数
+void launch_viss_trans(
+    Complex *d_Viss,
+    float *d_w,
+    int size,
+    Complex zero,
+    Complex I1,
+    Complex two,
+    Complex CPI)
+{
+    // 计算网格和块的大小
+    int threadsPerBlock;
+    int minGridSize; // 最小网格大小
+    cudaOccupancyMaxPotentialBlockSize(&minGridSize, &threadsPerBlock, viss_trans, 0, 0);
+    int blocksPerGrid = floor(size + threadsPerBlock - 1) / threadsPerBlock;
+
+    // 创建CUDA流
+    cudaStream_t stream;
+    cudaStreamCreate(&stream);
+
+    // 启动核函数
+    viss_trans<<<blocksPerGrid, threadsPerBlock, 0, stream>>>(
+        d_Viss, d_w, size, zero, I1, two, CPI
+    );
+
+    // 检查错误
+    cudaError_t err = cudaGetLastError();
+    if (err!= cudaSuccess) {
+        printf("CUDA Error: %s\n", cudaGetErrorString(err));
     }
+
+    // 销毁流
+    cudaStreamDestroy(stream);
 }
 
 
-__global__ void meshgrid_kernel(float* ug, float* vg, int RES, float start, float step) 
+__global__ void meshgrid_kernel(
+    float* __restrict__ ug,
+    float* __restrict__ vg,
+    int RES,
+    float start,
+    float step)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    if (idx < RES * RES) {
-        int i = idx / RES;
-        int j = idx % RES;
-        ug[idx] = start + i * step;
-        vg[idx] = start + j * step;
+    if (idx >= RES * RES) return;
+
+    int i = idx / RES;
+    int j = idx % RES;
+    ug[idx] = start + i * step;
+    vg[idx] = start + j * step;
+}
+
+// 启动核函数的包装函数
+void launch_meshgrid_kernel(
+    float *d_ug,
+    float *d_vg,
+    int RES,
+    float start,
+    float step)
+{
+    // 计算网格和块的大小
+    int threadsPerBlock;
+    int minGridSize; // 最小网格大小
+    cudaOccupancyMaxPotentialBlockSize(&minGridSize, &threadsPerBlock, meshgrid_kernel, 0, 0);
+    int blocksPerGrid = floor(RES * RES + threadsPerBlock - 1) / threadsPerBlock;
+
+    // 创建CUDA流
+    cudaStream_t stream;
+    cudaStreamCreate(&stream);
+    // 启动核函数
+    meshgrid_kernel<<<blocksPerGrid, threadsPerBlock, 0, stream>>>(
+        d_ug, d_vg, RES, start, step
+    );
+    // 检查错误
+    cudaError_t err = cudaGetLastError();
+    if (err!= cudaSuccess) {
+        printf("CUDA Error: %s\n", cudaGetErrorString(err));
     }
+    // 销毁流
+    cudaStreamDestroy(stream);
 }
 
 
-__global__ void round_divide_kernel(float* vec, float du, int size) 
+__global__ void round_divide_kernel(
+    float* __restrict__ vec,
+    float du,
+    int size)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    if (idx < size) {
-        vec[idx] = roundf(vec[idx] / du);
+    if (idx >= size) return;
+
+    vec[idx] = roundf(vec[idx] / du);
+}
+
+// 启动核函数的包装函数
+void launch_round_divide_kernel(
+    float *d_vec,
+    float du,
+    int size)
+{
+    // 计算网格和块的大小
+    int threadsPerBlock;
+    int minGridSize; // 最小网格大小
+    cudaOccupancyMaxPotentialBlockSize(&minGridSize, &threadsPerBlock, round_divide_kernel, 0, 0);
+    int blocksPerGrid = floor(size + threadsPerBlock - 1) / threadsPerBlock;
+    // 创建CUDA流
+    cudaStream_t stream;
+    cudaStreamCreate(&stream);
+    // 启动核函数
+    round_divide_kernel<<<blocksPerGrid, threadsPerBlock, 0, stream>>>(
+        d_vec, du, size
+    );
+    // 检查错误
+    cudaError_t err = cudaGetLastError();
+    if (err!= cudaSuccess) {
+        printf("CUDA Error: %s\n", cudaGetErrorString(err));
     }
+    // 销毁流
+    cudaStreamDestroy(stream);
 }
 
 
-__global__ void calculate_locg(const float* u, const float* v, int* locg, int n, int RES)
+__global__ void calculate_locg(
+    float* __restrict__ u,
+    float* __restrict__ v,
+    int* __restrict__ locg,
+    int n,
+    int RES)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    if (idx < n) {
-        locg[idx] = (u[idx] + (RES - 1) / 2) * RES + (v[idx] + (RES - 1) / 2) + 1;
+    if (idx >= n) return;
+
+    locg[idx] = (u[idx] + (RES - 1) / 2) * RES + (v[idx] + (RES - 1) / 2) + 1;
+}
+
+// 启动核函数的包装函数
+void launch_calculate_locg(
+    float *d_u,
+    float *d_v,
+    int *d_locg,
+    int n,
+    int RES)
+{
+    // 计算网格和块的大小
+    int threadsPerBlock;
+    int minGridSize; // 最小网格大小
+    cudaOccupancyMaxPotentialBlockSize(&minGridSize, &threadsPerBlock, calculate_locg, 0, 0);
+    int blocksPerGrid = floor(n + threadsPerBlock - 1) / threadsPerBlock;
+
+    // 创建CUDA流
+    cudaStream_t stream;
+    cudaStreamCreate(&stream);
+
+    // 启动核函数
+    calculate_locg<<<blocksPerGrid, threadsPerBlock, 0, stream>>>(
+        d_u, d_v, d_locg, n, RES
+    );
+
+    // 检查错误
+    cudaError_t err = cudaGetLastError();
+    if (err!= cudaSuccess) {
+        printf("CUDA Error: %s\n", cudaGetErrorString(err));
     }
+
+    // 销毁流
+    cudaStreamDestroy(stream);
 }
 
 
 // 计算特定 q 值的索引有几个
 __global__ void computeLocCount(
-    int* il, int* countLoc, int nulocg, int uvw_index) 
+    int* __restrict__ il,
+    int* __restrict__ countLoc,
+    int nulocg,
+    int uvw_index)
 {
     int q = blockIdx.x * blockDim.x + threadIdx.x;
-    if (q < nulocg) {
-        // countLoc: (nulocg, 1)
-        int count = 0;
-        for (int i = 0; i < uvw_index; i++) {
-            if (il[i] == q) {
-                count++;
-            }
+    if (q >= nulocg) return;
+
+    // countLoc: (nulocg, 1)
+    int count = 0;
+    for (int i = 0; i < uvw_index; i++) {
+        if (il[i] == q) {
+            count++;
         }
-        countLoc[q] = count;
     }
+    countLoc[q] = count;
+}
+
+// 启动核函数的包装函数
+void launch_computeLocCount(
+    int *d_il,
+    int *d_countLoc,
+    int nulocg,
+    int uvw_index)
+{
+    // 计算网格和块的大小
+    int threadsPerBlock;
+    int minGridSize; // 最小网格大小
+    cudaOccupancyMaxPotentialBlockSize(&minGridSize, &threadsPerBlock, computeLocCount, 0, 0);
+    int blocksPerGrid = floor(nulocg + threadsPerBlock - 1) / threadsPerBlock;
+
+    // 创建CUDA流
+    cudaStream_t stream;
+    cudaStreamCreate(&stream);
+
+    // 启动核函数
+    computeLocCount<<<blocksPerGrid, threadsPerBlock, 0, stream>>>(
+        d_il, d_countLoc, nulocg, uvw_index
+    );
+
+    // 检查错误
+    cudaError_t err = cudaGetLastError();
+    if (err!= cudaSuccess) {
+        printf("CUDA Error: %s\n", cudaGetErrorString(err));
+    }
+
+    // 销毁流
+    cudaStreamDestroy(stream);
 }
 
 
 // 把每个 q 值对应的索引保存下来
 __global__ void computeLocViss(
-    int* il, int* ilq, int* countLoc, int nulocg, int uvw_index) 
+    int* __restrict__ il,
+    int* __restrict__ ilq,
+    int* __restrict__ countLoc,
+    int nulocg,
+    int uvw_index)
 {
     int q = blockIdx.x * blockDim.x + threadIdx.x;
-    if (q < nulocg) {
-        // ilq: (uvw_index, 1)
-        // countLoc: (nulocg, 1)
-        int start_idx=0;
-        for(int i=1; i<=q; i++){
-            start_idx += countLoc[i-1];
-        }
-        for (int i = 0; i < uvw_index; i++) {
-            if (il[i] == q) {
-                ilq[start_idx] = i;
-                start_idx++;
-            }
+    if (q >= nulocg) return;
+
+    // ilq: (uvw_index, 1)
+    // countLoc: (nulocg, 1)
+    int start_idx=0;
+    for(int i=1; i<=q; i++){
+        start_idx += countLoc[i-1];
+    }
+    for (int i = 0; i < uvw_index; i++) {
+        if (il[i] == q) {
+            ilq[start_idx] = i;
+            start_idx++;
         }
     }
+}
+
+// 启动核函数的包装函数
+void launch_computeLocViss(
+    int *d_il,
+    int *d_ilq,
+    int *d_countLoc,
+    int nulocg,
+    int uvw_index)
+{
+    // 计算网格和块的大小
+    int threadsPerBlock;
+    int minGridSize; // 最小网格大小
+    cudaOccupancyMaxPotentialBlockSize(&minGridSize, &threadsPerBlock, computeLocViss, 0, 0);
+    int blocksPerGrid = floor(nulocg + threadsPerBlock - 1) / threadsPerBlock;
+
+    // 创建CUDA流
+    cudaStream_t stream;
+    cudaStreamCreate(&stream);
+
+    // 启动核函数
+    computeLocViss<<<blocksPerGrid, threadsPerBlock, 0, stream>>>(
+        d_il, d_ilq, d_countLoc, nulocg, uvw_index
+    );
+
+    // 检查错误
+    cudaError_t err = cudaGetLastError();
+    if (err!= cudaSuccess) {
+        printf("CUDA Error: %s\n", cudaGetErrorString(err));
+    }
+
+    // 销毁流
+    cudaStreamDestroy(stream);
 }
 
 
 __global__ void computeC(
-        int npix, float* ug, float* vg, Complex* Viss, 
-        int* il, int* ulocg, int* locg, Complex* C, 
-        float *xyz1a, float *xyz1b, float *xyz1c, 
-        float *xyz2a, float *xyz2b, float *xyz2c,
-        float* l, float* m, float* n, 
-        int* ilq, int* countLoc,
-        int nulocg, float fa, float fb, float phi,
-        int uvw_index, Complex two, Complex I1, Complex CPI)
+    int npix,
+    float* __restrict__ ug,
+    float* __restrict__ vg,
+    Complex* __restrict__ Viss,
+    int* __restrict__ il,
+    int* __restrict__ ulocg,
+    int* __restrict__ locg,
+    Complex* __restrict__ C,
+    float* __restrict__ xyz1a,
+    float* __restrict__ xyz1b,
+    float* __restrict__ xyz1c,
+    float* __restrict__ xyz2a,
+    float* __restrict__ xyz2b,
+    float* __restrict__ xyz2c,
+    float* __restrict__ l,
+    float* __restrict__ m,
+    float* __restrict__ n,
+    int* __restrict__ ilq,
+    int* __restrict__ countLoc,
+    int nulocg,
+    float fa,
+    float fb,
+    float phi,
+    int uvw_index,
+    Complex two,
+    Complex I1,
+    Complex CPI)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    if (idx < npix) {
-        int start_idx = 0;
-        for (int q=0; q<nulocg; q++) {
-            // ugu=ug(ulocg(q));  vgu=vg(ulocg(q));
-            int loc = ulocg[q];
-            float ugu = ug[loc-1];
-            float vgu = vg[loc-1];
+    if (idx >= npix) return;
 
-            // Find indices where il == q
-            // 传入一个ilq数组，用来存储所有等于q的索引，维度是il的维度(uvw_index)
-            // 每个索引的数量countLoc  维度是nulocg
-            Complex Vissgu(0.0, 0.0);
+    // 预先加载频繁使用的数据到寄存器
+    float l_val = l[idx];
+    float m_val = m[idx];
+    float n_val = n[idx];
 
-            // 在每一个等于 q 值的索引里面计算
-            for(int con=0; con < countLoc[q]; con++){
-                int locViss = ilq[con + start_idx];
+    Complex acc = C[idx];
 
-                // Compute acosbeta1 and beta1
-                float dotProd = l[idx] * xyz1a[locViss] + m[idx] * xyz1b[locViss] + n[idx] * xyz1c[locViss];
-                float normVal = norm(xyz1a[locViss], xyz1b[locViss], xyz1c[locViss]);
-                float acosbeta1 = dotProd / normVal;
-                if (fabsf(acosbeta1) > 1.0f) {
-                    acosbeta1 = copysignf(1.0f, acosbeta1);
-                }
-                float beta1 = acosf(acosbeta1);
+    int start_idx = 0;
+    for (int q=0; q<nulocg; q++) {
+        // ugu=ug(ulocg(q));  vgu=vg(ulocg(q));
+        int loc = ulocg[q];
+        float ugu = ug[loc-1];
+        float vgu = vg[loc-1];
+        
+        // Find indices where il == q
+        // 传入一个ilq数组，用来存储所有等于q的索引，维度是il的维度(uvw_index)
+        // 每个索引的数量countLoc  维度是nulocg
+        Complex Vissgu(0.0, 0.0);
+        for(int con=0; con < countLoc[q]; con++){
+            int locViss = ilq[con + start_idx];
 
-                // Compute acosbeta2 and beta2
-                dotProd = l[idx] * xyz2a[locViss] + m[idx] * xyz2b[locViss] + n[idx] * xyz2c[locViss];
-                normVal = norm(xyz2a[locViss], xyz2b[locViss], xyz2c[locViss]);
-                float acosbeta2 = dotProd / normVal;
-                if (fabsf(acosbeta2) > 1.0f) {
-                    acosbeta2 = copysignf(1.0f, acosbeta2);
-                }
-                float beta2 = acosf(acosbeta2);
-
-                if (beta1 < phi && beta2 < phi) {
-                    Vissgu += Viss[locViss];
-                }
+            // Compute acosbeta1 and beta1
+            float dotProd = l_val * xyz1a[locViss] + m_val * xyz1b[locViss] + n_val * xyz1c[locViss];
+            float normVal = norm(xyz1a[locViss], xyz1b[locViss], xyz1c[locViss]);
+            float acosbeta1 = dotProd / normVal;
+            if (fabsf(acosbeta1) > 1.0f) {
+                acosbeta1 = copysignf(1.0f, acosbeta1);
             }
-            start_idx += countLoc[q];
-            Vissgu = Vissgu / Complex(countLoc[q], 0.0f);   // 一个数值
+            float beta1 = acosf(acosbeta1);
 
-            if (isnan(Vissgu.real())){
-                Vissgu = Complex(0.0, 0.0);
+            // Compute acosbeta2 and beta2
+            dotProd = l_val * xyz2a[locViss] + m_val * xyz2b[locViss] + n_val * xyz2c[locViss];
+            normVal = norm(xyz2a[locViss], xyz2b[locViss], xyz2c[locViss]);
+            float acosbeta2 = dotProd / normVal;
+            if (fabsf(acosbeta2) > 1.0f) {
+                acosbeta2 = copysignf(1.0f, acosbeta2);
             }
+            float beta2 = acosf(acosbeta2);
 
-            Complex Vissp = Vissgu * complexExp(two * CPI * I1 * Complex((ugu * fa + vgu * fb) * n[idx], 0.0));
-            C[idx] += Vissp * complexExp(two * I1 * CPI * Complex(ugu * l[idx] + vgu * m[idx], 0.0));
+            if (beta1 < phi && beta2 < phi) {
+                Vissgu += Viss[locViss];
+            }
         }
+        start_idx += countLoc[q];
+        Vissgu = Vissgu / Complex(countLoc[q], 0.0f);   // 一个数值
+
+        Complex Vissp = Vissgu * complexExp(two * CPI * I1 * Complex((ugu * fa + vgu * fb) * n_val, 0.0));
+        acc += Vissp * complexExp(two * I1 * CPI * Complex(ugu * l_val + vgu * m_val, 0.0));
     }
+    C[idx] = acc;
+}
+
+// 启动核函数的包装函数
+void launch_computeC(
+    int npix,
+    float *d_ug,
+    float *d_vg,
+    Complex *d_Viss,
+    int *d_il,
+    int *d_ulocg,
+    int *d_locg,
+    Complex *d_C,
+    float *d_xyz1a,
+    float *d_xyz1b,
+    float *d_xyz1c,
+    float *d_xyz2a,
+    float *d_xyz2b,
+    float *d_xyz2c,
+    float *d_l,
+    float *d_m,
+    float *d_n,
+    int *d_ilq,
+    int *d_countLoc,
+    int nulocg,
+    float fa,
+    float fb,
+    float phi,
+    int uvw_index,
+    Complex two,
+    Complex I1,
+    Complex CPI)
+{
+    int threadsPerBlock;
+    int minGridSize; // 最小网格大小
+    cudaOccupancyMaxPotentialBlockSize(&minGridSize, &threadsPerBlock, computeC, 0, 0);
+    int blocksPerGrid = floor(npix + threadsPerBlock - 1) / threadsPerBlock;
+
+    // 创建CUDA流
+    cudaStream_t stream;
+    cudaStreamCreate(&stream);
+
+    // 启动核函数
+    computeC<<<blocksPerGrid, threadsPerBlock, 0, stream>>>(
+        npix, d_ug, d_vg, d_Viss, 
+        d_il, d_ulocg, d_locg, d_C,
+        d_xyz1a, d_xyz1b, d_xyz1c,
+        d_xyz2a, d_xyz2b, d_xyz2c,
+        d_l, d_m, d_n,
+        d_ilq, d_countLoc, nulocg,
+        fa, fb, phi, uvw_index,
+        two, I1, CPI
+    );
+    
+    // 检查错误
+    cudaError_t err = cudaGetLastError();
+    if (err!= cudaSuccess) {
+        printf("CUDA Error: %s\n", cudaGetErrorString(err));
+    }
+    // 销毁流
+    cudaStreamDestroy(stream);
 }
 
 
+// 优化后的版本
 int vissGen(float frequency) 
 {   
     gettimeofday(&start, NULL);
 
-    int nDevices;
+    int nDevices=1;
     // 设置节点数量（gpu显卡数量）
-    CHECK(cudaGetDeviceCount(&nDevices));
+    // CHECK(cudaGetDeviceCount(&nDevices));
     // 设置并行区中的线程数
     omp_set_num_threads(nDevices);
     cout << "devices: " << nDevices << endl;
@@ -376,7 +805,6 @@ int vissGen(float frequency)
             thrust::device_vector<float> theta_heal(ctheta_heal.begin(), ctheta_heal.end());
             thrust::device_vector<float> phi_heal(cphi_heal.begin(), cphi_heal.end());
 
-            // 创建临时变量
             thrust::device_vector<float> l(npix), m(npix), n(npix);
 
             std::vector<float> cu(uvw_presize), cv(uvw_presize), cw(uvw_presize);
@@ -391,10 +819,11 @@ int vissGen(float frequency)
             std::vector<float> cbll(uvw_presize);
             thrust::device_vector<float> bll(uvw_presize);
 
+            // std::vector<Complex> cViss(uvw_presize);
             thrust::device_vector<Complex> Viss(uvw_presize);
 
             // 存储最终的计算结果
-            thrust::device_vector<Complex> C(npix, zero);
+            thrust::device_vector<Complex> C(npix);
 
             cudaEvent_t compute_start, compute_stop;
             cudaEventCreate(&compute_start);
@@ -489,12 +918,8 @@ int vissGen(float frequency)
             // 计算可见度
             int amount = ceil(uvw_index/2);
             cout << "amount: " << amount << endl;
-            int blockSize;
-            int minGridSize; // 最小网格大小
-            cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, healpix_moonback_pre, 0, 0);
-            int gridSize = floor(npix + blockSize - 1) / blockSize;;  
-            
-            healpix_moonback_pre<<<gridSize, blockSize>>>(
+
+            launch_healpix_moonback_pre(
                 thrust::raw_pointer_cast(theta_heal.data()), 
                 thrust::raw_pointer_cast(phi_heal.data()),
                 thrust::raw_pointer_cast(l.data()),
@@ -505,12 +930,8 @@ int vissGen(float frequency)
             CHECK(cudaDeviceSynchronize());  
 
 
-            cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, healpix_moonback_viss, 0, 0);
-            gridSize = floor(amount + blockSize - 1) / blockSize;
-            cout << "Viss Computing, girdSize: " << gridSize << endl;
-            cout << "Viss Computing, blockSize: " << blockSize << endl;
             printf("Viss Computing... Here is gpu %d running process %d\n", omp_get_thread_num(), p+1);
-            healpix_moonback_viss<<<gridSize, blockSize>>>(
+            launch_healpix_moonback_viss(
                 thrust::raw_pointer_cast(B.data()),
                 thrust::raw_pointer_cast(Viss.data()),
                 thrust::raw_pointer_cast(u.data()),
@@ -547,9 +968,7 @@ int vissGen(float frequency)
 
             // Viss 去除相位
             // gViss = gViss.*exp(-1i*2*pi*gw);  
-            cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, viss_trans, 0, 0);
-            gridSize = floor(uvw_index + blockSize - 1) / blockSize;
-            viss_trans<<<gridSize, blockSize>>>(
+            launch_viss_trans(
                 thrust::raw_pointer_cast(Viss.data()),
                 thrust::raw_pointer_cast(w.data()),
                 uvw_index, zero, two, CPI, I1);
@@ -578,36 +997,27 @@ int vissGen(float frequency)
             thrust::device_vector<float> vg(RES * RES);
 
             // 调用 CUDA 内核创建网格
-            cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, meshgrid_kernel, 0, 0);
-            gridSize = floor(RES * RES + blockSize - 1) / blockSize;
-            cout << "meshgrid, girdSize: " << gridSize << endl;
-            cout << "meshgrid, blockSize: " << blockSize << endl;
             printf("meshgrid... Here is gpu %d running process %d\n", omp_get_thread_num(), p+1);
-            meshgrid_kernel<<<gridSize, blockSize>>>(
+            launch_meshgrid_kernel(
                 thrust::raw_pointer_cast(ug.data()), 
                 thrust::raw_pointer_cast(vg.data()), 
                 RES, start, step);
             CHECK(cudaDeviceSynchronize());
 
             // 四舍五入 u 和 v
-            cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, round_divide_kernel, 0, 0);
-            gridSize = floor(u.size() + blockSize - 1) / blockSize;
-            round_divide_kernel<<<gridSize, blockSize>>>(thrust::raw_pointer_cast(u.data()), du, u.size());
-            round_divide_kernel<<<gridSize, blockSize>>>(thrust::raw_pointer_cast(v.data()), du, v.size());
+            launch_round_divide_kernel(thrust::raw_pointer_cast(u.data()), du, u.size());
+            launch_round_divide_kernel(thrust::raw_pointer_cast(v.data()), du, v.size());
             CHECK(cudaDeviceSynchronize());
 
             // 计算 
             thrust::device_vector<int> locg(uvw_index);
-            cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, calculate_locg, 0, 0);
-            gridSize = floor(uvw_index + blockSize - 1) / blockSize;
-            cout << "locg, girdSize: " << gridSize << endl;
-            cout << "locg, blockSize: " << blockSize << endl;
             printf("locg... Here is gpu %d running process %d\n", omp_get_thread_num(), p+1);
-            calculate_locg<<<gridSize, blockSize>>>(
-                thrust::raw_pointer_cast(u.data()), 
-                thrust::raw_pointer_cast(v.data()), 
-                thrust::raw_pointer_cast(locg.data()), 
-                uvw_index, RES);
+            launch_calculate_locg(
+                thrust::raw_pointer_cast(u.data()),
+                thrust::raw_pointer_cast(v.data()),
+                thrust::raw_pointer_cast(locg.data()),
+                uvw_index, RES
+            );
             CHECK(cudaDeviceSynchronize());
 
             thrust::device_vector<int> ulocg = locg;
@@ -624,14 +1034,18 @@ int vissGen(float frequency)
             thrust::lower_bound(ulocg.begin(), ulocg.end(), locg.begin(), locg.end(), il.begin());
 
             // 计算 C
+            // 记录imagerecon开始事件
+            cudaEvent_t imagereconstart, imagereconstop;
+            cudaEventCreate(&imagereconstart);
+            cudaEventCreate(&imagereconstop);
+            cudaEventRecord(imagereconstart);
+
             int nulocg = ulocg.size();
             cout << "nulocg: " << nulocg << endl;
 
             // 先提前计算每个 q 值的索引有几个
             thrust::device_vector<int> countLoc(nulocg);
-            cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, computeLocCount, 0, 0);
-            gridSize = floor(nulocg + blockSize - 1) / blockSize;
-            computeLocCount<<<gridSize, blockSize>>>(
+            launch_computeLocCount(
                 thrust::raw_pointer_cast(il.data()), 
                 thrust::raw_pointer_cast(countLoc.data()), 
                 nulocg, uvw_index);
@@ -639,12 +1053,8 @@ int vissGen(float frequency)
 
             // 然后存下来每个 q 值对应的索引
             thrust::device_vector<int> ilq(il.size());
-            cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, computeLocViss, 0, 0);
-            gridSize = floor(nulocg + blockSize - 1) / blockSize;
-            cout << "Compute LocViss, girdSize: " << gridSize << endl;
-            cout << "Compute LocViss, blockSize: " << blockSize << endl;
             printf("Compute LocViss... Here is gpu %d running process %d\n", omp_get_thread_num(), p+1);
-            computeLocViss<<<gridSize, blockSize>>>(
+            launch_computeLocViss(
                 thrust::raw_pointer_cast(il.data()), 
                 thrust::raw_pointer_cast(ilq.data()), 
                 thrust::raw_pointer_cast(countLoc.data()), 
@@ -652,12 +1062,8 @@ int vissGen(float frequency)
             CHECK(cudaDeviceSynchronize());
 
             // 计算的时候直接根据 q 对应的索引个数加载索引值
-            cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, computeC, 0, 0);
-            gridSize = floor(npix + blockSize - 1) / blockSize;
-            cout << "Compute C, girdSize: " << gridSize << endl;
-            cout << "Compute C, blockSize: " << blockSize << endl;
             printf("Compute C... Here is gpu %d running process %d\n", omp_get_thread_num(), p+1);
-            computeC<<<gridSize, blockSize>>>(
+            launch_computeC(
                 npix,
                 thrust::raw_pointer_cast(ug.data()), 
                 thrust::raw_pointer_cast(vg.data()), 
@@ -682,6 +1088,17 @@ int vissGen(float frequency)
             CHECK(cudaDeviceSynchronize());
             cout << "Period " << p+1 << " compute C success" << endl;
 
+            // 记录imagerecon结束事件
+            cudaEventRecord(imagereconstop);
+            cudaEventSynchronize(imagereconstop);
+            // 计算经过的时间
+            float imagereconMS = 0;
+            cudaEventElapsedTime(&imagereconMS, imagereconstart, imagereconstop);
+            printf("Period %d Image Reconstruction Cost Time is: %f s\n", p+1, imagereconMS/1000);
+            // 销毁事件
+            cudaEventDestroy(imagereconstart);
+            cudaEventDestroy(imagereconstop);
+
             // 记录compute结束事件
             cudaEventRecord(compute_stop);
             cudaEventSynchronize(compute_stop);
@@ -696,16 +1113,17 @@ int vissGen(float frequency)
             for (int i=0; i<=2; i++){
                 cout << "C[" << i << "]: " << C[i] << endl;
             }
+            
 
             // 创建一个临界区，用于保存结果
             #pragma omp critical
             {   
                 // 将数据从设备内存复制到主机内存
                 std::vector<Complex> host_C(C.size());
-                cudaMemcpy(host_C.data(), thrust::raw_pointer_cast(C.data()), C.size() * sizeof(Complex), cudaMemcpyDeviceToHost);
+                CHECK(cudaMemcpy(host_C.data(), thrust::raw_pointer_cast(C.data()), C.size() * sizeof(Complex), cudaMemcpyDeviceToHost));
                 CHECK(cudaDeviceSynchronize());
                 // 打开文件
-                string address_C = "wsblockage/C" + to_string(p+1) + "day1M.txt";
+                string address_C = "wsnoblockage/C" + to_string(p+1) + "day1M.txt";
                 cout << "Period " << p+1 << " save address_C: " << address_C << endl;
                 std::ofstream file(address_C);
                 if (file.is_open()) {
@@ -724,13 +1142,13 @@ int vissGen(float frequency)
     
     gettimeofday(&finish, NULL);
     total_time = ((finish.tv_sec - start.tv_sec) * 1000000 + (finish.tv_usec - start.tv_usec)) / 1000000.0;
-    cout << "total time: " << total_time << " s" << endl;
+    cout << "total time: " << total_time << "s" << endl;
     return 0;
 }
 
 
 int main()
 {
-    vissGen(1e6);
+    vissGen(1e7);
 }
 

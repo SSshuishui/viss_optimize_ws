@@ -34,7 +34,7 @@
 
 using namespace std;
 using Complex = thrust::complex<float>;
-const int uvw_presize = 400000;
+const int uvw_presize = 40000000;
 
 
 // complexExp 函数的实现
@@ -56,7 +56,7 @@ __device__ float norm(float x, float y, float z) {
 struct timeval start, finish;
 float total_time;
 
-string address = "./earth_1Mhz/";
+string address = "./earth_10Mhz/";
 
 __global__ void healpix_moonback_pre(float *theta_heal, float *phi_heal,
                                 float *l, float *m, float *n,
@@ -289,9 +289,9 @@ int vissGen(float frequency)
 {   
     gettimeofday(&start, NULL);
 
-    int nDevices;
+    int nDevices=1;
     // 设置节点数量（gpu显卡数量）
-    CHECK(cudaGetDeviceCount(&nDevices));
+    // CHECK(cudaGetDeviceCount(&nDevices));
     // 设置并行区中的线程数
     omp_set_num_threads(nDevices);
     cout << "devices: " << nDevices << endl;
@@ -307,9 +307,9 @@ int vissGen(float frequency)
     cout << "days: " << days << endl;
 
     // 读取 B.txt, theta_heal.txt, phi_heal.txt 文件
-    string address_B = address + "B.txt";
-    string address_theta_heal = address + "theta_heal.txt";
-    string address_phi_heal = address + "phi_heal.txt";
+    string address_B = address + "B_10Mhz.txt";
+    string address_theta_heal = address + "theta_heal_10Mhz.txt";
+    string address_phi_heal = address + "phi_heal_10Mhz.txt";
     ifstream BFile, thetaFile, phiFile;
     BFile.open(address_B);
     thetaFile.open(address_theta_heal);
@@ -368,7 +368,7 @@ int vissGen(float frequency)
         std::cout << "Thread " << tid << " is running on device " << tid << endl;
 
         // 遍历所有开启的线程处理， 一个线程控制一个GPU 处理一个id*amount/total的块
-        for (int p = tid; p < days; p += nDevices) {
+        for (int p = tid+1; p < days; p += nDevices) {
             cout << "for loop: " << p+1 << endl;
 
             // 将 B, theta_heal, phi_heal 数据从CPU搬到GPU上        
@@ -396,23 +396,18 @@ int vissGen(float frequency)
             // 存储最终的计算结果
             thrust::device_vector<Complex> C(npix, zero);
 
-            cudaEvent_t compute_start, compute_stop;
-            cudaEventCreate(&compute_start);
-            cudaEventCreate(&compute_stop);
-            cudaEventRecord(compute_start);
-
             int uvw_index, xyz1_index, xyz2_index, bll_index; 
             #pragma omp critical
             {   
                 // 读取 uvw
-                string address_uvw = address + "updated_uvw" + to_string(p+1) + "day1M.txt";
+                string address_uvw = address + "uvw" + to_string(p+1) + "day1M.txt";
                 cout << "address_uvw: " << address_uvw << endl;
                 ifstream uvwFile(address_uvw);
                 uvw_index = 0;
-                float u_point, v_point, w_point, f_point;
+                float u_point, v_point, w_point;
                 if (uvwFile.is_open()) {
-                    uvwFile >> u_point >> v_point >> w_point >> f_point; // 读取第一行，删除
-                    while (uvwFile >> u_point >> v_point >> w_point >> f_point) {
+                    uvwFile >> u_point >> v_point >> w_point; // 读取第一行，删除
+                    while (uvwFile >> u_point >> v_point >> w_point) {
                         // cu, cv, cw 需要存储原始坐标
                         cu[uvw_index] = u_point;
                         cv[uvw_index] = v_point;
@@ -623,6 +618,7 @@ int vissGen(float frequency)
             // 填充 il 设备向量
             thrust::lower_bound(ulocg.begin(), ulocg.end(), locg.begin(), locg.end(), il.begin());
 
+
             // 计算 C
             int nulocg = ulocg.size();
             cout << "nulocg: " << nulocg << endl;
@@ -682,17 +678,7 @@ int vissGen(float frequency)
             CHECK(cudaDeviceSynchronize());
             cout << "Period " << p+1 << " compute C success" << endl;
 
-            // 记录compute结束事件
-            cudaEventRecord(compute_stop);
-            cudaEventSynchronize(compute_stop);
-            // 计算经过的时间
-            float computeMS = 0;
-            cudaEventElapsedTime(&computeMS, compute_start, compute_stop);
-            printf("Period %d Compute Cost Time is: %f s\n", p+1, computeMS/1000);
-            // 销毁事件
-            cudaEventDestroy(compute_start);
-            cudaEventDestroy(compute_stop);
-
+            cout << "C size: " << C.size() << endl;
             for (int i=0; i<=2; i++){
                 cout << "C[" << i << "]: " << C[i] << endl;
             }
@@ -705,7 +691,7 @@ int vissGen(float frequency)
                 cudaMemcpy(host_C.data(), thrust::raw_pointer_cast(C.data()), C.size() * sizeof(Complex), cudaMemcpyDeviceToHost);
                 CHECK(cudaDeviceSynchronize());
                 // 打开文件
-                string address_C = "wsblockage/C" + to_string(p+1) + "day1M.txt";
+                string address_C = "wsblockage10M/C" + to_string(p+1) + "day1M.txt";
                 cout << "Period " << p+1 << " save address_C: " << address_C << endl;
                 std::ofstream file(address_C);
                 if (file.is_open()) {
@@ -724,13 +710,13 @@ int vissGen(float frequency)
     
     gettimeofday(&finish, NULL);
     total_time = ((finish.tv_sec - start.tv_sec) * 1000000 + (finish.tv_usec - start.tv_usec)) / 1000000.0;
-    cout << "total time: " << total_time << " s" << endl;
+    cout << "total time: " << total_time << "s" << endl;
     return 0;
 }
 
 
 int main()
 {
-    vissGen(1e6);
+    vissGen(1e7);
 }
 
