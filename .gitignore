@@ -38,4 +38,9 @@
 wsblockage/*.txt
 wsnoblockage/*.txt
 earth_1Mhz/*.txt
+earth_10Mhz/*.txt
+earth_30Mhz/*.txt
+out10M_recon_seg/*.txt
+out10M_recon_seg_viss_conj/*.txt
+out10M_recon_seg_viss_conj_viss_seg/*.txt
 
