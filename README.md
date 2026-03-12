@@ -1,100 +1,47 @@
 # viss_optimize_ws (二维短时叠加算法)
 
-## 生成基线和相关数据
+可见度计算使用一半共轭 + 反演阶段使用基线分段，确保结果正确，并且计算速度提升 \
+同时基线部分采用在线生成 \
+$\phi$ 和 $\theta$ 也采用在线生成，同时用它生成lmn，常驻内存，并在分段的时候使用对应段的部分
 
-```bash
-编译
-nvcc -O3 --use_fast_math -lineinfo -Xcompiler -fopenmp -std=c++17 orbit_gen.cu -o orbit_gen
+
+## 文件结构
+```text
+├── main_recon_online.cu
+├── common.hpp
+├── orbit_online.cuh
+├── viss_recon_kernel.cuh
+└── README.md
+
+main_recon_online.cu：主程序入口，负责参数解析、GPU 初始化、按段调度、在线基线生成、Viss 计算与图像反演。
+
+common.hpp：公共头文件，包含基础库引用、通用宏、参数/文件/目录工具函数及公共数据结构定义。
+
+orbit_online.cuh：在线轨道与基线生成模块，负责生成 segment 级 uvw / xyza / xyzb，并提供相关校验与辅助函数。
+
+viss_recon_kernel.cuh：Viss 计算与重建核心 CUDA 核函数，包含半量可见度计算、相位恢复、共轭补全和按段二维反演。
+
+README.md：项目说明文档。
 ```
-```bash
-运行
-bash orbit_gen.sh
-```
-
-支持三种观测频率（单位 Hz）：
-
-- 1 MHz：`1e6`
-- 10 MHz：`1e7`
-- 30 MHz：`3e7`
-
-程序会根据频率自动选择输出目录与文件后缀：
-
-- 输出目录：`./earth_<tag>hz/`，其中 `<tag>` 为 `1M / 10M / 30M`
-- 输出文件名：
-  - `uvw{day}day<tag>.txt`
-  - `xyza{day}day<tag>.txt`
-  - `xyzb{day}day<tag>.txt`
-
-例如（day=1，30MHz）：
-- `./earth_30Mhz/uvw1day30M.txt`
-- `./earth_30Mhz/xyza1day30M.txt`
-- `./earth_30Mhz/xyzb1day30M.txt`
-
-> 说明：内部计算使用单精度 float，输出仍以 `%.15f` 格式写入文本。
-
-### 多卡运行
-
-30MHz 场景下，核心数组均为 float，单卡 4090（24GB）通常可以支持（显存占用远小于 24GB）。  
-需要注意：30MHz 输出文本规模较大，写盘可能成为主要瓶颈（速度取决于磁盘性能）。
-
-如需加速批量 day 生成，推荐多卡“按 day 范围切分”并行运行（最简单稳定，不需要跨卡通信）：
-
-双卡示例：
-```bash
-CUDA_VISIBLE_DEVICES=0 ./orbit_gen --only=30M --start=1 --end=100 --seed=42
-CUDA_VISIBLE_DEVICES=1 ./orbit_gen --only=30M --start=101 --end=450 --seed=42
-```
-
-
-## 生成$\theta$ 和 $\phi$数据
-
-```bash
-编译
-nvcc -o pix2ang_nest pix2ang_nest.cu -Xcompiler -fopenmp
-```
-```bash
-运行
-bash run_pix2fang_nest.sh 
-```
-
 
 ## 天图反演模拟
-### 可见度和反演都按天
+### 编译
 ```bash
-编译
-nvcc -O3 --use_fast_math -lineinfo -Xcompiler -fopenmp -std=c++14 viss_ws.cu -o vissws
+nvcc -O3 --use_fast_math -lineinfo -std=c++17 -Xcompiler -fopenmp main_recon_online.cu -o main_recon_online
 ```
+### 运行
 ```bash
-运行
-bash vissgen_ws.sh
-```
-
-### 反演阶段使用基线分段
-```bash
-编译
-nvcc -O3 --use_fast_math -lineinfo -Xcompiler -fopenmp -std=c++17 recon_seg_clip.cu -o recon_seg_clip
-```
-```bash
-运行
-bash recon_seg_clip.sh
+bash main_recon_online.sh
 ```
 
-### 可见度计算使用一半共轭 + 反演阶段使用基线分段
+## 测试对比一致性
+由于之前是加载的 $\phi$(phi_heal.txt) 和 $\theta$(theta_heal.txt) ，在精度上有一些差别，因此在原来分段的基础上测试了在线生成 lmn，结果显示相同 \
+如果需要没有区别，选择高精度的 double 类型，应该能完全一致
+### 编译
 ```bash
-编译
-nvcc -O3 --use_fast_math -lineinfo -Xcompiler -fopenmp -std=c++17 recon_seg_clip_viss_conj.cu -o recon_seg_clip_viss_conj
+nvcc -O3 --use_fast_math -lineinfo -std=c++17 -Xcompiler -fopenmp recon_seg_clip_viss_conj_viss_seg_online.cu -o recon_seg_clip_viss_conj_viss_seg_online
 ```
+### 运行
 ```bash
-运行
-bash recon_seg_clip_viss_conj.sh
-```
-
-### 可见度计算使用基线分段 + 可见度计算使用一半共轭 + 反演阶段使用基线分段
-```bash
-编译
-nvcc -O3 --use_fast_math -lineinfo -Xcompiler -fopenmp -std=c++17 recon_seg_clip_viss_conj_viss_seg.cu -o recon_seg_clip_viss_conj_viss_seg
-```
-```bash
-运行
-bash recon_seg_clip_viss_conj_viss_seg.sh
+bash recon_seg_clip_viss_conj_viss_seg_online.sh
 ```

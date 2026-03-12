@@ -1,0 +1,15 @@
+./main_recon_online \
+  --btag=10M \
+  --nside=4096 \
+  --day=1 \
+  --segs=10 \
+  --blockage=0 \
+  --occ_mode=2 \
+  --sky_dir=./earth_10Mhz \
+  --out_dir=./out10M_online/ \
+  --gpus=0,1 \
+  --gen_gpu_index=0 \
+  --B_mode=txt \
+  --orbit_seed=42 \
+  --write_viss=1 \
+  --write_baseline_txt=1
