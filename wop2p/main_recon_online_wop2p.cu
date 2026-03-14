@@ -268,7 +268,7 @@ int main(int argc,char** argv){
     int segN_half=tlen*UNIQUE_BASELINES_PER_T;
     if(segN<=0 || segN_half<=0) continue;
 
-    bool need_all_host = write_baseline_txt || binfo.need_host_stage;
+    bool need_all_host = true;
     orbit_gen_make_segment(gen, t0, tlen, need_all_host);
 
     if(!validate_uvw_halfsym_layout_ptr(gen.h_u, gen.h_v, gen.h_w, segN)){
