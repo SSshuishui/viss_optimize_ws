@@ -353,6 +353,9 @@ int main(int argc,char** argv){
 
     double t_vseg_s = t_vseg.toc_s();
 
+    HostTimer t_rseg;
+    t_rseg.tic();
+
     // ---------- reconstruction params ----------
     float fa=0, fb=0;
     double denom=0;
@@ -464,10 +467,13 @@ int main(int argc,char** argv){
       if(d_idx[gi]) cudaFree(d_idx[gi]);
     }
 
+    double t_rseg_s = t_rseg.toc_s();
+
     std::cout<<"[seg "<<(s+1)<<"/"<<segs<<"] t0="<<t0
              <<" segN="<<segN
              <<" segN_half="<<segN_half
              <<" VissTime="<<t_vseg_s<<"s"
+             <<" ReconSegTime="<<t_rseg_s<<"s"
              <<" fa="<<fa<<" fb="<<fb
              <<" denom="<<denom
              <<" nuniq="<<grp.nuniq

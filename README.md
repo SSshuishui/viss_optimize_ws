@@ -56,7 +56,7 @@ bash recon_seg_clip_viss_conj_viss_seg_online.sh
 
 ### 处理方式
 
-将以下文件替换为 `wop2p/` 目录中的对应版本：
+将以下文件替换为 [wop2p](./wop2p/) 目录中的对应版本：
 
 - `main_recon_online.cu` 替换为 `wop2p/main_recon_online_wop2p.cu`
 - `viss_recon_kernel.cuh` 替换为 `wop2p/viss_recon_kernel_wop2p.cuh`
@@ -87,3 +87,24 @@ bash recon_seg_clip_viss_conj_viss_seg_online.sh
 - 直接 GPU-to-GPU 传输校验失败
 
 则建议直接切换到 `wop2p` 版本运行。
+
+
+## 进一步优化一：反演阶段网格镜像
+[反演镜像](./recon_mirror/)
+
+反演阶段存在uv依然满足对成的性质，因此可以通过构建一半的网格，另一半采用镜像处理，减少计算量
+
+
+## 进一步优化二：可见度计算阶段，采用分Tile考虑遮挡
+[可见度分块加速](./recon_mirror_viss_tilecone/) \
+[分块可行性分析](./viss_tilecone_test/) \
+tile 级三态遮挡裁剪
+
+对每个静态 sky tile，先预计算：
+
+tile 中心方向 c_tile  和   tile 的角半径上界 alpha_tile
+
+然后在阶段一里，对每个 baseline 的两个端点，分别判断该 tile 是：
+
+all-visible / all-hidden / mixed 三路径阶段 \
+   (全可见    /  全不可见  /  边界混合)
