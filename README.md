@@ -108,3 +108,15 @@ tile 中心方向 c_tile  和   tile 的角半径上界 alpha_tile
 
 all-visible / all-hidden / mixed 三路径阶段 \
    (全可见    /  全不可见  /  边界混合)
+
+## 进一步优化三：反演阶段，针对数据中位点代表项专用重建
+[反演阶段中位数据重建](./mirror_tile_recon_group) \
+阶段一
+* Tile-cone exact culling
+* 减少进入 phase + sincos + accumulate 的 pixel 数
+
+阶段二
+* Representative-group reconstruction for occ_mode=2
+* group 构建阶段直接固化中位 representative
+* representative 输入稠密化
+* 去掉 per-seg 动态内存分配

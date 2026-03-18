@@ -1,6 +1,6 @@
-#include "common_mirror_tilecone.hpp"
-#include "orbit_online_mirror_tilecone.cuh"
-#include "viss_recon_kernel_mirror_tilecone.cuh"
+#include "common_mirror_tile_recon_group.hpp"
+#include "orbit_online_mirror_tile_recon_group.cuh"
+#include "viss_recon_kernel_mirror_tile_recon_group.cuh"
 
 static constexpr int VISS_TILE_PIX_HOST = 256;
 
@@ -215,6 +215,13 @@ int main(int argc,char** argv){
       CHECK_CUDA(cudaMalloc(&ctx[gi].d_Wacc,(size_t)n_chunk*sizeof(uint32_t)));
       CHECK_CUDA(cudaMalloc(&ctx[gi].d_Wseg,(size_t)n_chunk*sizeof(uint32_t)));
       CHECK_CUDA(cudaMemsetAsync(ctx[gi].d_Wacc,0,(size_t)n_chunk*sizeof(uint32_t),ctx[gi].xfer_stream));
+      CHECK_CUDA(cudaMalloc(&ctx[gi].d_keys_buf,(size_t)max_segN_half*sizeof(int)));
+      CHECK_CUDA(cudaMalloc(&ctx[gi].d_repidx_buf,(size_t)max_segN_half*sizeof(int)));
+      CHECK_CUDA(cudaMalloc(&ctx[gi].d_ugu_buf,(size_t)max_segN_half*sizeof(float)));
+      CHECK_CUDA(cudaMalloc(&ctx[gi].d_vgu_buf,(size_t)max_segN_half*sizeof(float)));
+      CHECK_CUDA(cudaMalloc(&ctx[gi].d_repV_buf,(size_t)max_segN_half*sizeof(float2)));
+      CHECK_CUDA(cudaMalloc(&ctx[gi].d_repP1_buf,(size_t)max_segN_half*sizeof(float4)));
+      CHECK_CUDA(cudaMalloc(&ctx[gi].d_repP2_buf,(size_t)max_segN_half*sizeof(float4)));
     }
     CHECK_CUDA(cudaMallocHost(&ctx[gi].h_chunk,(size_t)(1<<20)*sizeof(float)));
     CHECK_CUDA(cudaStreamSynchronize(ctx[gi].xfer_stream));
@@ -406,6 +413,7 @@ int main(int argc,char** argv){
                                 ctx[0].slots[cur].d_Viss,
                                 segN_half, du, RES, half,
                                 blockage,
+                                occ_mode,
                                 grp);
       if(grp.nuniq<=0){
         std::cout<<"[day "<<dayid<<" seg "<<(s+1)<<"/"<<segs<<"] nuniq<=0, skip\n";
@@ -425,18 +433,44 @@ int main(int argc,char** argv){
       std::vector<float2*> d_vavg(G,nullptr);
       std::vector<int*> d_offsets(G,nullptr);
       std::vector<int*> d_idx(G,nullptr);
+      std::vector<std::vector<float>> host_ugu(G), host_vgu(G);
 
       #pragma omp parallel for num_threads(G)
       for(int gi=0; gi<G; ++gi){
         CHECK_CUDA(cudaSetDevice(ctx[gi].dev));
         cudaStream_t stream=ctx[gi].compute_stream;
-
-        CHECK_CUDA(cudaMalloc(&d_keys[gi], (size_t)grp.nuniq*sizeof(int)));
+        d_keys[gi] = ctx[gi].d_keys_buf;
         CHECK_CUDA(cudaMemcpyAsync(d_keys[gi], grp.keys_unique.data(), (size_t)grp.nuniq*sizeof(int), cudaMemcpyHostToDevice, stream));
 
         if(blockage==0){
-          CHECK_CUDA(cudaMalloc(&d_vavg[gi], (size_t)grp.nuniq*sizeof(float2)));
+          d_vavg[gi] = ctx[gi].d_repV_buf;
           CHECK_CUDA(cudaMemcpyAsync(d_vavg[gi], grp.viss_avg.data(), (size_t)grp.nuniq*sizeof(float2), cudaMemcpyHostToDevice, stream));
+        } else if(occ_mode==2 && !grp.rep_half_idx.empty()) {
+          std::vector<int> h_ui(grp.nuniq), h_vi(grp.nuniq);
+          host_ugu[gi].resize(grp.nuniq);
+          host_vgu[gi].resize(grp.nuniq);
+          for(int q=0; q<grp.nuniq; ++q){
+            int key = grp.keys_unique[q];
+            int tmp = key - 1;
+            int U = tmp / RES;
+            int V = tmp - U * RES;
+            int ui = U - half;
+            int vi = V - half;
+            host_ugu[gi][q] = ui * du;
+            host_vgu[gi][q] = vi * du;
+          }
+          CHECK_CUDA(cudaMemcpyAsync(ctx[gi].d_repidx_buf, grp.rep_half_idx.data(), (size_t)grp.nuniq*sizeof(int), cudaMemcpyHostToDevice, stream));
+          CHECK_CUDA(cudaMemcpyAsync(ctx[gi].d_ugu_buf, host_ugu[gi].data(), (size_t)grp.nuniq*sizeof(float), cudaMemcpyHostToDevice, stream));
+          CHECK_CUDA(cudaMemcpyAsync(ctx[gi].d_vgu_buf, host_vgu[gi].data(), (size_t)grp.nuniq*sizeof(float), cudaMemcpyHostToDevice, stream));
+          int b0=256, g0=(grp.nuniq + b0 - 1)/b0;
+          gather_rep_half_inputs<<<g0,b0,0,stream>>>(
+            ctx[gi].d_repidx_buf, grp.nuniq,
+            ctx[gi].slots[cur].d_Viss,
+            ctx[gi].slots[cur].d_x1, ctx[gi].slots[cur].d_y1, ctx[gi].slots[cur].d_z1, ctx[gi].slots[cur].d_invn1,
+            ctx[gi].slots[cur].d_x2, ctx[gi].slots[cur].d_y2, ctx[gi].slots[cur].d_z2, ctx[gi].slots[cur].d_invn2,
+            ctx[gi].d_repV_buf, ctx[gi].d_repP1_buf, ctx[gi].d_repP2_buf
+          );
+          CHECK_CUDA(cudaPeekAtLastError());
         } else {
           CHECK_CUDA(cudaMalloc(&d_offsets[gi], (size_t)(grp.nuniq+1)*sizeof(int)));
           CHECK_CUDA(cudaMemcpyAsync(d_offsets[gi], grp.offsets.data(), (size_t)(grp.nuniq+1)*sizeof(int), cudaMemcpyHostToDevice, stream));
@@ -466,6 +500,19 @@ int main(int argc,char** argv){
             RES,half,du,fa,fb,
             ctx[gi].d_Cseg
           );
+        } else if(occ_mode==2 && !grp.rep_half_idx.empty()) {
+          recon_seg_blockage_half_rep<64><<<grid,BLOCK,0,stream>>>(
+            ctx[gi].n_chunk,
+            ctx[gi].d_l,ctx[gi].d_m,ctx[gi].d_n,
+            d_keys[gi],
+            ctx[gi].d_ugu_buf, ctx[gi].d_vgu_buf,
+            ctx[gi].d_repV_buf,
+            ctx[gi].d_repP1_buf, ctx[gi].d_repP2_buf,
+            grp.nuniq,
+            fa,fb,
+            cosphi,
+            ctx[gi].d_Cseg, ctx[gi].d_Wseg
+          );
         } else {
           recon_seg_blockage_half<64><<<grid,BLOCK,0,stream>>>(
             ctx[gi].n_chunk,
@@ -488,15 +535,6 @@ int main(int argc,char** argv){
         if(blockage==1) add_inplace_u32<<<g2,b,0,stream>>>(ctx[gi].d_Wacc, ctx[gi].d_Wseg, ctx[gi].n_chunk);
         CHECK_CUDA(cudaPeekAtLastError());
         CHECK_CUDA(cudaStreamSynchronize(stream));
-      }
-
-      #pragma omp parallel for num_threads(G)
-      for(int gi=0; gi<G; ++gi){
-        CHECK_CUDA(cudaSetDevice(ctx[gi].dev));
-        if(d_keys[gi]) cudaFree(d_keys[gi]);
-        if(d_vavg[gi]) cudaFree(d_vavg[gi]);
-        if(d_offsets[gi]) cudaFree(d_offsets[gi]);
-        if(d_idx[gi]) cudaFree(d_idx[gi]);
       }
 
       double t_rseg_s = t_rseg.toc_s();
@@ -584,6 +622,13 @@ int main(int argc,char** argv){
     CHECK_CUDA(cudaSetDevice(ctx[gi].dev));
     if(ctx[gi].h_chunk) cudaFreeHost(ctx[gi].h_chunk);
 
+    if(ctx[gi].d_repP2_buf) cudaFree(ctx[gi].d_repP2_buf);
+    if(ctx[gi].d_repP1_buf) cudaFree(ctx[gi].d_repP1_buf);
+    if(ctx[gi].d_repV_buf) cudaFree(ctx[gi].d_repV_buf);
+    if(ctx[gi].d_vgu_buf) cudaFree(ctx[gi].d_vgu_buf);
+    if(ctx[gi].d_ugu_buf) cudaFree(ctx[gi].d_ugu_buf);
+    if(ctx[gi].d_repidx_buf) cudaFree(ctx[gi].d_repidx_buf);
+    if(ctx[gi].d_keys_buf) cudaFree(ctx[gi].d_keys_buf);
     if(ctx[gi].d_Wseg) cudaFree(ctx[gi].d_Wseg);
     if(ctx[gi].d_Wacc) cudaFree(ctx[gi].d_Wacc);
     if(ctx[gi].d_Cseg) cudaFree(ctx[gi].d_Cseg);
