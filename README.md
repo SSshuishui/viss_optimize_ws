@@ -120,3 +120,19 @@ all-visible / all-hidden / mixed 三路径阶段 \
 * group 构建阶段直接固化中位 representative
 * representative 输入稠密化
 * 去掉 per-seg 动态内存分配
+
+## 进一步优化四：可见度阶段，加入快速路径
+
+1. 阶段一：tile-cone 精确裁剪
+* 对 sky tile 做 all-visible / all-hidden / mixed 判定
+* 减少进入 phase + sincos + accumulate 的 pixel
+
+2. 阶段二：occ_mode=2 representative-group 专用化
+* group 构建时直接固化中位 representative
+* representative 输入稠密化
+* 去掉 per-seg 动态分配
+
+3. 阶段一进一步快路径化
+* all-visible 走专门无遮挡快路径
+* 预存 nm1 = n - 1
+* Viss inner loop 更轻
