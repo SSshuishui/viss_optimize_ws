@@ -32,7 +32,8 @@
   --gen_gpu_index=0 \
   --B_mode=txt \
   --C_mode=bin \
-  --orbit_seed=42
+  --orbit_seed=42 \
+  --viss_tile_pix=512
 
 # 30 MHz production
 # ./main_recon_online_mirror_tile_vissfast \
