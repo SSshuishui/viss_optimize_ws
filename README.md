@@ -122,6 +122,8 @@ all-visible / all-hidden / mixed 三路径阶段 \
 * 去掉 per-seg 动态内存分配
 
 ## 进一步优化四：可见度阶段，加入快速路径
+[可见度快速](./mirror_tile_vissfast) \
+[可见度快速+stream处理](./vissfast_streamonly) 
 
 1. 阶段一：tile-cone 精确裁剪
 * 对 sky tile 做 all-visible / all-hidden / mixed 判定

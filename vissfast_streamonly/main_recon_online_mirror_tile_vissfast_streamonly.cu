@@ -104,6 +104,16 @@ int main(int argc,char** argv){
   }
   std::cout<<"Loaded B from "<<used_B_path<<" in "<<t_io.toc_s()<<" s\n";
 
+  // C=single(B.*s);  
+  const double pix_area = 4.0 * M_PI / (double)npix;
+  #pragma omp parallel for
+  for (long long i = 0; i < npix; ++i) {
+    hB[i] = (float)((double)hB[i] * pix_area);
+  }
+  std::cout << " pix_area=" << pix_area
+            << " inv_pix_area=" << (1.0 / pix_area)
+            << "\n";
+
   float lambda_m = lamda;
   int OrbitRes = (int)std::ceil((double)(2.0 * M_PI) * (double)(100e3 / (double)lambda_m));
   int ProcessionCount = round_away_from_zero_host(24.0f / ORBIT_HOURS);

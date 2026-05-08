@@ -25,17 +25,17 @@
 ./main_recon_online_mirror_tile_vissfast_streamonly \
   --btag=30M \
   --nside=16384 \
-  --day_start=2 \
-  --day_count=30 \
+  --day_start=386 \
+  --day_count=1 \
   --segs=10 \
   --blockage=1 \
   --occ_mode=2 \
   --sky_dir=../earth_30Mhz \
   --out_dir=../out30M_streamonly_seg10/ \
-  --gpus=0,1,2,3 \
+  --gpus=0,1 \
   --gen_gpu_index=0 \
   --B_mode=bin \
   --C_mode=bin \
   --orbit_seed=42 \
   --viss_tile_pix=256 \
-  --sky_slab_pix=33554432
+  --sky_slab_pix=402653184

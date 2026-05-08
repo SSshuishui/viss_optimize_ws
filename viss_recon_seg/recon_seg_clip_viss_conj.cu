@@ -807,6 +807,16 @@ int main(int argc,char** argv){
   if(!ok){ std::cerr<<"ERROR reading B/theta/phi\n"; return 1; }
   std::cout<<"Loaded sky in "<<t_io.toc_s()<<" s\n";
 
+  // C=single(B.*s);  
+  const double pix_area = 4.0 * M_PI / (double)npix;
+  #pragma omp parallel for
+  for (long long i = 0; i < npix; ++i) {
+    hB[i] = (float)((double)hB[i] * pix_area);
+  }
+  std::cout << " pix_area=" << pix_area
+            << " inv_pix_area=" << (1.0 / pix_area)
+            << "\n";
+
   // Load full-day baselines
   HostTimer t_bas; t_bas.tic();
   std::vector<float> hu(uvw_max), hv(uvw_max), hw(uvw_max);

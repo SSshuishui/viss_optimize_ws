@@ -998,6 +998,16 @@ int main(int argc,char** argv){
     return 1;
   }
 
+  // C=single(B.*s);  
+  const double pix_area = 4.0 * M_PI / (double)npix;
+  #pragma omp parallel for
+  for (long long i = 0; i < npix; ++i) {
+    hB[i] = (float)((double)hB[i] * pix_area);
+  }
+  std::cout << " pix_area=" << pix_area
+            << " inv_pix_area=" << (1.0 / pix_area)
+            << "\n";
+
   if(lmn_mode=="file"){
     hTheta.resize(npix);
     hPhi.resize(npix);

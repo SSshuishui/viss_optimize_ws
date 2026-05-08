@@ -1,5 +1,5 @@
 # Compile example:
-# nvcc -O3 --use_fast_math -lineinfo -std=c++17 -Xcompiler -fopenmp viss_path_stats.cu -o viss_path_stats
+nvcc -O3 --use_fast_math -lineinfo -std=c++17 -Xcompiler -fopenmp viss_path_stats.cu -o viss_path_stats
 
 # 10 MHz full online statistics
 # ./viss_path_stats \
@@ -22,5 +22,6 @@
   --segs=10 \
   --gpu=0,1,2,3 \
   --viss_tile_pix=256 \
-  --stats_tile_stride=2 \
-  --stats_max_tiles=200000
+  --stats_tile_stride=2 
+
+  # --stats_max_tiles=200000
