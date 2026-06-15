@@ -111,6 +111,69 @@ __device__ __forceinline__ void deinterleave_10(unsigned int ip, int &x, int &y)
 __constant__ int c_jrll[12] = {2,2,2,2,3,3,3,3,4,4,4,4};
 __constant__ int c_jpll[12] = {1,3,5,7,0,2,4,6,1,3,5,7};
 
+__global__ void pix2lmn_ring_kernel(
+    int nside,
+    unsigned int base_ipix,
+    int chunkN,
+    float* __restrict__ l,
+    float* __restrict__ m,
+    float* __restrict__ n)
+{
+  int tid = blockIdx.x * blockDim.x + threadIdx.x;
+  if (tid >= chunkN) return;
+
+  const double PI = 3.141592653589793238462643383279502884;
+
+  unsigned long long ipix = base_ipix + (unsigned int)tid;
+  unsigned long long ipix1 = ipix + 1ull;  // HEALPix RING formula uses 1-based index
+
+  unsigned long long ns = (unsigned long long)nside;
+  unsigned long long nl2 = 2ull * ns;
+  unsigned long long nl4 = 4ull * ns;
+  unsigned long long ncap = 2ull * ns * (ns - 1ull);
+  unsigned long long npix = 12ull * ns * ns;
+
+  double z;
+  double phi;
+
+  if (ipix1 <= ncap) {
+    // North polar cap
+    int iring = (int)(0.5 * (1.0 + sqrt(1.0 + 2.0 * (double)ipix1)));
+    unsigned long long iphi = ipix1 - 2ull * (unsigned long long)iring * (unsigned long long)(iring - 1);
+
+    z = 1.0 - ((double)iring * (double)iring) / (3.0 * (double)ns * (double)ns);
+    phi = ((double)iphi - 0.5) * PI / (2.0 * (double)iring);
+  }
+  else if (ipix1 <= nl2 * (5ull * ns + 1ull)) {
+    // Equatorial region
+    unsigned long long ip = ipix1 - ncap - 1ull;
+    int iring = (int)(ip / nl4) + nside;
+    unsigned long long iphi = (ip % nl4) + 1ull;
+
+    double fodd = 0.5 * (1.0 + (double)((iring + nside) & 1));
+
+    z = ((double)(2 * nside - iring)) * 2.0 / (3.0 * (double)nside);
+    phi = ((double)iphi - fodd) * PI / (2.0 * (double)nside);
+  }
+  else {
+    // South polar cap
+    unsigned long long ip = npix - ipix1 + 1ull;
+    int iring = (int)(0.5 * (1.0 + sqrt(1.0 + 2.0 * (double)ip)));
+    unsigned long long iphi =
+        4ull * (unsigned long long)iring + 1ull
+        - (ip - 2ull * (unsigned long long)iring * (unsigned long long)(iring - 1));
+
+    z = -1.0 + ((double)iring * (double)iring) / (3.0 * (double)ns * (double)ns);
+    phi = ((double)iphi - 0.5) * PI / (2.0 * (double)iring);
+  }
+
+  double sintheta = sqrt(fmax(0.0, 1.0 - z * z));
+
+  l[tid] = (float)(sintheta * cos(phi));
+  m[tid] = (float)(sintheta * sin(phi));
+  n[tid] = (float)z;
+}
+
 __global__ void pix2lmn_nest_kernel(
     int nside,
     unsigned int base_ipix,

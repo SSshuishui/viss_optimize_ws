@@ -47,3 +47,9 @@ out10M_recon_seg_viss_conj_viss_seg/*.txt
 out10M_online/*.bin
 out10M_online_recon_mirror/*.bin
 out10M_online_recon_mirror_viss_tilecone/*.bin
+
+out10M_vissfast/**
+out30M_streamonly/**
+out30M_streamonly_seg10/**
+mirror_tile_vissfast/out_ws_n512_fixture/**
+mirror_tile_vissfast/save/**

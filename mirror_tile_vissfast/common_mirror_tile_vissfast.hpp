@@ -132,9 +132,9 @@ static bool load_B_auto(const std::string& sky_dir,
     return false;
   };
 
-  const std::string b1 = sky_dir + "/B_" + btag + ".bin";
+  const std::string b1 = sky_dir + "/B_10M" + ".bin";
   const std::string b2 = sky_dir + "/B.bin";
-  const std::string t1 = sky_dir + "/B_" + btag + ".txt";
+  const std::string t1 = sky_dir + "/B_10M" + ".txt";
   const std::string t2 = sky_dir + "/B.txt";
 
   if (mode == "bin") return try_bin(b1) || try_bin(b2);
