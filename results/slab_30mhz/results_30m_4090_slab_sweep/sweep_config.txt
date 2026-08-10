@@ -1,0 +1,8 @@
+date=2026-07-22T12:37:32+08:00
+host=wzMV2M
+gpus=0,1,2,3
+day=1
+segs=10
+slab_list=33554432 67108864 134217728 268435456
+repeats=1
+write_output=0

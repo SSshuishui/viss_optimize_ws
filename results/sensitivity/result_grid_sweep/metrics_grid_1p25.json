@@ -1,0 +1,17 @@
+{
+  "label": "grid_1.25",
+  "reference": "results_grid_sweep/grid_g1p25_exact/C1day10M_grid_g1p25_exact.bin",
+  "candidate": "results_grid_sweep/grid_g1p25_rep/C1day10M_grid_g1p25_rep.bin",
+  "paired_finite_elements": 201326592,
+  "reference_min": -0.1092035248875618,
+  "reference_max": 0.06777699291706085,
+  "reference_range": 0.17698051780462265,
+  "pearson": 0.996704211318012,
+  "affine_gain_alpha": 0.9942911821560526,
+  "affine_offset_beta": -8.613508677513611e-06,
+  "raw_rmse": 0.00029989073843534773,
+  "raw_nrmse_by_reference_range": 0.0016944844673039753,
+  "affine_rmse": 0.0002988911934665393,
+  "affine_nrmse_by_reference_range": 0.0016888366989438902,
+  "relative_l2_error": 0.08014748407895182
+}

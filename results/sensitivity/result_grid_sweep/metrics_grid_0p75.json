@@ -1,0 +1,17 @@
+{
+  "label": "grid_0.75",
+  "reference": "results_grid_sweep/grid_g0p75_exact/C1day10M_grid_g0p75_exact.bin",
+  "candidate": "results_grid_sweep/grid_g0p75_rep/C1day10M_grid_g0p75_rep.bin",
+  "paired_finite_elements": 201326592,
+  "reference_min": -0.11182299256324768,
+  "reference_max": 0.0853491723537445,
+  "reference_range": 0.1971721649169922,
+  "pearson": 0.9995398361340387,
+  "affine_gain_alpha": 0.9965727088164404,
+  "affine_offset_beta": -4.698249739275512e-06,
+  "raw_rmse": 0.00018358794799684146,
+  "raw_nrmse_by_reference_range": 0.0009311047939963049,
+  "affine_rmse": 0.00018216184126161096,
+  "affine_nrmse_by_reference_range": 0.0009238719944993227,
+  "relative_l2_error": 0.029694139376852557
+}

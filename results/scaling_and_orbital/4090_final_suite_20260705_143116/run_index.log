@@ -1,0 +1,42 @@
+========== [2026-07-05 14:31:17] START 00_build_all ==========
+========== [2026-07-05 14:31:40] END   00_build_all ==========
+========== [2026-07-05 14:31:40] START 01_check_data_layout ==========
+========== [2026-07-05 14:31:40] END   01_check_data_layout ==========
+========== [2026-07-05 14:31:40] START 10m_error_budget_day1 ==========
+========== [2026-07-05 14:37:50] END   10m_error_budget_day1 ==========
+========== [2026-07-05 14:37:50] START 10m_metrics_rep_vs_exact_day1 ==========
+========== [2026-07-05 14:38:25] END   10m_metrics_rep_vs_exact_day1 ==========
+========== [2026-07-05 14:38:25] START 10m_error_budget_day113 ==========
+========== [2026-07-05 14:44:37] END   10m_error_budget_day113 ==========
+========== [2026-07-05 14:44:37] START 10m_metrics_rep_vs_exact_day113 ==========
+========== [2026-07-05 14:45:11] END   10m_metrics_rep_vs_exact_day113 ==========
+========== [2026-07-05 14:45:11] START 10m_error_budget_day225 ==========
+========== [2026-07-05 14:51:30] END   10m_error_budget_day225 ==========
+========== [2026-07-05 14:51:30] START 10m_metrics_rep_vs_exact_day225 ==========
+========== [2026-07-05 14:52:02] END   10m_metrics_rep_vs_exact_day225 ==========
+========== [2026-07-05 14:52:02] START 10m_error_budget_day337 ==========
+========== [2026-07-05 14:58:30] END   10m_error_budget_day337 ==========
+========== [2026-07-05 14:58:30] START 10m_metrics_rep_vs_exact_day337 ==========
+========== [2026-07-05 14:59:06] END   10m_metrics_rep_vs_exact_day337 ==========
+========== [2026-07-05 14:59:06] START 10m_error_budget_day450 ==========
+========== [2026-07-05 15:05:58] END   10m_error_budget_day450 ==========
+========== [2026-07-05 15:05:58] START 10m_metrics_rep_vs_exact_day450 ==========
+========== [2026-07-05 15:06:33] END   10m_metrics_rep_vs_exact_day450 ==========
+========== [2026-07-05 15:06:33] START 10m_sampled_days_rep ==========
+========== [2026-07-05 15:12:00] END   10m_sampled_days_rep ==========
+========== [2026-07-05 15:12:00] START 10m_scaling_rep ==========
+========== [2026-07-05 15:18:20] END   10m_scaling_rep ==========
+========== [2026-07-05 15:18:20] START 30m_stream_main_day1 ==========
+========== [2026-07-05 16:07:46] END   30m_stream_main_day1 ==========
+
+All selected runs finished.
+Result root: /viss_optimize_ws_experiments/experiment_results/4090_final_suite_20260705_143116
+
+Important files to collect:
+  /viss_optimize_ws_experiments/experiment_results/4090_final_suite_20260705_143116/system_info.txt
+  /viss_optimize_ws_experiments/experiment_results/4090_final_suite_20260705_143116/error_budget_10m_runtime_day*.csv
+  /viss_optimize_ws_experiments/experiment_results/4090_final_suite_20260705_143116/metrics/rep_vs_exact_group_day*.csv
+  /viss_optimize_ws_experiments/experiment_results/4090_final_suite_20260705_143116/sampled_days_10m_runtime.csv
+  /viss_optimize_ws_experiments/experiment_results/4090_final_suite_20260705_143116/scaling_10m_runtime.csv
+  /viss_optimize_ws_experiments/experiment_results/4090_final_suite_20260705_143116/stage_30m_stream_main_runtime.csv
+  /viss_optimize_ws_experiments/experiment_results/4090_final_suite_20260705_143116/sampled_days_30m_stream_runtime.csv  (if RUN_30M_STREAM_SAMPLED=1)

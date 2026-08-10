@@ -1,0 +1,16 @@
+.DS_Store
+__pycache__/
+*.pyc
+*.o
+*.so
+*.a
+*.sqlite
+*.nsys-rep
+*.bin
+!source/direct_3d_reference/dcf_mb_10M_days450_seed42.bin
+*.txt.lock
+main_recon_online_mirror_tile_vissfast
+main_recon_online_mirror_tile_vissfast_streamonly
+main_3d_vissfast
+out*/
+experiment_results/

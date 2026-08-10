@@ -1,0 +1,57 @@
++ env CUDA_VISIBLE_DEVICES=0,1,2,3 DAY_START=1 GPUS=0,1,2,3 SEGS=10 WRITE_OUTPUT=1 bash /viss_optimize_ws_experiments/experiments/run_error_budget_10m.sh
+===== 10M error-budget exact_group =====
+CUDA_VISIBLE_DEVICES=0,1,2,3
+Visible logical GPUs: 0,1,2,3
+btag=10M nside=4096 npix=201326592 day_start=1 day_count=1 segs=10
+blockage=1 occ_mode=0 recon_mode=exact viss_mode=fast write_output=1  [Viss stage: phase_correct=ON]
+ sky_dir=/viss_optimize_ws_experiments/earth_10Mhz out_dir=/viss_optimize_ws_experiments/experiment_results/error_budget_10m/day1_exact_group/ gpus=0,1,2,3 C_mode=bin metrics_csv=/viss_optimize_ws_experiments/experiment_results/error_budget_10m_runtime.csv run_label=10m_exact_group
+theta=1.02119 phi=2.1204 cosphi=-0.522349 lamda=30
+Loaded B from /viss_optimize_ws_experiments/earth_10Mhz/B_10M.bin in 0.360705 s
+ pix_area=6.24178e-08 inv_pix_area=1.60211e+07
+Online orbit plan: OrbitRes=20944 ProcessionCount=10 segLen=6981 T=69810 N=3909360
+Segment plan: max_tlen=6981 max_segN=390936 max_segN_half=195468
+Init GPUs in 0.448427 s
+Baseline broadcast: gen_dev=0 need_host_stage=1
+===== Day 1 / 1 =====
+Orbit generator initialized on dev=0 in 0.018097 s
+[day 1 seg 1/10] t0=0 segN=390936 segN_half=195468 VissTime=3.93917s ReconSegTime=24.9519s fa=-0.00059748 fb=0.577127 denom=4.25016e+19 nuniq_halfgrid=25358 RES=15397 u=[-364.111,364.111] v=[-306.517,306.517] w=[-176.939,176.939]
+[day 1 seg 2/10] t0=6981 segN=390936 segN_half=195468 VissTime=4.0338s ReconSegTime=25.3521s fa=-0.00100829 fb=0.577089 denom=5.42932e+19 nuniq_halfgrid=27217 RES=15397 u=[-384.693,384.693] v=[-302.307,302.307] w=[-174.61,174.61]
+[day 1 seg 3/10] t0=13962 segN=390936 segN_half=195468 VissTime=4.00215s ReconSegTime=25.9918s fa=-0.00181886 fb=0.577126 denom=8.43885e+19 nuniq_halfgrid=29919 RES=15397 u=[-425.75,425.75] v=[-377.623,377.623] w=[-217.983,217.983]
+[day 1 seg 4/10] t0=20943 segN=390936 segN_half=195468 VissTime=4.01864s ReconSegTime=26.1172s fa=-0.00302034 fb=0.57708 denom=1.39347e+20 nuniq_halfgrid=33883 RES=15397 u=[-487.286,487.286] v=[-368.689,368.689] w=[-212.018,212.018]
+[day 1 seg 5/10] t0=27924 segN=390936 segN_half=195468 VissTime=4.03012s ReconSegTime=27.3899s fa=-0.00360893 fb=0.577239 denom=1.77181e+20 nuniq_halfgrid=38268 RES=15399 u=[-458.004,458.004] v=[-448.768,448.768] w=[-259.074,259.074]
+[day 1 seg 6/10] t0=34905 segN=390936 segN_half=195468 VissTime=4.02387s ReconSegTime=26.9497s fa=-0.00426615 fb=0.57716 denom=2.3233e+20 nuniq_halfgrid=38481 RES=15397 u=[-548.926,548.926] v=[-484.334,484.334] w=[-279.608,279.608]
+[day 1 seg 7/10] t0=41886 segN=390936 segN_half=195468 VissTime=3.98826s ReconSegTime=27.013s fa=-0.00503643 fb=0.577091 denom=3.0279e+20 nuniq_halfgrid=40311 RES=15397 u=[-589.986,589.986] v=[-516.063,516.063] w=[-297.542,297.542]
+[day 1 seg 8/10] t0=48867 segN=390936 segN_half=195468 VissTime=3.97612s ReconSegTime=27.9872s fa=-0.00597092 fb=0.577207 denom=4.09437e+20 nuniq_halfgrid=46000 RES=15399 u=[-613.254,613.254] v=[-555.467,555.467] w=[-320.675,320.675]
+[day 1 seg 9/10] t0=55848 segN=390936 segN_half=195468 VissTime=3.93851s ReconSegTime=28.3987s fa=-0.00681376 fb=0.577207 denom=5.27032e+20 nuniq_halfgrid=49205 RES=15399 u=[-623.124,623.124] v=[-591.035,591.035] w=[-341.21,341.21]
+[day 1 seg 10/10] t0=62829 segN=390936 segN_half=195468 VissTime=4.03053s ReconSegTime=27.6146s fa=-0.0074509 fb=0.577045 denom=6.35702e+20 nuniq_halfgrid=47525 RES=15397 u=[-713.162,713.162] v=[-592.698,592.698] w=[-340.378,340.378]
+Recon done in 307.762 s  [sum_viss=39.9812 sum_recon_seg=267.766 avg_nuniq=37616.7]
+Wrote /viss_optimize_ws_experiments/experiment_results/error_budget_10m/day1_exact_group/C1day10M.bin in 0.237358 s
+===== 10M error-budget rep =====
+CUDA_VISIBLE_DEVICES=0,1,2,3
+Visible logical GPUs: 0,1,2,3
+btag=10M nside=4096 npix=201326592 day_start=1 day_count=1 segs=10
+blockage=1 occ_mode=2 recon_mode=rep viss_mode=fast write_output=1  [Viss stage: phase_correct=ON]
+ sky_dir=/viss_optimize_ws_experiments/earth_10Mhz out_dir=/viss_optimize_ws_experiments/experiment_results/error_budget_10m/day1_rep/ gpus=0,1,2,3 C_mode=bin metrics_csv=/viss_optimize_ws_experiments/experiment_results/error_budget_10m_runtime.csv run_label=10m_rep
+theta=1.02119 phi=2.1204 cosphi=-0.522349 lamda=30
+Loaded B from /viss_optimize_ws_experiments/earth_10Mhz/B_10M.bin in 0.372787 s
+ pix_area=6.24178e-08 inv_pix_area=1.60211e+07
+Online orbit plan: OrbitRes=20944 ProcessionCount=10 segLen=6981 T=69810 N=3909360
+Segment plan: max_tlen=6981 max_segN=390936 max_segN_half=195468
+Init GPUs in 0.437484 s
+Baseline broadcast: gen_dev=0 need_host_stage=1
+===== Day 1 / 1 =====
+Orbit generator initialized on dev=0 in 0.0178183 s
+[day 1 seg 1/10] t0=0 segN=390936 segN_half=195468 VissTime=3.98669s ReconSegTime=1.30798s fa=-0.00059748 fb=0.577127 denom=4.25016e+19 nuniq_halfgrid=25358 RES=15397 u=[-364.111,364.111] v=[-306.517,306.517] w=[-176.939,176.939]
+[day 1 seg 2/10] t0=6981 segN=390936 segN_half=195468 VissTime=4.06583s ReconSegTime=1.42222s fa=-0.00100829 fb=0.577089 denom=5.42932e+19 nuniq_halfgrid=27217 RES=15397 u=[-384.693,384.693] v=[-302.307,302.307] w=[-174.61,174.61]
+[day 1 seg 3/10] t0=13962 segN=390936 segN_half=195468 VissTime=3.98778s ReconSegTime=1.55638s fa=-0.00181886 fb=0.577126 denom=8.43885e+19 nuniq_halfgrid=29919 RES=15397 u=[-425.75,425.75] v=[-377.623,377.623] w=[-217.983,217.983]
+[day 1 seg 4/10] t0=20943 segN=390936 segN_half=195468 VissTime=4.00923s ReconSegTime=1.74722s fa=-0.00302034 fb=0.57708 denom=1.39347e+20 nuniq_halfgrid=33883 RES=15397 u=[-487.286,487.286] v=[-368.689,368.689] w=[-212.018,212.018]
+[day 1 seg 5/10] t0=27924 segN=390936 segN_half=195468 VissTime=3.9263s ReconSegTime=2.05319s fa=-0.00360893 fb=0.577239 denom=1.77181e+20 nuniq_halfgrid=38268 RES=15399 u=[-458.004,458.004] v=[-448.768,448.768] w=[-259.074,259.074]
+[day 1 seg 6/10] t0=34905 segN=390936 segN_half=195468 VissTime=4.01125s ReconSegTime=1.99569s fa=-0.00426615 fb=0.57716 denom=2.3233e+20 nuniq_halfgrid=38481 RES=15397 u=[-548.926,548.926] v=[-484.334,484.334] w=[-279.608,279.608]
+[day 1 seg 7/10] t0=41886 segN=390936 segN_half=195468 VissTime=4.00551s ReconSegTime=2.10126s fa=-0.00503643 fb=0.577091 denom=3.0279e+20 nuniq_halfgrid=40311 RES=15397 u=[-589.986,589.986] v=[-516.063,516.063] w=[-297.542,297.542]
+[day 1 seg 8/10] t0=48867 segN=390936 segN_half=195468 VissTime=3.98542s ReconSegTime=2.42143s fa=-0.00597092 fb=0.577207 denom=4.09437e+20 nuniq_halfgrid=46000 RES=15399 u=[-613.254,613.254] v=[-555.467,555.467] w=[-320.675,320.675]
+[day 1 seg 9/10] t0=55848 segN=390936 segN_half=195468 VissTime=3.93636s ReconSegTime=2.61551s fa=-0.00681376 fb=0.577207 denom=5.27032e+20 nuniq_halfgrid=49205 RES=15399 u=[-623.124,623.124] v=[-591.035,591.035] w=[-341.21,341.21]
+[day 1 seg 10/10] t0=62829 segN=390936 segN_half=195468 VissTime=4.03933s ReconSegTime=2.48127s fa=-0.0074509 fb=0.577045 denom=6.35702e+20 nuniq_halfgrid=47525 RES=15397 u=[-713.162,713.162] v=[-592.698,592.698] w=[-340.378,340.378]
+Recon done in 59.6705 s  [sum_viss=39.9537 sum_recon_seg=19.7021 avg_nuniq=37616.7]
+Wrote /viss_optimize_ws_experiments/experiment_results/error_budget_10m/day1_rep/C1day10M.bin in 0.224028 s
+Runtime CSV: /viss_optimize_ws_experiments/experiment_results/error_budget_10m_runtime.csv
+Compare exact_group vs rep with tools/compare_maps_metrics.py when WRITE_OUTPUT=1.
