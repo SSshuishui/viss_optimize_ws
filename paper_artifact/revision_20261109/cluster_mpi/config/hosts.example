@@ -1,0 +1,5 @@
+# Open MPI hostfile example: replace with private-network hostnames or SSH aliases.
+# Each host has one available GPU. This is NOT an existing rented cluster.
+gpu-node-a slots=1
+gpu-node-b slots=1
+gpu-node-c slots=1

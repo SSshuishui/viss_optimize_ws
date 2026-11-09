@@ -1,0 +1,17 @@
+{
+  "label": "segment_s5",
+  "reference": "results_segment_sweep/segment_s5_exact/C1day10M_segment_s5_exact.bin",
+  "candidate": "results_segment_sweep/segment_s5_rep/C1day10M_segment_s5_rep.bin",
+  "paired_finite_elements": 201326592,
+  "reference_min": -0.10331142693758011,
+  "reference_max": 0.07003393769264221,
+  "reference_range": 0.17334536463022232,
+  "pearson": 0.9987348865478384,
+  "affine_gain_alpha": 0.9973985168899746,
+  "affine_offset_beta": -5.163125756633925e-06,
+  "raw_rmse": 0.00023515766022543324,
+  "raw_nrmse_by_reference_range": 0.0013565846466507365,
+  "affine_rmse": 0.00023471709651459027,
+  "affine_nrmse_by_reference_range": 0.0013540431093458148,
+  "relative_l2_error": 0.04933793629867922
+}

@@ -1,0 +1,1 @@
+This package was derived from the `mirror_tile_vissfast` final-method directory in the supplied `viss_optimize_ws.zip`. No alternative reconstruction implementation was merged into the final-method source.

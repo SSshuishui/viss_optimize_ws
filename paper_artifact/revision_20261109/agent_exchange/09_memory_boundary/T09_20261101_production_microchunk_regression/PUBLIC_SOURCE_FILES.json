@@ -1,0 +1,231 @@
+{
+  "schema": "parco_public_source_files_v1",
+  "assembled_utc": "2026-11-09T06:19:06.952818+00:00",
+  "files": [
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/allocation_tracking.hpp",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/allocation_tracking.hpp",
+      "bytes": 1149,
+      "source_sha256": "9466b1b8142e5d77cd1ee7396628181ce0e254290bdf00f4e239ecca634cfb7e",
+      "target_sha256": "9466b1b8142e5d77cd1ee7396628181ce0e254290bdf00f4e239ecca634cfb7e",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/checkpoint_io.hpp",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/checkpoint_io.hpp",
+      "bytes": 2977,
+      "source_sha256": "76bf71ff4b515a41dd95179919216c282997bb27de93b03b335b0714334d723b",
+      "target_sha256": "76bf71ff4b515a41dd95179919216c282997bb27de93b03b335b0714334d723b",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/main_production_regression.cu",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/main_production_regression.cu",
+      "bytes": 47986,
+      "source_sha256": "e2e8cd79ea94be4b5b966814ddf2e6a3d4148e7115d77ca1e2a1848b3b8d3fa8",
+      "target_sha256": "e2e8cd79ea94be4b5b966814ddf2e6a3d4148e7115d77ca1e2a1848b3b8d3fa8",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/original_main.txt",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/original_main.txt",
+      "bytes": 36184,
+      "source_sha256": "a2c5769ba98ff86ce22ef6dce2d8c73ca73517eb5e4c7ac55e5b59474bfe3106",
+      "target_sha256": "a2c5769ba98ff86ce22ef6dce2d8c73ca73517eb5e4c7ac55e5b59474bfe3106",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/production/common_mirror_tile_vissfast_streamonly.hpp",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/production/common_mirror_tile_vissfast_streamonly.hpp",
+      "bytes": 10427,
+      "source_sha256": "827e12513f638c6fba15c88214a82afdba973a5b38fad3b08ed7330f8ca2821a",
+      "target_sha256": "827e12513f638c6fba15c88214a82afdba973a5b38fad3b08ed7330f8ca2821a",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/production/orbit_online_mirror_tile_vissfast_streamonly.cuh",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/production/orbit_online_mirror_tile_vissfast_streamonly.cuh",
+      "bytes": 18401,
+      "source_sha256": "c5eb93c36de3a7e7b0c7e6b4c1041f824a369607e44d3ab377ebc33e4f3efec0",
+      "target_sha256": "c5eb93c36de3a7e7b0c7e6b4c1041f824a369607e44d3ab377ebc33e4f3efec0",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/production/viss_recon_kernel_mirror_tile_vissfast_streamonly.cuh",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/production/viss_recon_kernel_mirror_tile_vissfast_streamonly.cuh",
+      "bytes": 50296,
+      "source_sha256": "60713c0b9d5c42c47976f85c8fdc25eab9ed18c77e1a82428a77a1bd0dd117a3",
+      "target_sha256": "60713c0b9d5c42c47976f85c8fdc25eab9ed18c77e1a82428a77a1bd0dd117a3",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/production_integration.diff",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/production_integration.diff",
+      "bytes": 22234,
+      "source_sha256": "f5f31217f38616924e5c38ed53c492e7fca5c25fdd9cb498a53a7f1a1b69d207",
+      "target_sha256": "f5f31217f38616924e5c38ed53c492e7fca5c25fdd9cb498a53a7f1a1b69d207",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/regression_support.hpp",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/regression_support.hpp",
+      "bytes": 11311,
+      "source_sha256": "3d000e4def3ecfe8d3378aa4142b64b3ce418bc4e0a4daa0f19a978aceb2ab61",
+      "target_sha256": "3d000e4def3ecfe8d3378aa4142b64b3ce418bc4e0a4daa0f19a978aceb2ab61",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/validated/candidate_generated.cuh",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/source/validated/candidate_generated.cuh",
+      "bytes": 7947,
+      "source_sha256": "c9def54d307e7480c11d797d507d5afe0123c9213e5a2c33d9b0d0f94b090112",
+      "target_sha256": "c9def54d307e7480c11d797d507d5afe0123c9213e5a2c33d9b0d0f94b090112",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/budget_helpers.py",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/budget_helpers.py",
+      "bytes": 7663,
+      "source_sha256": "6200c78855f98e3d67386783ea4066d658890cb48e76d9c66b66427801e27dfc",
+      "target_sha256": "6200c78855f98e3d67386783ea4066d658890cb48e76d9c66b66427801e27dfc",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/build.sh",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/build.sh",
+      "bytes": 536,
+      "source_sha256": "1da3607d8c9ffb23f2f93aae08f61f0b97e4f29b6fd558f63c5874c14ab19e41",
+      "target_sha256": "1da3607d8c9ffb23f2f93aae08f61f0b97e4f29b6fd558f63c5874c14ab19e41",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/cpu_inverse_oracle.py",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/cpu_inverse_oracle.py",
+      "bytes": 5012,
+      "source_sha256": "cbb19a895a324ce72960b1a409a3a28f9af172230d0f41c90c5d3d151efa825e",
+      "target_sha256": "cbb19a895a324ce72960b1a409a3a28f9af172230d0f41c90c5d3d151efa825e",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/cpu_orchestration_qa.py",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/cpu_orchestration_qa.py",
+      "bytes": 4153,
+      "source_sha256": "299c1fe0c18e47cf734afc6b856884ef6007aa0a4c85e5312c69d92145a434d5",
+      "target_sha256": "299c1fe0c18e47cf734afc6b856884ef6007aa0a4c85e5312c69d92145a434d5",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/cpu_resource_chain_qa.py",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/cpu_resource_chain_qa.py",
+      "bytes": 2415,
+      "source_sha256": "8484c07bd71a9a9289aeb2b36f01456fe752c93be574c943d6f7d470f850cbbe",
+      "target_sha256": "8484c07bd71a9a9289aeb2b36f01456fe752c93be574c943d6f7d470f850cbbe",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/cpu_source_qa.py",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/cpu_source_qa.py",
+      "bytes": 3170,
+      "source_sha256": "b028f4e5da00486e7b0fc2254ba0d2f375f840e3b805e416e537159a33855cb8",
+      "target_sha256": "b028f4e5da00486e7b0fc2254ba0d2f375f840e3b805e416e537159a33855cb8",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/finalize_regression.py",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/finalize_regression.py",
+      "bytes": 2840,
+      "source_sha256": "2181de3bf334219c8bfeffa1135c138145af371cab920b6e87302866dcd65b0f",
+      "target_sha256": "2181de3bf334219c8bfeffa1135c138145af371cab920b6e87302866dcd65b0f",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/prepare_source.py",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/prepare_source.py",
+      "bytes": 16912,
+      "source_sha256": "d7c05d19e940e83e4138d66d9b9b07b9db631f03929c68bafacbbc0426c38c14",
+      "target_sha256": "d7c05d19e940e83e4138d66d9b9b07b9db631f03929c68bafacbbc0426c38c14",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/resource_amendment.py",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/resource_amendment.py",
+      "bytes": 5573,
+      "source_sha256": "5651a14e4eb08af0ba9bd2e22ba300c425ac22dd877db1e1912de3d8d7b52404",
+      "target_sha256": "5651a14e4eb08af0ba9bd2e22ba300c425ac22dd877db1e1912de3d8d7b52404",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/run_regression.py",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/run_regression.py",
+      "bytes": 15534,
+      "source_sha256": "4f1921186d68c2a29833b1f8f1a54034d7aa3b703b26a5d5ac2c1951117ebe9e",
+      "target_sha256": "4f1921186d68c2a29833b1f8f1a54034d7aa3b703b26a5d5ac2c1951117ebe9e",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/test_checkpoint.cpp",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/test_checkpoint.cpp",
+      "bytes": 1338,
+      "source_sha256": "6e05852d8ca2b20d22b4ec83cd16376f951beabb6289508510faf8fb78cdcc77",
+      "target_sha256": "6e05852d8ca2b20d22b4ec83cd16376f951beabb6289508510faf8fb78cdcc77",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/test_support.cpp",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/scripts/test_support.cpp",
+      "bytes": 3143,
+      "source_sha256": "cfe9bd755cdd7abfdb3cbc885d79d268652bce3402c10284d6ca66c0d2a119f0",
+      "target_sha256": "cfe9bd755cdd7abfdb3cbc885d79d268652bce3402c10284d6ca66c0d2a119f0",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/PROTOCOL.json",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_production_microchunk_regression/PROTOCOL.json",
+      "bytes": 5294,
+      "source_sha256": "f8bcbc452c17422bbff5235c7ac37dfebe1d8b16863b3d9790bf2ab504b72015",
+      "target_sha256": "f8bcbc452c17422bbff5235c7ac37dfebe1d8b16863b3d9790bf2ab504b72015",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_short30/scripts/orbit_online_mirror_tile_vissfast_streamonly.cuh",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_short30/scripts/orbit_online_mirror_tile_vissfast_streamonly.cuh",
+      "bytes": 18401,
+      "source_sha256": "c5eb93c36de3a7e7b0c7e6b4c1041f824a369607e44d3ab377ebc33e4f3efec0",
+      "target_sha256": "c5eb93c36de3a7e7b0c7e6b4c1041f824a369607e44d3ab377ebc33e4f3efec0",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_short30/scripts/viss_recon_kernel_mirror_tile_vissfast_streamonly.cuh",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_short30/scripts/viss_recon_kernel_mirror_tile_vissfast_streamonly.cuh",
+      "bytes": 50296,
+      "source_sha256": "60713c0b9d5c42c47976f85c8fdc25eab9ed18c77e1a82428a77a1bd0dd117a3",
+      "target_sha256": "60713c0b9d5c42c47976f85c8fdc25eab9ed18c77e1a82428a77a1bd0dd117a3",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_short30/scripts/common_mirror_tile_vissfast_streamonly.hpp",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_short30/scripts/common_mirror_tile_vissfast_streamonly.hpp",
+      "bytes": 10427,
+      "source_sha256": "827e12513f638c6fba15c88214a82afdba973a5b38fad3b08ed7330f8ca2821a",
+      "target_sha256": "827e12513f638c6fba15c88214a82afdba973a5b38fad3b08ed7330f8ca2821a",
+      "modified": false
+    },
+    {
+      "source": "parco_revision_agent_exchange/09_memory_boundary/T09_20261101_consumed_rep_slab_gate/source/candidate_generated.cuh",
+      "target": "revision_20261109/agent_exchange/09_memory_boundary/T09_20261101_consumed_rep_slab_gate/source/candidate_generated.cuh",
+      "bytes": 7947,
+      "source_sha256": "c9def54d307e7480c11d797d507d5afe0123c9213e5a2c33d9b0d0f94b090112",
+      "target_sha256": "c9def54d307e7480c11d797d507d5afe0123c9213e5a2c33d9b0d0f94b090112",
+      "modified": false
+    }
+  ],
+  "copied_files": 27,
+  "copied_bytes": 369566,
+  "external_runtime_dependencies": [
+    "CUDA toolkit, C++17/OpenMP and OpenSSL",
+    "Original full B_30M.bin input with PROTOCOL.json identity",
+    "Generated reference arrays listed in REFERENCES_REQUIRED.json",
+    "Historical controller execution ledgers/markers, if replaying its original queue-handoff branch"
+  ],
+  "build_source_dependencies_closed": true
+}

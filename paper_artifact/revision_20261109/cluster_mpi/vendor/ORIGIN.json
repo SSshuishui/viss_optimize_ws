@@ -1,0 +1,36 @@
+{
+  "schema": "parco_cluster_vendor_identity_v1",
+  "date": "2026-10-29",
+  "files": [
+    {
+      "file": "common_mirror_tile_vissfast.hpp",
+      "original_local_path": "/Users/zhaoxiang/Desktop/viss_optimize_ws/mirror_tile_vissfast_paper_artifact/source/final_sts/common_mirror_tile_vissfast.hpp",
+      "original_remote_path": "/data/zhaox/research/viss_optimize_ws/mirror_tile_vissfast_paper_artifact/source/final_sts/common_mirror_tile_vissfast.hpp",
+      "sha256": "0c6fa65037dae9cd48337fceac27c00bb00647af8e7b228539404438b35c5e0b",
+      "modified": false
+    },
+    {
+      "file": "orbit_online_mirror_tile_vissfast.cuh",
+      "original_local_path": "/Users/zhaoxiang/Desktop/viss_optimize_ws/mirror_tile_vissfast_paper_artifact/source/final_sts/orbit_online_mirror_tile_vissfast.cuh",
+      "original_remote_path": "/data/zhaox/research/viss_optimize_ws/mirror_tile_vissfast_paper_artifact/source/final_sts/orbit_online_mirror_tile_vissfast.cuh",
+      "sha256": "417f6dee9c52583c27b39c28d0b33034625d88f47295a51d164c49c05fd1d345",
+      "modified": false
+    },
+    {
+      "file": "viss_recon_kernel_mirror_tile_vissfast.cuh",
+      "original_local_path": "/Users/zhaoxiang/Desktop/viss_optimize_ws/mirror_tile_vissfast_paper_artifact/source/final_sts/viss_recon_kernel_mirror_tile_vissfast.cuh",
+      "original_remote_path": "/data/zhaox/research/viss_optimize_ws/mirror_tile_vissfast_paper_artifact/source/final_sts/viss_recon_kernel_mirror_tile_vissfast.cuh",
+      "sha256": "d5794f2f13d26174342db7cdbc20cc4959685a7fede4fae9bd58b559d8cec320",
+      "modified": false
+    },
+    {
+      "file": "main_recon_online_mirror_tile_vissfast.cu",
+      "original_local_path": "/Users/zhaoxiang/Desktop/viss_optimize_ws/mirror_tile_vissfast_paper_artifact/source/final_sts/main_recon_online_mirror_tile_vissfast.cu",
+      "original_remote_path": "/data/zhaox/research/viss_optimize_ws/mirror_tile_vissfast_paper_artifact/source/final_sts/main_recon_online_mirror_tile_vissfast.cu",
+      "sha256": "1daf59a7778c9258594d837b45a02d2013c03514a46a700d47ed4d34eda66990",
+      "modified": false,
+      "role": "Unmodified serial/single-node reference executable for regression comparison"
+    }
+  ],
+  "qualification": "Unmodified production headers. Cluster driver adds MPI orchestration; mathematical kernels remain original."
+}

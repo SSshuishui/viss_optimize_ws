@@ -53,3 +53,8 @@ out30M_streamonly/**
 out30M_streamonly_seg10/**
 mirror_tile_vissfast/out_ws_n512_fixture/**
 mirror_tile_vissfast/save/**
+# Curated paper artifact, including its previously published compact DCF
+!paper_artifact/source/direct_3d_reference/dcf_mb_10M_days450_seed42.bin
+paper_artifact/**/__pycache__/
+paper_artifact/**/build/
+paper_artifact/**/bin/

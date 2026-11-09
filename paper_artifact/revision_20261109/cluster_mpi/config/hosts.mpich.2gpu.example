@@ -1,0 +1,4 @@
+# MPICH/Hydra: use with --gpus-per-node=2 (launcher supplies -ppn 2).
+gpu-node-a:2
+gpu-node-b:2
+gpu-node-c:2

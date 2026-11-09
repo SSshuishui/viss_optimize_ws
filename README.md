@@ -1,3 +1,16 @@
+# PARCO major revision artifact, 9 November 2026
+
+The current research artifact is in [paper_artifact](paper_artifact/README.md), including the latest production and 30-MHz streaming sources retrieved from the evaluation server, 450-day direct-imaging and merge code, numerical controls, portable builds, and compact measured results.
+
+- [Fixed release](https://github.com/SSshuishui/viss_optimize_ws/releases/tag/parco-revision-20261109)
+- [Standalone artifact branch](https://github.com/SSshuishui/viss_optimize_ws/tree/paper-artifact-v2)
+- [Build and reproduce](paper_artifact/revision_20261109/README.md)
+- [Input formats and exact checksums](paper_artifact/DATA.md)
+
+The original development layout and documentation follow below.
+
+---
+
 # viss_optimize_ws (二维短时叠加算法)
 
 可见度计算使用一半共轭 + 反演阶段使用基线分段，确保结果正确，并且计算速度提升 \

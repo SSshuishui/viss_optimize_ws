@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "Please cite this fixed software version and its complete Git commit identifier when using the code."
+type: software
+title: "Multi-GPU Acceleration for Data-Intensive Lunar-Orbit Radio Interferometric Imaging"
+version: parco-revision-20261109
+date-released: 2026-11-09
+authors:
+  - family-names: Zhao
+    given-names: Xiang
+    orcid: "https://orcid.org/0009-0003-0822-5060"
+repository-code: "https://github.com/SSshuishui/viss_optimize_ws"
+url: "https://github.com/SSshuishui/viss_optimize_ws/releases/tag/parco-revision-20261109"
+abstract: >-
+  CUDA/C++ implementations and reproducibility scripts for lunar-orbit
+  visibility simulation, approximate short-time-stacking dirty imaging,
+  direct three-dimensional controls, multi-GPU execution, and the
+  450-day accumulated-response experiment. Scientific input arrays are
+  identified by checksums and are obtained separately.

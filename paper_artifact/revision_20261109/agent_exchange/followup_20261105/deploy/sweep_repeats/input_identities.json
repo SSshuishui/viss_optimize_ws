@@ -1,0 +1,220 @@
+{
+  "cases": {
+    "s10_g1": {
+      "segments": 10,
+      "grid_scale": 1.0,
+      "samples": {
+        "path": "01_common_operator/T01_20261101_production_replay/runs/day1_s10_g1_n4096/case.npz",
+        "bytes": 532033,
+        "sha256": "e1df7ca0c427f0e67dd68ecd043a5ee507a3462693ded25874a1ff781516e573"
+      },
+      "groups": {
+        "path": "01_common_operator/T01_20261101_production_replay/runs/day1_s10_g1_n4096/segments.csv",
+        "bytes": 1367,
+        "sha256": "c813656068a7f024dbbea54ad293d47bbe13ed33aca1e7f53865aef4e2243859"
+      }
+    },
+    "s20_g1": {
+      "segments": 20,
+      "grid_scale": 1.0,
+      "samples": {
+        "path": "01_common_operator/T01_20261101_production_replay/runs/day1_s20_g1_n4096/case.npz",
+        "bytes": 532091,
+        "sha256": "e55c30a98e83b795a57c57bfd4a84501381a1b312589a4e5d97508e6c7bd4d0e"
+      },
+      "groups": {
+        "path": "01_common_operator/T01_20261101_production_replay/runs/day1_s20_g1_n4096/segments.csv",
+        "bytes": 2628,
+        "sha256": "93bd3c647c3dfd1bd3eec42f50b44755d977d0fc34ebea6f0a69efa02c55a81f"
+      }
+    },
+    "s10_g1p5": {
+      "segments": 10,
+      "grid_scale": 1.5,
+      "samples": {
+        "path": "01_common_operator/T01_20261101_production_replay/runs/day1_s10_g1.5_n4096/case.npz",
+        "bytes": 531025,
+        "sha256": "4dfd14e8c3ab8c19439678edf7c158f0be858c847b2989bc58c7fb93fad503bb"
+      },
+      "groups": {
+        "path": "01_common_operator/T01_20261101_production_replay/runs/day1_s10_g1.5_n4096/segments.csv",
+        "bytes": 1367,
+        "sha256": "ef07529d3bcb9b18e449b4c333a5f9668872efe5199ac33301275e07fc11eb9f"
+      }
+    }
+  },
+  "caches": [
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/cache/day1_seg1.bin",
+      "bytes": 11728116,
+      "sha256": "fcfc42e6ff8bae9fc5b6066f20e0984fc0846cbf0a1f9fae3e61b063041a1fb8",
+      "header": [
+        4096,
+        1,
+        1,
+        0,
+        6981,
+        195468,
+        1
+      ]
+    },
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/cache/day1_seg2.bin",
+      "bytes": 11728116,
+      "sha256": "eb9c3d33cc4b848537be62c91f051ca12e962028134a1a409ccbfa14375013ee",
+      "header": [
+        4096,
+        1,
+        2,
+        6981,
+        6981,
+        195468,
+        1
+      ]
+    },
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/cache/day1_seg3.bin",
+      "bytes": 11728116,
+      "sha256": "8afc276e7ae7267d60b8ccdb6c1661efd7324dc6865032a1f28e8e420d212454",
+      "header": [
+        4096,
+        1,
+        3,
+        13962,
+        6981,
+        195468,
+        1
+      ]
+    },
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/cache/day1_seg4.bin",
+      "bytes": 11728116,
+      "sha256": "f9d68b711e64aee4128b2dee271bfd66235bd2ea9afa7593447e960561bb15e6",
+      "header": [
+        4096,
+        1,
+        4,
+        20943,
+        6981,
+        195468,
+        1
+      ]
+    },
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/cache/day1_seg5.bin",
+      "bytes": 11728116,
+      "sha256": "8b696fcff0af18e37d90ae80a5d93ad8bd5dce596a741d150c30f54826f65cf6",
+      "header": [
+        4096,
+        1,
+        5,
+        27924,
+        6981,
+        195468,
+        1
+      ]
+    },
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/cache/day1_seg6.bin",
+      "bytes": 11728116,
+      "sha256": "173ca3a5d642e202008e23bb3767a38e651940ad53f5f1cf7e014530e827131b",
+      "header": [
+        4096,
+        1,
+        6,
+        34905,
+        6981,
+        195468,
+        1
+      ]
+    },
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/cache/day1_seg7.bin",
+      "bytes": 11728116,
+      "sha256": "e04e0b877ef901122015b305ecac4c8d32d9ee3f53220def74061abbd828cde6",
+      "header": [
+        4096,
+        1,
+        7,
+        41886,
+        6981,
+        195468,
+        1
+      ]
+    },
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/cache/day1_seg8.bin",
+      "bytes": 11728116,
+      "sha256": "4d88b7fd5095a7f62015daf095f945049473c1d2a2ac633653ecc745958c9ee4",
+      "header": [
+        4096,
+        1,
+        8,
+        48867,
+        6981,
+        195468,
+        1
+      ]
+    },
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/cache/day1_seg9.bin",
+      "bytes": 11728116,
+      "sha256": "38517c3a4917cf384e1e48de5aa591b6c8a270e1e07eae87cec76d2ee9ba7fea",
+      "header": [
+        4096,
+        1,
+        9,
+        55848,
+        6981,
+        195468,
+        1
+      ]
+    },
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/cache/day1_seg10.bin",
+      "bytes": 11728116,
+      "sha256": "ee9bcea0fda3fff12fffdf6016b0b3a4ff87921dc89041587ef9926def250003",
+      "header": [
+        4096,
+        1,
+        10,
+        62829,
+        6981,
+        195468,
+        1
+      ]
+    }
+  ],
+  "header_files": [
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/source/common_mirror_tile_vissfast.hpp",
+      "bytes": 10689,
+      "sha256": "0c6fa65037dae9cd48337fceac27c00bb00647af8e7b228539404438b35c5e0b"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/source/orbit_online_mirror_tile_vissfast.cuh",
+      "bytes": 18390,
+      "sha256": "417f6dee9c52583c27b39c28d0b33034625d88f47295a51d164c49c05fd1d345"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/source/viss_recon_kernel_mirror_tile_vissfast.cuh",
+      "bytes": 52684,
+      "sha256": "d5794f2f13d26174342db7cdbc20cc4959685a7fede4fae9bd58b559d8cec320"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/scripts/replay_common.hpp",
+      "bytes": 3697,
+      "sha256": "6d46063bbd8d40d44473eafcc8900d5c41eec95bfc6d78558875ca84c6287ca1"
+    }
+  ],
+  "full_wrapper_origin": {
+    "path": "07_performance_system/T07_20261101_legacy_inverse_comparison/scripts/replay_sts_full.cu",
+    "bytes": 11865,
+    "sha256": "137fb0459dc09b7914297e15638a88a187f2e5e1851dce1addaf4152b6bec8df"
+  },
+  "sampled_replay_origin": {
+    "path": "01_common_operator/T01_20261101_production_replay/scripts/replay.cu",
+    "bytes": 16877,
+    "sha256": "b9e2f7e058c179f025a62af557e1998c9e8b7cb41837815f9d4210b7862dea04"
+  }
+}

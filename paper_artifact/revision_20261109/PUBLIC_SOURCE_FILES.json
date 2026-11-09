@@ -1,0 +1,921 @@
+{
+  "schema": "public_source_allowlist_v1",
+  "workspace_root_name": "viss_optimize_ws",
+  "files": [
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/analyze_full_maps.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/analyze_full_maps.py",
+      "bytes": 8154,
+      "sha256": "873f85ed7e678d8f4ebcf6acc8ae37a8d13c3c1b49d8117302bb33fa7f07b2ba"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/build_reference.sh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/build_reference.sh",
+      "bytes": 1329,
+      "sha256": "f8fbd89363f32ec0730ba513a7430151d17d08207385806221a26999e9339a99"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/prepare_full_programs.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/prepare_full_programs.py",
+      "bytes": 4202,
+      "sha256": "4e5d2ce777a4e6a3046e06a7f5f0c09d758159b46d238e3fa71d24caf66f64c2"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/prepare_weighted_header.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/prepare_weighted_header.py",
+      "bytes": 5536,
+      "sha256": "03fe4d0a5dacf844be1ffdf549888959836d182f50fb432becc6f7924f1712d7"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/raw_stream_moments.hpp",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/raw_stream_moments.hpp",
+      "bytes": 3306,
+      "sha256": "de551189c3e3d9f917d9bbef3dcc2ef543fbd77fbdff00169b5fa934e3f0b99b"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/replay_corrected_dcf_full.cu",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/replay_corrected_dcf_full.cu",
+      "bytes": 13821,
+      "sha256": "d534c8b2e3ae35a54e1ad6526709d922df3440714d67928c1e7c3b4335f71ddb"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/replay_sts_export.cu",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/replay_sts_export.cu",
+      "bytes": 12227,
+      "sha256": "ba3b2c1d50511a09a7e612dbf4059c3933196a95995644cc5fa0ef71d201d1fd"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/run_reference.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/run_reference.py",
+      "bytes": 21733,
+      "sha256": "7b7e3d195ee28da2e8018ad83d85d606bae136f1d903658e07559adb075fe5dd"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/run_reference_tmux.sh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/run_reference_tmux.sh",
+      "bytes": 313,
+      "sha256": "05b63b9b8feb0ea067f441f6631c6dc44fe7f10f05c3248d8cb0f13221dcd2ed"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/test_raw_stream_moments.cpp",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/test_raw_stream_moments.cpp",
+      "bytes": 1629,
+      "sha256": "ac9fb9ef426cfe9e564ac5c961b60724e44779d3153462d3d1f618b46e7715f3"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/weighted_export_helpers.hpp",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/weighted_export_helpers.hpp",
+      "bytes": 9995,
+      "sha256": "88066483ffa2b66974a4de854e88370ac4b0f8771b9bf576e32f9297100d95bd"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/zero_v_control.cu",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/scripts/zero_v_control.cu",
+      "bytes": 5445,
+      "sha256": "291613643db65ecc8a881fc08b40f8d35a4ea07a941fea0d70422ec418ef6451"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/source/add_diagnostic_W.diff",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/source/add_diagnostic_W.diff",
+      "bytes": 4590,
+      "sha256": "5e6dfa47aed01fd53dd03c97d5b746722226fcadc21180acebb2529d00279922"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/source/controlled_fixed/common.hpp",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/source/controlled_fixed/common.hpp",
+      "bytes": 16310,
+      "sha256": "010c3b9288b9b395becd0002d911199f05cf627447dc986e9788760b794ccf0c"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/source/controlled_fixed/orbit_online.cuh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/source/controlled_fixed/orbit_online.cuh",
+      "bytes": 22829,
+      "sha256": "1384fb3747b49616039844aa5de002d5c0e5ac781b8a1dfd6c2ff13dead42cb3"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/source/controlled_fixed/viss_recon_kernel.cuh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/source/controlled_fixed/viss_recon_kernel.cuh",
+      "bytes": 57343,
+      "sha256": "f32cccf745faa916c63ebdaefb5299941a21f52e6b4034e5bed8c9a3d29184fd"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/source/original_combined/common.hpp",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/source/original_combined/common.hpp",
+      "bytes": 16448,
+      "sha256": "91ed080dcf0a104e204a02f5e162a43d112a7dbd5e7ccb5beee4712c048b2348"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/source/original_combined/orbit_online.cuh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/source/original_combined/orbit_online.cuh",
+      "bytes": 22829,
+      "sha256": "1384fb3747b49616039844aa5de002d5c0e5ac781b8a1dfd6c2ff13dead42cb3"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/source/original_combined/viss_recon_kernel.cuh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/source/original_combined/viss_recon_kernel.cuh",
+      "bytes": 71449,
+      "sha256": "195e273e2cadcd22350fd61607366c21b63bacc64e00322082ce7458b1a456e2"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/source/weighted_diagnostic/common.hpp",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/source/weighted_diagnostic/common.hpp",
+      "bytes": 16448,
+      "sha256": "91ed080dcf0a104e204a02f5e162a43d112a7dbd5e7ccb5beee4712c048b2348"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/source/weighted_diagnostic/orbit_online.cuh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/source/weighted_diagnostic/orbit_online.cuh",
+      "bytes": 22829,
+      "sha256": "1384fb3747b49616039844aa5de002d5c0e5ac781b8a1dfd6c2ff13dead42cb3"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/source/weighted_diagnostic/viss_recon_kernel.cuh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_full_corrected_dcf_reference/source/weighted_diagnostic/viss_recon_kernel.cuh",
+      "bytes": 73306,
+      "sha256": "698080a204dde9a2ec79ee6ca50d225e6cd26080e596db6281e9cddc8c258279"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/build_combined.sh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/build_combined.sh",
+      "bytes": 652,
+      "sha256": "6c32a9eb3e70fee9c8c406958b41c61c7b24b4c3661e74f1a11da3c4a90adb49"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/build_replay.sh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/build_replay.sh",
+      "bytes": 847,
+      "sha256": "0abfffff383b6daa11b81f3b9fea65e43c39c0074f3f2e190cad432ac53cbc07"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/finalize_delivery.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/finalize_delivery.py",
+      "bytes": 1977,
+      "sha256": "d664c6fb148b061ca0f02addfbaf29dff3fae332ac35c801c771b2db0c3d392b"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/replay_legacy_fastpath.cu",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/replay_legacy_fastpath.cu",
+      "bytes": 12491,
+      "sha256": "2be08e80f2116c9f22adb4bc2412baa8c4a4b4402ed478fd47b19ecb2d3a1ca9"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/replay_legacy_fastpath_combined.cu",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/replay_legacy_fastpath_combined.cu",
+      "bytes": 12123,
+      "sha256": "3767b9dd000f7ead1d7dc946d5c0326d25e051e7f2e50f702dbad3c0b0d0d087"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/run_combined_gate.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/run_combined_gate.py",
+      "bytes": 2368,
+      "sha256": "13b6a6845b4c13bdf289fa277a2c2a77f0ad98fbaec008a66d85c4b7eb5740ee"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/run_combined_tmux.sh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/run_combined_tmux.sh",
+      "bytes": 317,
+      "sha256": "01af5f3a6c8a9444fb9d57caaa8923d704636f49bacf21a1e443da88df304e6e"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/run_gate_tmux.sh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/run_gate_tmux.sh",
+      "bytes": 292,
+      "sha256": "7fa05e07e297dd22ddbe6b4a6e46e06783adf10a1650819615df4bcade6c13d9"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/run_short_gate.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/scripts/run_short_gate.py",
+      "bytes": 11717,
+      "sha256": "7c1c0b277c98157a67d33c19ca69d1506768f1a4d6e5e2b94ab3b29787dca2bc"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/fix_dcf_and_tasklist_atomic.diff",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/fix_dcf_and_tasklist_atomic.diff",
+      "bytes": 720,
+      "sha256": "e2c8052ef2602eb10fe9c1e81787890ea1f734a8b0f0e91b041e8bab54b643ea"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/fix_tasklist_atomic.diff",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/fix_tasklist_atomic.diff",
+      "bytes": 438,
+      "sha256": "c277704f404fe3eda0e4189b6e7e2d7a2ad2987a351ca1cabda97da8b35b7274"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath/README.md",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath/README.md",
+      "bytes": 3431,
+      "sha256": "76bbbb890a033a26ae1895605b04c63842e3c712fd4b5b6a8956f05ba24b2547"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath/analyze_n4096.sh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath/analyze_n4096.sh",
+      "bytes": 901,
+      "sha256": "3c61610017708f057d507fd94c4156383692101a0710cf05c6eeb7bba04bfb87"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath/common.hpp",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath/common.hpp",
+      "bytes": 16448,
+      "sha256": "91ed080dcf0a104e204a02f5e162a43d112a7dbd5e7ccb5beee4712c048b2348"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath/orbit_online.cuh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath/orbit_online.cuh",
+      "bytes": 22829,
+      "sha256": "1384fb3747b49616039844aa5de002d5c0e5ac781b8a1dfd6c2ff13dead42cb3"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath/shared_operator_plan_recon_fastpath.cu",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath/shared_operator_plan_recon_fastpath.cu",
+      "bytes": 38137,
+      "sha256": "6942421b0c9d5d30f976813d08f5fbe5f12de549a53197a3fcef244de821c431"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath/viss_recon_kernel.cuh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath/viss_recon_kernel.cuh",
+      "bytes": 71433,
+      "sha256": "25a9015d6bdf7fb9c2c7a3e464613d852201f1bc35b3867cd6ca1be591443bfa"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_atomic/common.hpp",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_atomic/common.hpp",
+      "bytes": 16448,
+      "sha256": "91ed080dcf0a104e204a02f5e162a43d112a7dbd5e7ccb5beee4712c048b2348"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_atomic/orbit_online.cuh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_atomic/orbit_online.cuh",
+      "bytes": 22829,
+      "sha256": "1384fb3747b49616039844aa5de002d5c0e5ac781b8a1dfd6c2ff13dead42cb3"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_atomic/shared_operator_plan_recon_fastpath.cu",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_atomic/shared_operator_plan_recon_fastpath.cu",
+      "bytes": 38137,
+      "sha256": "6942421b0c9d5d30f976813d08f5fbe5f12de549a53197a3fcef244de821c431"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_atomic/viss_recon_kernel.cuh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_atomic/viss_recon_kernel.cuh",
+      "bytes": 71453,
+      "sha256": "786a7655ef0a7fcc48c901fbcb0965440861290d1f111c850b0a9a5fad8119d2"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index/common.hpp",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index/common.hpp",
+      "bytes": 16448,
+      "sha256": "91ed080dcf0a104e204a02f5e162a43d112a7dbd5e7ccb5beee4712c048b2348"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index/orbit_online.cuh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index/orbit_online.cuh",
+      "bytes": 22829,
+      "sha256": "1384fb3747b49616039844aa5de002d5c0e5ac781b8a1dfd6c2ff13dead42cb3"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index/shared_operator_plan_recon_fastpath.cu",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index/shared_operator_plan_recon_fastpath.cu",
+      "bytes": 38137,
+      "sha256": "6942421b0c9d5d30f976813d08f5fbe5f12de549a53197a3fcef244de821c431"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index/viss_recon_kernel.cuh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index/viss_recon_kernel.cuh",
+      "bytes": 71429,
+      "sha256": "6884d53dd601232ccb900fd1c4782fe2cebb09ccc9bdb7487e1cd408a49488c7"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index_atomic/README_original.md",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index_atomic/README_original.md",
+      "bytes": 3431,
+      "sha256": "76bbbb890a033a26ae1895605b04c63842e3c712fd4b5b6a8956f05ba24b2547"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index_atomic/analyze_n4096_original.sh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index_atomic/analyze_n4096_original.sh",
+      "bytes": 901,
+      "sha256": "3c61610017708f057d507fd94c4156383692101a0710cf05c6eeb7bba04bfb87"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index_atomic/common.hpp",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index_atomic/common.hpp",
+      "bytes": 16448,
+      "sha256": "91ed080dcf0a104e204a02f5e162a43d112a7dbd5e7ccb5beee4712c048b2348"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index_atomic/orbit_online.cuh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index_atomic/orbit_online.cuh",
+      "bytes": 22829,
+      "sha256": "1384fb3747b49616039844aa5de002d5c0e5ac781b8a1dfd6c2ff13dead42cb3"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index_atomic/shared_operator_plan_recon_fastpath.cu",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index_atomic/shared_operator_plan_recon_fastpath.cu",
+      "bytes": 38137,
+      "sha256": "6942421b0c9d5d30f976813d08f5fbe5f12de549a53197a3fcef244de821c431"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index_atomic/viss_recon_kernel.cuh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_legacy3d_lineage/source/recon_fastpath_fixed_index_atomic/viss_recon_kernel.cuh",
+      "bytes": 71449,
+      "sha256": "195e273e2cadcd22350fd61607366c21b63bacc64e00322082ce7458b1a456e2"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/analyze.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/analyze.py",
+      "bytes": 12933,
+      "sha256": "c8996efc173fadc986666a46e5d39ce48a65b408df28bc705d9096e20db80f8f"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/audit_artifacts.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/audit_artifacts.py",
+      "bytes": 5438,
+      "sha256": "5dee798a4bc2b25d183e42acb05a0ff9991b8f9d61d185b418da8a59d7de8e82"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/baseline_scale.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/baseline_scale.py",
+      "bytes": 2480,
+      "sha256": "6b3f0417a63a6b585967a22e5a8f1558a804909d4e85c9ddd091b492d00b78db"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/compare_t11.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/compare_t11.py",
+      "bytes": 2243,
+      "sha256": "15358be47e00fce43b7883c1c025c5529f4b311d788a7e5da64b832099a7bc0b"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/full_cpu_oracle.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/full_cpu_oracle.py",
+      "bytes": 5826,
+      "sha256": "bb0fb5cf311780cc5cd2ee5ffc420d70199c0ecd6117464b19ca493d99352320"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/one_step.cu",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/one_step.cu",
+      "bytes": 9592,
+      "sha256": "fba78ffc5ecde3231a474658506d0f27908955287fee35cf1575c6892f138449"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/prepare_sources.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/prepare_sources.py",
+      "bytes": 4674,
+      "sha256": "e33cb43953b98bb2678be76070f8706b10dfd60d1a00414541c9d08c19bb7e21"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/rebuild_noise_cpu.cpp",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/rebuild_noise_cpu.cpp",
+      "bytes": 1808,
+      "sha256": "b7e147c3d2d6fc67017b3b594d7c67cc80a1946d165eab0da3b22452908c2478"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/replay.cu",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/replay.cu",
+      "bytes": 16877,
+      "sha256": "b9e2f7e058c179f025a62af557e1998c9e8b7cb41837815f9d4210b7862dea04"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/replay_common.hpp",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/replay_common.hpp",
+      "bytes": 3697,
+      "sha256": "6d46063bbd8d40d44473eafcc8900d5c41eec95bfc6d78558875ca84c6287ca1"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/run_batch.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/run_batch.py",
+      "bytes": 8935,
+      "sha256": "04c4f57482cf1a98d8028c036047e23249e5a0bb377969c6b9564dd8fbf5192f"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/run_one_step.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/run_one_step.py",
+      "bytes": 4844,
+      "sha256": "214ac1f3134c05423d28dfac6b762af2263d3ec216dacb7f1b6b75de8302cad6"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/run_one_step_executed_initial.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/run_one_step_executed_initial.py",
+      "bytes": 4643,
+      "sha256": "f8df854a797c87b39ba61c539e82dbbd2301146aa5346be0489f9f4b505a41f3"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/summarize.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/summarize.py",
+      "bytes": 4636,
+      "sha256": "e0d92b931314025f0ed800ba01011ce7f0a6cd6c890be52f4889f342db2173e6"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/t11_consumed_n_dcf.py",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/scripts/t11_consumed_n_dcf.py",
+      "bytes": 16495,
+      "sha256": "8eaef79c786a3ea172c5b45ed62b6e86161032935844d74cccd81240d7447662"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/source/common_mirror_tile_vissfast.hpp",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/source/common_mirror_tile_vissfast.hpp",
+      "bytes": 10689,
+      "sha256": "0c6fa65037dae9cd48337fceac27c00bb00647af8e7b228539404438b35c5e0b"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/source/main_cache.cu",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/source/main_cache.cu",
+      "bytes": 44961,
+      "sha256": "e382364cc0d34302b6d9537e28056ffa65b3d0ecfb8d02e51b785c63c2461e50"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/source/main_recon_online_mirror_tile_vissfast.cu",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/source/main_recon_online_mirror_tile_vissfast.cu",
+      "bytes": 42965,
+      "sha256": "1daf59a7778c9258594d837b45a02d2013c03514a46a700d47ed4d34eda66990"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/source/orbit_online_mirror_tile_vissfast.cuh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/source/orbit_online_mirror_tile_vissfast.cuh",
+      "bytes": 18390,
+      "sha256": "417f6dee9c52583c27b39c28d0b33034625d88f47295a51d164c49c05fd1d345"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/source/replay.cu",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/source/replay.cu",
+      "bytes": 16877,
+      "sha256": "b9e2f7e058c179f025a62af557e1998c9e8b7cb41837815f9d4210b7862dea04"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/source/replay_common.hpp",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/source/replay_common.hpp",
+      "bytes": 3697,
+      "sha256": "6d46063bbd8d40d44473eafcc8900d5c41eec95bfc6d78558875ca84c6287ca1"
+    },
+    {
+      "source": "parco_revision_agent_exchange/01_common_operator/T01_20261101_production_replay/source/viss_recon_kernel_mirror_tile_vissfast.cuh",
+      "target": "revision_20261109/agent_exchange/01_common_operator/T01_20261101_production_replay/source/viss_recon_kernel_mirror_tile_vissfast.cuh",
+      "bytes": 52684,
+      "sha256": "d5794f2f13d26174342db7cdbc20cc4959685a7fede4fae9bd58b559d8cec320"
+    },
+    {
+      "source": "parco_revision_agent_exchange/05_baselines/T05_20261101_matched/scripts/direct.cpp",
+      "target": "revision_20261109/agent_exchange/05_baselines/T05_20261101_matched/scripts/direct.cpp",
+      "bytes": 706,
+      "sha256": "49f40591139bda1fd84a2bb78c90e86179515ae6118d6511c8039be586fcc324"
+    },
+    {
+      "source": "parco_revision_agent_exchange/05_baselines/T05_20261101_matched/scripts/matched.py",
+      "target": "revision_20261109/agent_exchange/05_baselines/T05_20261101_matched/scripts/matched.py",
+      "bytes": 10255,
+      "sha256": "f52af07cec0a4b7a5a876c25e0660cef32d42d6ea05172576fe16059e085c0cc"
+    },
+    {
+      "source": "parco_revision_agent_exchange/05_baselines/T05_20261101_matched/scripts/summarize_dirty.py",
+      "target": "revision_20261109/agent_exchange/05_baselines/T05_20261101_matched/scripts/summarize_dirty.py",
+      "bytes": 1388,
+      "sha256": "37fd6d4fc0019f7e2e19107fd388d5dbe4eda9ee8959d73db2aaecb980e079cc"
+    },
+    {
+      "source": "parco_revision_agent_exchange/05_baselines/T22_20261101_gpu_roi_v2/scripts/gpu_roi_v2.py",
+      "target": "revision_20261109/agent_exchange/05_baselines/T22_20261101_gpu_roi_v2/scripts/gpu_roi_v2.py",
+      "bytes": 8934,
+      "sha256": "8c290bc15874dc6d238f49ca7dbcb9ecacd7f847d62bfc6310d59789c03a9130",
+      "published_sha256": "fc159c644eb4b1b75ad808582f21b4ae465a41b1fca79012cb719f7b36180990",
+      "portable_edit": "Replace the author-server input root with required PARCO_REVISION_DATA_ROOT. Numerical operations and gates are unchanged.",
+      "published_bytes": 8936
+    },
+    {
+      "source": "parco_revision_agent_exchange/05_baselines/T22_20261101_gpu_roi_v2/scripts/wait_and_run.py",
+      "target": "revision_20261109/agent_exchange/05_baselines/T22_20261101_gpu_roi_v2/scripts/wait_and_run.py",
+      "bytes": 4009,
+      "sha256": "133e1573708aea8ffa5fed28e3c1ab93aad7179ae9d32b84505932ac7182ea25"
+    },
+    {
+      "source": "parco_revision_agent_exchange/05_baselines/T22_20261101_masked_roi/PROTOCOL.json",
+      "target": "revision_20261109/agent_exchange/05_baselines/T22_20261101_masked_roi/PROTOCOL.json",
+      "bytes": 4593,
+      "sha256": "fc1f996ce204507c01b6612598c25fc5bd6ac07c7db973953a603662125551bc"
+    },
+    {
+      "source": "parco_revision_agent_exchange/05_baselines/T22_20261101_masked_roi/scripts/direct.cpp",
+      "target": "revision_20261109/agent_exchange/05_baselines/T22_20261101_masked_roi/scripts/direct.cpp",
+      "bytes": 819,
+      "sha256": "dbf4c00ac5f1a62aed781402d366e3f98a516d1542ce45fbe4f6693bfeb8edda"
+    },
+    {
+      "source": "parco_revision_agent_exchange/05_baselines/T22_20261101_masked_roi/scripts/export_existing_inputs.py",
+      "target": "revision_20261109/agent_exchange/05_baselines/T22_20261101_masked_roi/scripts/export_existing_inputs.py",
+      "bytes": 3180,
+      "sha256": "8ac779b611092baa63763439699c1e06d6bb29409c0a2174080c9dec8d403f05",
+      "published_sha256": "e72b0d3820451e6e1240b7173c9a81e1f0157a790f95ea97de262a454455ede7",
+      "portable_edit": "Accept the private input root as an explicit command argument. All input/hash/mapping checks are unchanged.",
+      "published_bytes": 3259
+    },
+    {
+      "source": "parco_revision_agent_exchange/05_baselines/T22_20261101_masked_roi/scripts/finalize_local.py",
+      "target": "revision_20261109/agent_exchange/05_baselines/T22_20261101_masked_roi/scripts/finalize_local.py",
+      "bytes": 14555,
+      "sha256": "ac3d0205d2ea09dcbf8587e1ce62c0ba133515774d438b1f7b3cebfa5b44f2c2"
+    },
+    {
+      "source": "parco_revision_agent_exchange/05_baselines/T22_20261101_masked_roi/scripts/mask_statistics.py",
+      "target": "revision_20261109/agent_exchange/05_baselines/T22_20261101_masked_roi/scripts/mask_statistics.py",
+      "bytes": 10160,
+      "sha256": "975476b7b22d421a4787e57d1bbe55af081e60f63d82e868b77238f32d60ed57",
+      "published_sha256": "c2ffee1777b31284b319a47360b68fe6a3c6cd427dd2d190cca498b8f915fffc",
+      "portable_edit": "Require an explicit available geometry input instead of falling back to the author workstation path.",
+      "published_bytes": 10084
+    },
+    {
+      "source": "parco_revision_agent_exchange/05_baselines/T22_20261101_masked_roi/scripts/run_masked_roi.py",
+      "target": "revision_20261109/agent_exchange/05_baselines/T22_20261101_masked_roi/scripts/run_masked_roi.py",
+      "bytes": 19609,
+      "sha256": "9a0432f68b04fac1c8b6bfa0ed174db127575bc2dd8e2449977185faef087575"
+    },
+    {
+      "source": "parco_revision_agent_exchange/05_baselines/T22_20261101_masked_roi/scripts/run_masked_roi_CPU_preparation_v1.py",
+      "target": "revision_20261109/agent_exchange/05_baselines/T22_20261101_masked_roi/scripts/run_masked_roi_CPU_preparation_v1.py",
+      "bytes": 17996,
+      "sha256": "325300d479fa859316a27b90f50ca8c11455fa1dfd741abfc1c6da401bbbfaa3"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T04_20261101_smallgate/frozen/common_mirror_tile_vissfast.hpp",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T04_20261101_smallgate/frozen/common_mirror_tile_vissfast.hpp",
+      "bytes": 11590,
+      "sha256": "3c2b2731de28a55b097956ee26509da46bb8c804be5eb08782f61d5e19e4bef9"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T04_20261101_smallgate/frozen/main_recon_online_mirror_tile_vissfast.cu",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T04_20261101_smallgate/frozen/main_recon_online_mirror_tile_vissfast.cu",
+      "bytes": 44091,
+      "sha256": "8b0a8c7d5e5c1607a52bab858853831c1f80bf142436cd8105f576de75239b3b"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T04_20261101_smallgate/frozen/orbit_online_mirror_tile_vissfast.cuh",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T04_20261101_smallgate/frozen/orbit_online_mirror_tile_vissfast.cuh",
+      "bytes": 18390,
+      "sha256": "417f6dee9c52583c27b39c28d0b33034625d88f47295a51d164c49c05fd1d345"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T04_20261101_smallgate/frozen/viss_recon_kernel_mirror_tile_vissfast.cuh",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T04_20261101_smallgate/frozen/viss_recon_kernel_mirror_tile_vissfast.cuh",
+      "bytes": 60783,
+      "sha256": "d3e3ced92023755828a48505dcf3b0750c0761430a2d081543089459f94f39a4"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T04_20261101_smallgate/scripts/analyze_ncu.py",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T04_20261101_smallgate/scripts/analyze_ncu.py",
+      "bytes": 2558,
+      "sha256": "ce086b2b9835733c5a2208839328925e08e2564187685836f14f09c931c7e620"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T04_20261101_smallgate/scripts/analyze_smallgate.py",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T04_20261101_smallgate/scripts/analyze_smallgate.py",
+      "bytes": 2910,
+      "sha256": "a99ec6f70d5683fb745297aa6e6ed3470c18d6cace11de48d6214976c1494efb"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T04_20261101_smallgate/scripts/build.sh",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T04_20261101_smallgate/scripts/build.sh",
+      "bytes": 472,
+      "sha256": "7b92bfb3146a0c7861f20078c396bb0573c90a84bbfa6d45d4be5f93abbedd98"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T04_20261101_smallgate/scripts/main_recon_sharedfix_candidate.cu",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T04_20261101_smallgate/scripts/main_recon_sharedfix_candidate.cu",
+      "bytes": 44110,
+      "sha256": "ccc30501125270e09bd2efa1380a0ac7cff65dc3f6a13084ea8d69e61c42f3c5"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T04_20261101_smallgate/scripts/run_gate.sh",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T04_20261101_smallgate/scripts/run_gate.sh",
+      "bytes": 1697,
+      "sha256": "87050b862cd079e12b1f83e2698d33d9076f643c171ec6a0f2d275094391be36"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T04_20261101_smallgate/scripts/run_ncu_bounded.sh",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T04_20261101_smallgate/scripts/run_ncu_bounded.sh",
+      "bytes": 1939,
+      "sha256": "c986652f35192cc2204ce3eed84fb25b49ec3712748d451f23028058da7d838b"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T04_20261101_smallgate/scripts/t04_smallgate.cu",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T04_20261101_smallgate/scripts/t04_smallgate.cu",
+      "bytes": 5656,
+      "sha256": "a90803e9face34d17297d5fd0dbef6373331ea2fd77ddfdf4edb6b92559a1a74"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/scripts/analyze_formal.py",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/scripts/analyze_formal.py",
+      "bytes": 6283,
+      "sha256": "82441d10d8c6ca44fa5473522c27c6f78f0bcc3b9a2451625f0378b785d1c4ee"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/scripts/build_3d.sh",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/scripts/build_3d.sh",
+      "bytes": 572,
+      "sha256": "77237a3483c751225cccbbee67d91062dcad07a13a4ea01cae645885209e405e"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/scripts/build_sts.sh",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/scripts/build_sts.sh",
+      "bytes": 336,
+      "sha256": "f90f7bac1a9cb3a4047e5f233730b47da4f0ecfe1a81cb719b88863e945bbcd2"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/scripts/replay_3d_full.cu",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/scripts/replay_3d_full.cu",
+      "bytes": 13026,
+      "sha256": "89bd915aba36245f2c444ca7e33c0a495f526b466749beb7710f1304d708c0bf"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/scripts/replay_sts_full.cu",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/scripts/replay_sts_full.cu",
+      "bytes": 11865,
+      "sha256": "137fb0459dc09b7914297e15638a88a187f2e5e1851dce1addaf4152b6bec8df"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/scripts/run_comparison.py",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/scripts/run_comparison.py",
+      "bytes": 10776,
+      "sha256": "d5bb445a0023f1b8502495fc8bbc4e24978677648f8f62544a5dc95ca33f38b7"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/scripts/run_phase_tmux.sh",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/scripts/run_phase_tmux.sh",
+      "bytes": 462,
+      "sha256": "debb6d490472480532312a4bfe9934408264cceab9b9ee88f08bacc498cdc071"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/source/controlled_fixed/common.hpp",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/source/controlled_fixed/common.hpp",
+      "bytes": 16310,
+      "sha256": "010c3b9288b9b395becd0002d911199f05cf627447dc986e9788760b794ccf0c"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/source/controlled_fixed/orbit_online.cuh",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/source/controlled_fixed/orbit_online.cuh",
+      "bytes": 22829,
+      "sha256": "1384fb3747b49616039844aa5de002d5c0e5ac781b8a1dfd6c2ff13dead42cb3"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/source/controlled_fixed/viss_recon_kernel.cuh",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/source/controlled_fixed/viss_recon_kernel.cuh",
+      "bytes": 57343,
+      "sha256": "f32cccf745faa916c63ebdaefb5299941a21f52e6b4034e5bed8c9a3d29184fd"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/source/legacy_combined/common.hpp",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/source/legacy_combined/common.hpp",
+      "bytes": 16448,
+      "sha256": "91ed080dcf0a104e204a02f5e162a43d112a7dbd5e7ccb5beee4712c048b2348"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/source/legacy_combined/orbit_online.cuh",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/source/legacy_combined/orbit_online.cuh",
+      "bytes": 22829,
+      "sha256": "1384fb3747b49616039844aa5de002d5c0e5ac781b8a1dfd6c2ff13dead42cb3"
+    },
+    {
+      "source": "parco_revision_agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/source/legacy_combined/viss_recon_kernel.cuh",
+      "target": "revision_20261109/agent_exchange/07_performance_system/T07_20261101_legacy_inverse_comparison/source/legacy_combined/viss_recon_kernel.cuh",
+      "bytes": 71449,
+      "sha256": "195e273e2cadcd22350fd61607366c21b63bacc64e00322082ce7458b1a456e2"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/five_day_timing/PROTOCOL.md",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/five_day_timing/PROTOCOL.md",
+      "bytes": 2655,
+      "sha256": "6387126433f78c54437045fdc8525983023148842807f57cf14e17c0650a9568"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/five_day_timing/README.md",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/five_day_timing/README.md",
+      "bytes": 1718,
+      "sha256": "70e247ba2ffff340db194b03475b912a3b4c8f987aea76ed72945a143f6d1aea"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/five_day_timing/build.sh",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/five_day_timing/build.sh",
+      "bytes": 1225,
+      "sha256": "4a69ecc0a96b4c143fc9f6cecc99b1028d15d8881ceaeca7bc39b0e40431fe3e"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/five_day_timing/input_identities.json",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/five_day_timing/input_identities.json",
+      "bytes": 22391,
+      "sha256": "45ba70b3cdaf0d8a51284b0362545483ab07cc4e330450fae15dc58302fd4566"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/five_day_timing/replay_3d_full.cu",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/five_day_timing/replay_3d_full.cu",
+      "bytes": 12983,
+      "sha256": "4bd073ff463f8635ab7e09c8f1628cc3a816b0c91fab6a5d585ec755dfe34548"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/five_day_timing/replay_sts_full.cu",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/five_day_timing/replay_sts_full.cu",
+      "bytes": 11686,
+      "sha256": "4c81cc1c00f6d51ac312e76a8aed0522253832f15b1e200a0aeb340cb672f4e4"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/five_day_timing/run_five_day_timing.py",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/five_day_timing/run_five_day_timing.py",
+      "bytes": 17324,
+      "sha256": "128421bc1f81d38fe25257c2e1354e23c214df89ba7dd4e118e5667f263d163a"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/forward_ablation/FROZEN_SHA256SUMS",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/forward_ablation/FROZEN_SHA256SUMS",
+      "bytes": 332,
+      "sha256": "1c2e4158ffdbec44edc43d9a230809b0535a9172b0915ab0bfed95826ed92543"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/forward_ablation/README.md",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/forward_ablation/README.md",
+      "bytes": 4873,
+      "sha256": "e38d25e62a4651a924ebb00e69c0715c072f5895f5dc8e30bc993c2a0c6d3898"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/forward_ablation/build.sh",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/forward_ablation/build.sh",
+      "bytes": 928,
+      "sha256": "a1025cb3d1ba5efbf9fce253c4fcd6fb8262b99d5874aa18c1156a6e376c905e"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/forward_ablation/forward_ablation.cu",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/forward_ablation/forward_ablation.cu",
+      "bytes": 13513,
+      "sha256": "f848c6f782bef4d001c913dcbfec83ff050612e51dcef02b815b608568ab4fd3"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/forward_ablation/frozen/common_mirror_tile_vissfast.hpp",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/forward_ablation/frozen/common_mirror_tile_vissfast.hpp",
+      "bytes": 11590,
+      "sha256": "3c2b2731de28a55b097956ee26509da46bb8c804be5eb08782f61d5e19e4bef9"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/forward_ablation/frozen/orbit_online_mirror_tile_vissfast.cuh",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/forward_ablation/frozen/orbit_online_mirror_tile_vissfast.cuh",
+      "bytes": 18390,
+      "sha256": "417f6dee9c52583c27b39c28d0b33034625d88f47295a51d164c49c05fd1d345"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/forward_ablation/frozen/viss_recon_kernel_mirror_tile_vissfast.cuh",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/forward_ablation/frozen/viss_recon_kernel_mirror_tile_vissfast.cuh",
+      "bytes": 60783,
+      "sha256": "d3e3ced92023755828a48505dcf3b0750c0761430a2d081543089459f94f39a4"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/forward_ablation/make_point_kernel.py",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/forward_ablation/make_point_kernel.py",
+      "bytes": 1147,
+      "sha256": "639565143979f2ba715630880e1e62809af03783e1e6dbe410273ae0168076c7"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/forward_ablation/run.sh",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/forward_ablation/run.sh",
+      "bytes": 2347,
+      "sha256": "05166096dbe3c3b7035a3b56e6349361cac4116d29184056a8d1cc21fc791ce1"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/forward_ablation/summarize.py",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/forward_ablation/summarize.py",
+      "bytes": 2707,
+      "sha256": "f95427fca3ea752f887a33ace223625c32c1673ac14a690281ca7d09eee869f5"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/sweep_repeats/PROTOCOL.md",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/sweep_repeats/PROTOCOL.md",
+      "bytes": 2527,
+      "sha256": "2c9a872870266610b9a14ef2d2e2987cb66fc54ef217ee7897c010f6c66863cd"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/sweep_repeats/README.md",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/sweep_repeats/README.md",
+      "bytes": 1534,
+      "sha256": "6482645e80fdd215142527a0d42e75438810b969bb74a5bdee3a9398ab829a6a"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/sweep_repeats/build.sh",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/sweep_repeats/build.sh",
+      "bytes": 796,
+      "sha256": "9d98a347d8153a9b9f103671d104e7a0cc6ebc7b532b4ffc838f257828a79758"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/sweep_repeats/input_identities.json",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/sweep_repeats/input_identities.json",
+      "bytes": 6322,
+      "sha256": "5e806b111df8a97ef2e5c930c40496d971a130bcb350b994c7a6479c485c62c7"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/sweep_repeats/replay_sts_sweep.cu",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/sweep_repeats/replay_sts_sweep.cu",
+      "bytes": 12627,
+      "sha256": "246e76ba437179a4c2f0220f9e4760733ecce290fb15525dea476adc9dda6585"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/sweep_repeats/run_sweep_repeats.py",
+      "target": "revision_20261109/agent_exchange/followup_20261105/deploy/sweep_repeats/run_sweep_repeats.py",
+      "bytes": 16280,
+      "sha256": "7c90ec2435a615a6cde602d3c0cbf5ef35facaac4d3e7df69ede404e6dfb6f04"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/direct450/gate_inputs.json",
+      "target": "revision_20261109/agent_exchange/followup_20261105/direct450/gate_inputs.json",
+      "bytes": 5997,
+      "sha256": "4c1ed08f066f11542270e902711f4e181d11f02d94c7a7c8066ba820b0866e71"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/direct450/launch_lane.sh",
+      "target": "revision_20261109/agent_exchange/followup_20261105/direct450/launch_lane.sh",
+      "bytes": 1270,
+      "sha256": "f2253935eabd6da23ab675e40df981ab858d0ad55aff0cef8c2379a52e8c28c7"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/direct450/merge/README.md",
+      "target": "revision_20261109/agent_exchange/followup_20261105/direct450/merge/README.md",
+      "bytes": 3425,
+      "sha256": "c3fc0c3ff007cbfd4e856a956d6c7833f5ceb4f6be2f047b344cb9db0139a9ef"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/direct450/merge/make_result_views.py",
+      "target": "revision_20261109/agent_exchange/followup_20261105/direct450/merge/make_result_views.py",
+      "bytes": 3437,
+      "sha256": "acbdb637b5e464f2574d5461a9610502b3db6c354c95d869663b01969123b19d"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/direct450/merge/merge_direct450.py",
+      "target": "revision_20261109/agent_exchange/followup_20261105/direct450/merge/merge_direct450.py",
+      "bytes": 20905,
+      "sha256": "1d96af1094564d94128c3c394dc5fc09b2ebd1497bec88fef82f34690ed8a5da"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/direct450/merge/pair_stats.py",
+      "target": "revision_20261109/agent_exchange/followup_20261105/direct450/merge/pair_stats.py",
+      "bytes": 3963,
+      "sha256": "cdb2d0ff258cb071b371f607c2f95f74cfe514c393df9d2116866d3efdee4aba"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/direct450/portability_gate.py",
+      "target": "revision_20261109/agent_exchange/followup_20261105/direct450/portability_gate.py",
+      "bytes": 8154,
+      "sha256": "b7d2da1628f8751d1765b0da2beea0d04dc3f98b5561abcaa592bcf5188f57a6"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/direct450/prepare_forward.py",
+      "target": "revision_20261109/agent_exchange/followup_20261105/direct450/prepare_forward.py",
+      "bytes": 1024,
+      "sha256": "4669552d9599b982daebc509d3cb366dcc4dfe31b0fba7c18702dbeee202dfe7"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/direct450/runner/README.md",
+      "target": "revision_20261109/agent_exchange/followup_20261105/direct450/runner/README.md",
+      "bytes": 3127,
+      "sha256": "2e050567a1076a2a02657ba95bfbd822cefbb63057020c22e56f094fa67444c9"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/direct450/runner/run_lane.py",
+      "target": "revision_20261109/agent_exchange/followup_20261105/direct450/runner/run_lane.py",
+      "bytes": 31015,
+      "sha256": "217ff89e082f7555cc1cf82870a6f237e02dad295c7df9c4d55214640ed1a2e7"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/direct450/source/FROZEN_SHA256SUMS",
+      "target": "revision_20261109/agent_exchange/followup_20261105/direct450/source/FROZEN_SHA256SUMS",
+      "bytes": 308,
+      "sha256": "556f36eebd8f294c2ea95280e45aa7da8cdf1e4347ceb8998d7b285821795a14"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/direct450/source/README.md",
+      "target": "revision_20261109/agent_exchange/followup_20261105/direct450/source/README.md",
+      "bytes": 3192,
+      "sha256": "9ab5a6f9daeb627531bd61caf2a2dd14bc226bdc2eff4e67994cf7d7877b449a"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/direct450/source/build.sh",
+      "target": "revision_20261109/agent_exchange/followup_20261105/direct450/source/build.sh",
+      "bytes": 677,
+      "sha256": "1235b1b72d6fb6f69b89258dc5a9f4b5d73803de52c0a179141e1db8b49a2df5"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/direct450/source/direct_daily.cu",
+      "target": "revision_20261109/agent_exchange/followup_20261105/direct450/source/direct_daily.cu",
+      "bytes": 21550,
+      "sha256": "bc73f7a5ce06e32112cceb0636640e32e2cf7c438591d49c702c26b458a8971c"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/direct450/source/weighted_diagnostic/common.hpp",
+      "target": "revision_20261109/agent_exchange/followup_20261105/direct450/source/weighted_diagnostic/common.hpp",
+      "bytes": 16448,
+      "sha256": "91ed080dcf0a104e204a02f5e162a43d112a7dbd5e7ccb5beee4712c048b2348"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/direct450/source/weighted_diagnostic/orbit_online.cuh",
+      "target": "revision_20261109/agent_exchange/followup_20261105/direct450/source/weighted_diagnostic/orbit_online.cuh",
+      "bytes": 22829,
+      "sha256": "1384fb3747b49616039844aa5de002d5c0e5ac781b8a1dfd6c2ff13dead42cb3"
+    },
+    {
+      "source": "experiments/parco_followup_20261105/direct450/source/weighted_diagnostic/viss_recon_kernel.cuh",
+      "target": "revision_20261109/agent_exchange/followup_20261105/direct450/source/weighted_diagnostic/viss_recon_kernel.cuh",
+      "bytes": 73306,
+      "sha256": "698080a204dde9a2ec79ee6ca50d225e6cd26080e596db6281e9cddc8c258279"
+    }
+  ]
+}

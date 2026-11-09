@@ -1,0 +1,9 @@
+{
+  "template_only": true,
+  "nodes": [
+    {"ssh": "gpu-node-a", "address": "10.0.0.11"},
+    {"ssh": "gpu-node-b", "address": "10.0.0.12"},
+    {"ssh": "gpu-node-c", "address": "10.0.0.13"}
+  ],
+  "note": "Replace addresses with actual mutually reachable private IPs. Contains no credentials."
+}

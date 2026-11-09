@@ -1,0 +1,141 @@
+--- original_combined/viss_recon_kernel.cuh
++++ weighted_diagnostic/viss_recon_kernel.cuh
+@@ -1529,6 +1529,8 @@
+   GpuSegSlot slots[2];
+ 
+   float* d_Cacc=nullptr;
++  double* d_diag_weighted_W=nullptr;
++  const float* d_diag_pairw=nullptr;
+   float* d_Cseg=nullptr;
+   uint32_t* d_Wacc=nullptr;
+   uint32_t* d_Wseg=nullptr;
+@@ -1825,7 +1827,9 @@
+     int chunk_n,
+     const int* __restrict__ task_ids,
+     int num_tasks,
+-    float* __restrict__ Cacc)
++    float* __restrict__ Cacc,
++    const float* __restrict__ diag_pairw,
++    double* __restrict__ diag_Wacc)
+ {
+   int task_idx = blockIdx.x;
+   if(task_idx >= num_tasks) return;
+@@ -1837,6 +1841,11 @@
+ 
+   __shared__ float su[TILE_BL], sv[TILE_BL], sw[TILE_BL];
+   __shared__ float2 sV[TILE_BL];
++// DIAGNOSTIC_W_BEGIN
++static_assert(TILE_BL>0 && (TILE_BL&(TILE_BL-1))==0 && TILE_BL<=TILE_PIX,"diagnostic reduction requires power-of-two BL <= pixel block");
++__shared__ double diag_wsum[TILE_BL];
++// DIAGNOSTIC_W_END
++
+ 
+   int lane = threadIdx.x;
+   long long pix = (long long)tile * TILE_PIX + lane;
+@@ -1849,8 +1858,18 @@
+     int ih = base + t;
+     su[t] = u[ih]; sv[t] = v[ih]; sw[t] = w[ih];
+     sV[t] = Viss_half[ih];
+-  }
++// DIAGNOSTIC_W_BEGIN
++diag_wsum[t] = (double)diag_pairw[ih];
++// DIAGNOSTIC_W_END
++
++  }
++// DIAGNOSTIC_W_BEGIN
++if(lane<TILE_BL && lane>=tileBL)diag_wsum[lane]=0;
++// DIAGNOSTIC_W_END
+   __syncthreads();
++// DIAGNOSTIC_W_BEGIN
++for(int stride=TILE_BL/2;stride>0;stride>>=1){if(lane<stride)diag_wsum[lane]+=diag_wsum[lane+stride];__syncthreads();}
++// DIAGNOSTIC_W_END
+ 
+   float acc_re = 0.0f;
+   if(active){
+@@ -1869,6 +1888,10 @@
+     }
+   }
+   if(active) atomicAdd(&Cacc[pix], acc_re);
++// DIAGNOSTIC_W_BEGIN
++if(active)atomicAdd(&diag_Wacc[pix],diag_wsum[0]);
++// DIAGNOSTIC_W_END
++
+ }
+ 
+ template<int TILE_PIX, int TILE_BL>
+@@ -1898,7 +1921,9 @@
+     float cosphi,
+     const int* __restrict__ task_ids,
+     int num_tasks,
+-    float* __restrict__ Cacc)
++    float* __restrict__ Cacc,
++    const float* __restrict__ diag_pairw,
++    double* __restrict__ diag_Wacc)
+ {
+   int task_idx = blockIdx.x;
+   if(task_idx >= num_tasks) return;
+@@ -1914,6 +1939,12 @@
+   __shared__ float2 sV[TILE_BL];
+   __shared__ unsigned short svv_idx[TILE_BL], smix_idx[TILE_BL];
+   __shared__ int nvv, nmix;
++// DIAGNOSTIC_W_BEGIN
++static_assert(TILE_BL>0 && (TILE_BL&(TILE_BL-1))==0 && TILE_BL<=TILE_PIX,"diagnostic reduction requires power-of-two BL <= pixel block");
++__shared__ float diag_q[TILE_BL];
++__shared__ double diag_wsum[TILE_BL];
++// DIAGNOSTIC_W_END
++
+ 
+   int lane = threadIdx.x;
+   long long pix = (long long)tile * TILE_PIX + lane;
+@@ -1927,6 +1958,10 @@
+     sdx1[t]=x1[ih]; sdy1[t]=y1[ih]; sdz1[t]=z1[ih];
+     sdx2[t]=x2[ih]; sdy2[t]=y2[ih]; sdz2[t]=z2[ih];
+     sV[t]=Viss_half[ih];
++// DIAGNOSTIC_W_BEGIN
++diag_q[t]=diag_pairw[ih];
++// DIAGNOSTIC_W_END
++
+   }
+   if(lane==0){ nvv=0; nmix=0; }
+   __syncthreads();
+@@ -1946,6 +1981,11 @@
+   }
+   __syncthreads();
+ 
++// DIAGNOSTIC_W_BEGIN
++if(lane<TILE_BL)diag_wsum[lane]=(lane<nvv)?(double)diag_q[(int)svv_idx[lane]]:0.0;
++__syncthreads();
++for(int stride=TILE_BL/2;stride>0;stride>>=1){if(lane<stride)diag_wsum[lane]+=diag_wsum[lane+stride];__syncthreads();}
++// DIAGNOSTIC_W_END
+   float acc_re = 0.0f;
+   if(active){
+     #pragma unroll 2
+@@ -1979,6 +2019,10 @@
+     }
+   }
+   if(active) atomicAdd(&Cacc[pix], acc_re);
++// DIAGNOSTIC_W_BEGIN
++if(active){double diag_acc_w=diag_wsum[0];for(int ii=0;ii<nmix;ii++){int t=(int)smix_idx[ii];if(operator_point_visible_pair_dirs(sdx1[t],sdy1[t],sdz1[t],sdx2[t],sdy2[t],sdz2[t],lp,mp,npv,cosphi))diag_acc_w+=(double)diag_q[t];}atomicAdd(&diag_Wacc[pix],diag_acc_w);}
++// DIAGNOSTIC_W_END
++
+ }
+ 
+ template<int TILE_BL>
+@@ -2056,7 +2100,7 @@
+           gctx.recon_n_chunk, gctx.d_l_recon, gctx.d_m_recon, gctx.d_n_recon, gctx.ntile_recon,
+           slot.d_u, slot.d_v, slot.d_w,
+           slot.d_Viss,
+-          b0, cn, plan.d_vv_tasks, num_vv, gctx.d_Cacc);
++          b0, cn, plan.d_vv_tasks, num_vv, gctx.d_Cacc, gctx.d_diag_pairw, gctx.d_diag_weighted_W);
+       CHECK_CUDA(cudaPeekAtLastError());
+     }
+     if(num_mixed > 0){
+@@ -2067,7 +2111,7 @@
+           slot.d_u, slot.d_v, slot.d_w,
+           slot.d_x1, slot.d_y1, slot.d_z1, slot.d_x2, slot.d_y2, slot.d_z2,
+           slot.d_Viss,
+-          b0, cn, cosphi, plan.d_mixed_tasks, num_mixed, gctx.d_Cacc);
++          b0, cn, cosphi, plan.d_mixed_tasks, num_mixed, gctx.d_Cacc, gctx.d_diag_pairw, gctx.d_diag_weighted_W);
+       CHECK_CUDA(cudaPeekAtLastError());
+     }
+     CHECK_CUDA(cudaEventRecord(plan.compute_done, cstream));
