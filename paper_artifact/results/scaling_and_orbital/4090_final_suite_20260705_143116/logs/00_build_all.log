@@ -1,0 +1,5 @@
++ env ARCH=sm_89 bash /viss_optimize_ws_experiments/experiments/build_all.sh
+[1/2] build non-streaming mirror_tile_vissfast
+[2/2] build stream-only 30 MHz path
+Built /viss_optimize_ws_experiments/vissfast_streamonly/main_recon_online_mirror_tile_vissfast_streamonly with -arch=sm_89
+Build complete.

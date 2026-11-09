@@ -1,0 +1,30 @@
+CUDA_VISIBLE_DEVICES=0,1,2,3
+Visible logical GPUs: 0,1,2,3
+btag=10M nside=4096 npix=201326592 day_start=1 day_count=1 segs=10 dcf_days=1
+blockage=always_on  [Unified forward/adjoint tile operator: Stage-1=forward, Stage-2=adjoint]
+ sky_dir=/viss_optimize_ws_experiments/earth_10Mhz out_dir=/viss_optimize_ws_experiments/system_viss_recon_3d_dcf_controlled/timing_controlled_4gpu/3d_output/ gpus=0,1,2,3 C_mode=bin viss_tile_pix=256 run_tag=3d_dcf_4gpu_timing
+theta=1.02119 phi=2.1204 cosphi=-0.522349 lamda=30
+Loaded B from /viss_optimize_ws_experiments/earth_10Mhz/B_10M.bin in 0.457792 s
+ pix_area=6.24178e-08 inv_pix_area=1.60211e+07
+Online orbit plan: OrbitRes=20944 ProcessionCount=10 segLen=6981 T=69810 N=3909360
+Segment plan: max_tlen=6981 max_segN=390936 max_segN_half=195468
+Loaded dcf bin from /viss_optimize_ws_experiments/system_viss_recon_3d_dcf_controlled/dcf_mb_10M_days450_seed42.bin in 0.000314275 s, dcf_len=6668, mb_len=6667, src_btag=10M, src_days=450, src_seed=42
+GPU init done in 0.725812 s
+Generator logical GPU=0, peer-staging-needed=YES
+Reducer logical GPU=0, collect-host-stage=YES, scatter-host-stage=YES
+Persistent orbit generator init done in 0.024464 s
+===== DAY 1 =====
+[day 1 seg 1/10] t0=0 segN=390936 segN_half=195468 Stage1{T_gen=0.000348832s, T_bcast=0.000318656s, T_viss_kernel=3.94747s, T_reduce=3.94744s, T_phase=0s, T_output_stage=3.94767s, T_stage1_total=3.94809s, T_wall=3.94809s, overlap efficiency=0.666638, multi-GPU scaling efficiency=0.872377} ReconSegTime=11.1904s
+[day 1 seg 2/10] t0=6981 segN=390936 segN_half=195468 Stage1{T_gen=0.00031312s, T_bcast=0.000405696s, T_viss_kernel=3.99503s, T_reduce=3.99498s, T_phase=0s, T_output_stage=3.99467s, T_stage1_total=3.99571s, T_wall=3.99571s, overlap efficiency=0.666618, multi-GPU scaling efficiency=0.869295} ReconSegTime=11.1919s
+[day 1 seg 3/10] t0=13962 segN=390936 segN_half=195468 Stage1{T_gen=0.000308512s, T_bcast=0.00037488s, T_viss_kernel=3.93461s, T_reduce=3.93465s, T_phase=0s, T_output_stage=3.9347s, T_stage1_total=3.9353s, T_wall=3.9353s, overlap efficiency=0.666631, multi-GPU scaling efficiency=0.879023} ReconSegTime=11.1355s
+[day 1 seg 4/10] t0=20943 segN=390936 segN_half=195468 Stage1{T_gen=0.000323104s, T_bcast=0.000380448s, T_viss_kernel=3.95901s, T_reduce=3.95909s, T_phase=0s, T_output_stage=3.95919s, T_stage1_total=3.95953s, T_wall=3.95953s, overlap efficiency=0.66665, multi-GPU scaling efficiency=0.898779} ReconSegTime=11.2699s
+[day 1 seg 5/10] t0=27924 segN=390936 segN_half=195468 Stage1{T_gen=0.000349728s, T_bcast=11.2534s, T_viss_kernel=3.86714s, T_reduce=3.86723s, T_phase=0s, T_output_stage=3.86705s, T_stage1_total=3.86776s, T_wall=3.86776s, overlap efficiency=0.830771, multi-GPU scaling efficiency=0.883218} ReconSegTime=10.9588s
+[day 1 seg 6/10] t0=34905 segN=390936 segN_half=195468 Stage1{T_gen=0.000301792s, T_bcast=10.9422s, T_viss_kernel=3.9376s, T_reduce=3.93776s, T_phase=0s, T_output_stage=3.93791s, T_stage1_total=3.93818s, T_wall=3.93818s, overlap efficiency=0.826938, multi-GPU scaling efficiency=0.878296} ReconSegTime=11.0586s
+[day 1 seg 7/10] t0=41886 segN=390936 segN_half=195468 Stage1{T_gen=0.000309024s, T_bcast=10.5937s, T_viss_kernel=3.94009s, T_reduce=3.94015s, T_phase=0s, T_output_stage=3.94032s, T_stage1_total=3.94064s, T_wall=3.94064s, overlap efficiency=0.824193, multi-GPU scaling efficiency=0.880887} ReconSegTime=11.1641s
+[day 1 seg 8/10] t0=48867 segN=390936 segN_half=195468 Stage1{T_gen=0.000308416s, T_bcast=10.2187s, T_viss_kernel=3.91808s, T_reduce=3.91819s, T_phase=0s, T_output_stage=3.91838s, T_stage1_total=3.91864s, T_wall=3.91864s, overlap efficiency=0.821666, multi-GPU scaling efficiency=0.87876} ReconSegTime=10.9695s
+[day 1 seg 9/10] t0=55848 segN=390936 segN_half=195468 Stage1{T_gen=0.000309824s, T_bcast=10.8722s, T_viss_kernel=3.89507s, T_reduce=3.89516s, T_phase=0s, T_output_stage=3.89527s, T_stage1_total=3.89557s, T_wall=3.89557s, overlap efficiency=0.827309, multi-GPU scaling efficiency=0.881276} ReconSegTime=10.9508s
+[day 1 seg 10/10] t0=62829 segN=390936 segN_half=195468 Stage1{T_gen=0.000306816s, T_bcast=10.9203s, T_viss_kernel=3.95737s, T_reduce=3.95738s, T_phase=0s, T_output_stage=3.95748s, T_stage1_total=3.95792s, T_wall=3.95792s, overlap efficiency=0.826353, multi-GPU scaling efficiency=0.880274} ReconSegTime=11.1952s
+[day 1 Stage-1 summary] T_prepare_day=0.000137334s T_gen=0.00317917s T_bcast=64.8021s T_viss_kernel=39.3515s T_reduce=39.352s T_phase=0s T_output_stage=39.3526s T_stage1_active_sum=39.3573s T_serial_equiv=182.861s overlap efficiency(active)=0.78477 multi-GPU scaling efficiency=0.880205 T_recon_sum=111.085s T_day_segment_loop=150.446s
+Direct 3D recon done in 150.446 s
+Wrote /viss_optimize_ws_experiments/system_viss_recon_3d_dcf_controlled/timing_controlled_4gpu/3d_output/C1day10M_3d_dcf_4gpu_timing.bin in 0.551828 s
+[day 1 Full summary] T_prepare_day=0.000137334s T_stage1_active_sum=39.3573s T_recon_sum=111.085s T_recon_day_wall=150.446s T_day_segment_loop=150.446s T_output_C=0.551828s T_full_day_wall=151s

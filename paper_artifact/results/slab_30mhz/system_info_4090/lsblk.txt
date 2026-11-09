@@ -1,0 +1,10 @@
+NAME    MODEL                                      SIZE ROTA TYPE FSTYPE MOUNTPOINT
+loop0                                             63.9M    1 loop        
+loop1                                               87M    1 loop        
+loop2                                             38.8M    1 loop        
+sda     MR9361-8i                                893.8G    1 disk        
+├─sda1                                               1G    1 part        
+├─sda2                                               2G    1 part        
+└─sda3                                           890.7G    1 part        
+sdb     MR9361-8i                                  3.5T    1 disk        
+nvme0n1 INTEL SSDPF2KX038T9N                       3.5T    0 disk        

@@ -1,0 +1,59 @@
+root=/viss_optimize_ws_experiments
+result_root=/viss_optimize_ws_experiments/experiment_results/4090_final_suite_20260705_143116
+arch=sm_89
+gpus_all=0,1,2,3
+days_10m=1 113 225 337 450
+day_30m_main=1
+days_30m_stream_sampled=1 225 450
+segs_10m=10
+segs_30m=10
+slab_30m=134217728
+hostname=qjAORX
+date=2026-07-05T14:31:16+08:00
+
+--- nvidia-smi ---
+Sun Jul  5 14:31:16 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 560.35.03              Driver Version: 560.35.03      CUDA Version: 12.6     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 4090        On  |   00000000:16:00.0 Off |                  Off |
+| 30%   30C    P8             21W /  450W |       2MiB /  24564MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA GeForce RTX 4090        On  |   00000000:36:00.0 Off |                  Off |
+| 30%   31C    P8             30W /  450W |       2MiB /  24564MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   2  NVIDIA GeForce RTX 4090        On  |   00000000:56:00.0 Off |                  Off |
+| 30%   31C    P8             43W /  450W |       2MiB /  24564MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   3  NVIDIA GeForce RTX 4090        On  |   00000000:98:00.0 Off |                  Off |
+| 30%   30C    P8             34W /  450W |       2MiB /  24564MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+--- nvcc --version ---
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2024 NVIDIA Corporation
+Built on Tue_Feb_27_16:19:38_PST_2024
+Cuda compilation tools, release 12.4, V12.4.99
+Build cuda_12.4.r12.4/compiler.33961263_0
+
+--- disk ---
+Filesystem      Size  Used Avail Use% Mounted on
+overlay         1.2T   13G  1.2T   2% /
+
+--- git ---

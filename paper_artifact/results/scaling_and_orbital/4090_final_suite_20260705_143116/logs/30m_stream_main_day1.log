@@ -1,0 +1,29 @@
++ env CUDA_VISIBLE_DEVICES=0,1,2,3 GPUS=0,1,2,3 DAY_START=1 DAY_COUNT=1 SEGS=10 SLAB=134217728 WRITE_OUTPUT=1 METRICS=/viss_optimize_ws_experiments/experiment_results/4090_final_suite_20260705_143116/stage_30m_stream_main_runtime.csv OUT_ROOT=/viss_optimize_ws_experiments/experiment_results/4090_final_suite_20260705_143116/stage_30m_stream_main bash /viss_optimize_ws_experiments/experiments/run_30m_stream_stage_breakdown.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3
+Visible logical GPUs: 0,1,2,3
+btag=30M nside=16384 npix=3221225472 day_start=1 day_count=1 segs=10
+blockage=1 occ_mode=2  [Viss stage: blockage=ON, phase_correct=ON]
+ sky_dir=/viss_optimize_ws_experiments/earth_30Mhz out_dir=/viss_optimize_ws_experiments/experiment_results/4090_final_suite_20260705_143116/stage_30m_stream_main/30m_day1_count1_seg10_slab134217728/ gpus=0,1,2,3 C_mode=bin
+viss_mode=fast recon_mode=rep tile_mode=0 use_tilecone=1 write_output=1 metrics_csv=/viss_optimize_ws_experiments/experiment_results/4090_final_suite_20260705_143116/stage_30m_stream_main_runtime.csv
+theta=1.02119 phi=2.1204 cosphi=-0.522349 lamda=10
+Loaded B from /viss_optimize_ws_experiments/earth_30Mhz/B_30M.bin in 6.76965 s
+Online orbit plan: OrbitRes=62832 ProcessionCount=10 segLen=20944 T=209440 N=11728640
+Segment plan: max_tlen=20944 max_segN=1172864 max_segN_half=586432
+sky_slab_pix=134217728 full_sky_resident=0 (stream-only)
+Init GPUs in 0.398333 s
+Baseline broadcast: gen_dev=0 need_host_stage=1
+===== Day 1 / 1 =====
+Orbit generator initialized on dev=0 in 0.0337212 s
+[day 1 seg 1/10] t0=0 segN=1172864 segN_half=586432 VissTime=187.593s ReconSegTime=72.669s fa=-0.000597602 fb=0.577127 denom=3.09877e+22 nuniq_halfgrid=86668 RES=46187 u=[-1092.36,1092.36] v=[-919.887,919.887] w=[-530.832,530.832]
+[day 1 seg 2/10] t0=20944 segN=1172864 segN_half=586432 VissTime=189.868s ReconSegTime=75.1363s fa=-0.0010083 fb=0.577089 denom=3.95852e+22 nuniq_halfgrid=90734 RES=46185 u=[-1154.09,1154.09] v=[-907.184,907.184] w=[-523.904,523.904]
+[day 1 seg 3/10] t0=41888 segN=1172864 segN_half=586432 VissTime=188.352s ReconSegTime=83.5394s fa=-0.00181875 fb=0.577126 denom=6.15275e+22 nuniq_halfgrid=101330 RES=46187 u=[-1277.27,1277.27] v=[-1133.28,1133.28] w=[-653.956,653.956]
+[day 1 seg 4/10] t0=62832 segN=1172864 segN_half=586432 VissTime=188.767s ReconSegTime=94.4312s fa=-0.00302035 fb=0.57708 denom=1.01598e+23 nuniq_halfgrid=114155 RES=46185 u=[-1461.88,1461.88] v=[-1107.16,1107.16] w=[-636.407,636.407]
+[day 1 seg 5/10] t0=83776 segN=1172864 segN_half=586432 VissTime=184.938s ReconSegTime=118.859s fa=-0.00360887 fb=0.577239 denom=1.29181e+23 nuniq_halfgrid=140076 RES=46189 u=[-1374.8,1374.8] v=[-1346.81,1346.81] w=[-777.24,777.24]
+[day 1 seg 6/10] t0=104720 segN=1172864 segN_half=586432 VissTime=186.802s ReconSegTime=106.709s fa=-0.00426609 fb=0.57716 denom=1.6939e+23 nuniq_halfgrid=130022 RES=46187 u=[-1646.79,1646.79] v=[-1453.53,1453.53] w=[-838.844,838.844]
+[day 1 seg 7/10] t0=125664 segN=1172864 segN_half=586432 VissTime=188.798s ReconSegTime=111.524s fa=-0.00503632 fb=0.577091 denom=2.20762e+23 nuniq_halfgrid=135115 RES=46185 u=[-1769.98,1769.98] v=[-1548.62,1548.62] w=[-892.683,892.683]
+[day 1 seg 8/10] t0=146608 segN=1172864 segN_half=586432 VissTime=184.752s ReconSegTime=138.455s fa=-0.0059708 fb=0.577207 denom=2.98518e+23 nuniq_halfgrid=162739 RES=46189 u=[-1839.94,1839.94] v=[-1667,1667] w=[-962.059,962.059]
+[day 1 seg 9/10] t0=167552 segN=1172864 segN_half=586432 VissTime=184.11s ReconSegTime=148.419s fa=-0.0068138 fb=0.577207 denom=3.84257e+23 nuniq_halfgrid=174537 RES=46189 u=[-1869.59,1869.59] v=[-1773.75,1773.75] w=[-1023.65,1023.65]
+[day 1 seg 10/10] t0=188496 segN=1172864 segN_half=586432 VissTime=189.315s ReconSegTime=130.555s fa=-0.00745085 fb=0.577045 denom=4.63485e+23 nuniq_halfgrid=157970 RES=46185 u=[-2139.51,2139.51] v=[-1778.32,1778.32] w=[-1021.44,1021.44]
+Recon done in 2953.65 s
+Wrote /viss_optimize_ws_experiments/experiment_results/4090_final_suite_20260705_143116/stage_30m_stream_main/30m_day1_count1_seg10_slab134217728/C1day30M.bin in 3.50033 s
+Runtime CSV: /viss_optimize_ws_experiments/experiment_results/4090_final_suite_20260705_143116/stage_30m_stream_main_runtime.csv

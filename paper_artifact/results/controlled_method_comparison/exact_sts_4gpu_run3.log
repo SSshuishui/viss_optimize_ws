@@ -1,0 +1,28 @@
+CUDA_VISIBLE_DEVICES=0,1,2,3
+Visible logical GPUs: 0,1,2,3
+btag=10M nside=4096 npix=201326592 day_start=1 day_count=1 segs=10 time_start=0 time_count=0 grid_cell_scale=1 profile=1 write_output=0 run_tag=exact_sts_4gpu_run3
+blockage=1 occ_mode=0  [Viss stage: blockage=ON, phase_correct=ON]
+ sky_dir=/viss_optimize_ws_experiments/earth_10Mhz out_dir=/viss_optimize_ws_experiments/system_viss_recon_3d_dcf_controlled/timing_controlled_4gpu/exact_run3/ gpus=0,1,2,3 C_mode=bin
+theta=1.02119 phi=2.1204 cosphi=-0.522349 lamda=30
+Loaded B from /viss_optimize_ws_experiments/earth_10Mhz/B_10M.bin in 0.44462 s
+ pix_area=6.24178e-08 inv_pix_area=1.60211e+07
+Online orbit plan: OrbitRes=20944 ProcessionCount=10 segLen=6981 T_full=69810 selected_time_start=0 selected_T=69810 N=3909360
+Segment plan: max_tlen=6981 max_segN=390936 max_segN_half=195468
+Init GPUs in 0.838427 s
+Observed peak GPU memory after initialization: 2201.25 MiB
+Baseline broadcast: gen_dev=0 need_host_stage=1
+===== Day 1 / 1 =====
+Orbit generator initialized on dev=0 in 0.0830583 s
+[day 1 seg 1/10] t0=0 segN=390936 segN_half=195468 VissTime=3.98754s ReconSegTime=24.6883s fa=-0.00059748 fb=0.577127 denom=4.25016e+19 fit_rmse=0.028086 fit_max_abs=0.168812 nuniq_halfgrid=25358 mean_group=7.70834 max_group=439 grid_scale_req=1 grid_scale_actual=1 du=0.433013 RES=15397 u=[-364.111,364.111] v=[-306.517,306.517] w=[-176.939,176.939]
+[day 1 seg 2/10] t0=6981 segN=390936 segN_half=195468 VissTime=4.02395s ReconSegTime=24.6956s fa=-0.00100829 fb=0.577089 denom=5.42932e+19 fit_rmse=0.0284559 fit_max_abs=0.16566 nuniq_halfgrid=27217 mean_group=7.18183 max_group=359 grid_scale_req=1 grid_scale_actual=1 du=0.433013 RES=15397 u=[-384.693,384.693] v=[-302.307,302.307] w=[-174.61,174.61]
+[day 1 seg 3/10] t0=13962 segN=390936 segN_half=195468 VissTime=3.97885s ReconSegTime=24.96s fa=-0.00181886 fb=0.577126 denom=8.43885e+19 fit_rmse=0.0334622 fit_max_abs=0.211186 nuniq_halfgrid=29919 mean_group=6.53324 max_group=250 grid_scale_req=1 grid_scale_actual=1 du=0.433013 RES=15397 u=[-425.75,425.75] v=[-377.623,377.623] w=[-217.983,217.983]
+[day 1 seg 4/10] t0=20943 segN=390936 segN_half=195468 VissTime=4.01607s ReconSegTime=25.5535s fa=-0.00302034 fb=0.57708 denom=1.39347e+20 fit_rmse=0.0364948 fit_max_abs=0.234517 nuniq_halfgrid=33883 mean_group=5.76891 max_group=196 grid_scale_req=1 grid_scale_actual=1 du=0.433013 RES=15397 u=[-487.286,487.286] v=[-368.689,368.689] w=[-212.018,212.018]
+[day 1 seg 5/10] t0=27924 segN=390936 segN_half=195468 VissTime=3.8917s ReconSegTime=25.9898s fa=-0.00360893 fb=0.577239 denom=1.77181e+20 fit_rmse=0.0486843 fit_max_abs=0.242145 nuniq_halfgrid=38268 mean_group=5.10787 max_group=179 grid_scale_req=1 grid_scale_actual=1 du=0.432957 RES=15399 u=[-458.004,458.004] v=[-448.768,448.768] w=[-259.074,259.074]
+[day 1 seg 6/10] t0=34905 segN=390936 segN_half=195468 VissTime=3.9957s ReconSegTime=25.819s fa=-0.00426615 fb=0.57716 denom=2.3233e+20 fit_rmse=0.0463942 fit_max_abs=0.248187 nuniq_halfgrid=38481 mean_group=5.0796 max_group=156 grid_scale_req=1 grid_scale_actual=1 du=0.433013 RES=15397 u=[-548.926,548.926] v=[-484.334,484.334] w=[-279.608,279.608]
+[day 1 seg 7/10] t0=41886 segN=390936 segN_half=195468 VissTime=3.98398s ReconSegTime=26.1491s fa=-0.00503643 fb=0.577091 denom=3.0279e+20 fit_rmse=0.0457786 fit_max_abs=0.328186 nuniq_halfgrid=40311 mean_group=4.849 max_group=130 grid_scale_req=1 grid_scale_actual=1 du=0.433013 RES=15397 u=[-589.986,589.986] v=[-516.063,516.063] w=[-297.542,297.542]
+[day 1 seg 8/10] t0=48867 segN=390936 segN_half=195468 VissTime=3.98798s ReconSegTime=26.7254s fa=-0.00597092 fb=0.577207 denom=4.09437e+20 fit_rmse=0.0592125 fit_max_abs=0.326901 nuniq_halfgrid=46000 mean_group=4.2493 max_group=109 grid_scale_req=1 grid_scale_actual=1 du=0.432957 RES=15399 u=[-613.254,613.254] v=[-555.467,555.467] w=[-320.675,320.675]
+[day 1 seg 9/10] t0=55848 segN=390936 segN_half=195468 VissTime=3.91225s ReconSegTime=27.1167s fa=-0.00681376 fb=0.577207 denom=5.27032e+20 fit_rmse=0.0638455 fit_max_abs=0.332811 nuniq_halfgrid=49205 mean_group=3.97252 max_group=100 grid_scale_req=1 grid_scale_actual=1 du=0.432957 RES=15399 u=[-623.124,623.124] v=[-591.035,591.035] w=[-341.21,341.21]
+[day 1 seg 10/10] t0=62829 segN=390936 segN_half=195468 VissTime=4.01413s ReconSegTime=26.9207s fa=-0.0074509 fb=0.577045 denom=6.35702e+20 fit_rmse=0.05528 fit_max_abs=0.34432 nuniq_halfgrid=47525 mean_group=4.11295 max_group=98 grid_scale_req=1 grid_scale_actual=1 du=0.433013 RES=15397 u=[-713.162,713.162] v=[-592.698,592.698] w=[-340.378,340.378]
+Recon done in 298.466 s
+Output writing disabled by --write_output=0
+Wrote profiling CSV /viss_optimize_ws_experiments/system_viss_recon_3d_dcf_controlled/timing_controlled_4gpu/exact_run3/profile_day1_10M_exact_sts_4gpu_run3.csv

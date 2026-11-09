@@ -1,0 +1,4 @@
+method,sampled_days,gpus,visibility_s_mean,reconstruction_s_mean,compute_total_s_mean,write_s_mean,wall_total_s_mean,reconstruction_speedup_vs_exact,compute_speedup_vs_exact
+exact_group_sts,5,4,41.368440,275.748400,317.132400,0.231903,317.364400,1.000000,1.000000
+representative_group_sts,5,4,41.334120,22.852360,64.201420,0.232582,64.434000,12.066517,4.939648
+

@@ -1,0 +1,11 @@
+pair,order,position,variant,kernel_s,formal,repeat_bitwise
+0,AB,1,tilecone,4.4613212890625,0,-1
+0,AB,2,point_only,10.8391005859375,0,-1
+1,AB,1,tilecone,4.4697207031249997,1,1
+1,AB,2,point_only,10.8192724609375,1,1
+2,BA,1,point_only,10.8230849609375,1,1
+2,BA,2,tilecone,4.4768032226562502,1,1
+3,BA,1,point_only,10.841615234375,1,1
+3,BA,2,tilecone,4.4826337890624997,1,1
+4,AB,1,tilecone,4.4840429687499999,1,1
+4,AB,2,point_only,10.843203125,1,1

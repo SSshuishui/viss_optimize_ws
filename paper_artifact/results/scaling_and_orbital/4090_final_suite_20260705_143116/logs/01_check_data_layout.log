@@ -1,0 +1,22 @@
++ bash /viss_optimize_ws_experiments/experiments/check_data_layout.sh
+---- 1M: /viss_optimize_ws_experiments/earth_1Mhz ----
+total 40M
+-rw------- 1 root root 40M Jul  5 14:28 B_1M.txt
+-rw------- 1 root root  99 Jul  5 14:28 README.md
+expected npix=3145728 floats
+FOUND B_1M.txt text file; first lines:
+22538.699219
+22606.302734
+22637.289062
+---- 10M: /viss_optimize_ws_experiments/earth_10Mhz ----
+total 769M
+-rw------- 1 root root 768M Jul  5 14:28 B_10M.bin
+-rw------- 1 root root  100 Jul  5 14:28 README.md
+expected npix=201326592 floats
+FOUND B_10M.bin size=805306368 expected_bin_bytes=805306368
+---- 30M: /viss_optimize_ws_experiments/earth_30Mhz ----
+total 13G
+-rw------- 1 root root 12G Jul  5 14:29 B_30M.bin
+-rw------- 1 root root 100 Jul  5 14:28 README.md
+expected npix=3221225472 floats
+FOUND B_30M.bin size=12884901888 expected_bin_bytes=12884901888
