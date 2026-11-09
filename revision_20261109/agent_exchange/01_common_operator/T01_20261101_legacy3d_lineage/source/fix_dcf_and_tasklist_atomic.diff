@@ -1,0 +1,29 @@
+--- original/viss_recon_kernel.cuh
++++ fixed_index_atomic/viss_recon_kernel.cuh
+@@ -1720,7 +1720,7 @@
+     if(!isfinite(bl) || bl <= 1e-20f){
+       wgt = dcf[0];
+     } else {
+-      int gs = (int)ceilf((bl - 0.25f) / 0.5f) + 1;
++      int gs = (int)ceilf((bl - 0.25f) / 0.5f);
+       if(gs < 0) gs = 0;
+       if(gs >= dcf_len) gs = dcf_len - 1;
+ 
+@@ -1868,7 +1868,7 @@
+       acc_re += z.x * c - z.y * s;
+     }
+   }
+-  if(active) Cacc[pix] += acc_re;
++  if(active) atomicAdd(&Cacc[pix], acc_re);
+ }
+ 
+ template<int TILE_PIX, int TILE_BL>
+@@ -1978,7 +1978,7 @@
+       acc_re += z.x * c - z.y * s;
+     }
+   }
+-  if(active) Cacc[pix] += acc_re;
++  if(active) atomicAdd(&Cacc[pix], acc_re);
+ }
+ 
+ template<int TILE_BL>

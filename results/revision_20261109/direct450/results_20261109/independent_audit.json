@@ -1,0 +1,121 @@
+{
+  "schema": "direct450_independent_audit_v1",
+  "summary_path": "/Users/zhaoxiang/Desktop/viss_optimize_ws/experiments/parco_followup_20261105/direct450/results_20261109/merge_summary.json",
+  "summary_sha256": "ed3a671987f7339eaba473443ecce65257728008e0672168ce5621c3e48e188f",
+  "full_domain_comparisons": {
+    "sts_vs_dcf_pooled": {
+      "reference": "corrected-DCF direct pooled N/W",
+      "candidate": "archived original STS pooled C",
+      "global_alpha": 3.8008598743725526,
+      "global_beta": 2.3824600511968366e-05,
+      "metrics": {
+        "pixels": 201326592,
+        "pearson": 0.9583105117269062,
+        "reference_mean": 0.0005175418001679772,
+        "reference_std_population": 0.0006801401170505834,
+        "candidate_mean": 0.00012989618559340125,
+        "raw_relative_l2": 0.7571331541172911,
+        "raw_rmse": 0.0006470898172156859,
+        "raw_rmse_over_reference_std": 0.9514066307715833,
+        "affine_relative_l2": 0.22738412968808178,
+        "affine_rmse": 0.00019433563847715856,
+        "affine_rmse_over_reference_std": 0.285728827936061
+      }
+    },
+    "sts_vs_dcf_raw_n": {
+      "reference": "corrected-DCF direct raw N summed over all days",
+      "candidate": "archived original STS pooled C",
+      "global_alpha": 538603477.2009823,
+      "global_beta": 2563.041678664158,
+      "metrics": {
+        "pixels": 201326592,
+        "pearson": 0.9635326025490173,
+        "reference_mean": 72525.57891441422,
+        "reference_std_population": 95857.37315885899,
+        "candidate_mean": 0.00012989618559340125,
+        "raw_relative_l2": 0.9999999982517804,
+        "raw_rmse": 120202.31085660969,
+        "raw_rmse_over_reference_std": 1.2539704239276954,
+        "affine_relative_l2": 0.21339495579191647,
+        "affine_rmse": 25650.56685617525,
+        "affine_rmse_over_reference_std": 0.2675909636462291
+      }
+    },
+    "direct_vs_input": {
+      "reference": "frozen input sky B",
+      "candidate": "corrected-DCF direct pooled N/W",
+      "global_alpha": 104389.79170812984,
+      "global_beta": 183.99227403311446,
+      "metrics": {
+        "pixels": 201326592,
+        "pearson": 0.44462957102514944,
+        "reference_mean": 238.01835475290014,
+        "reference_std_population": 159.6827781552062,
+        "candidate_mean": 0.0005175418001679772,
+        "raw_relative_l2": 0.9999979127057073,
+        "raw_rmse": 286.61992933327025,
+        "raw_rmse_over_reference_std": 1.7949332585802427,
+        "affine_relative_l2": 0.49902283008609244,
+        "affine_rmse": 143.03018684105703,
+        "affine_rmse_over_reference_std": 0.8957145441322206
+      }
+    },
+    "sts_vs_input": {
+      "reference": "frozen input sky B",
+      "candidate": "archived original STS pooled C",
+      "global_alpha": 438742.4934170856,
+      "global_beta": 181.02737840028277,
+      "metrics": {
+        "pixels": 201326592,
+        "pearson": 0.4711664996298627,
+        "reference_mean": 238.01835475290014,
+        "reference_std_population": 159.6827781552062,
+        "candidate_mean": 0.00012989618559340125,
+        "raw_relative_l2": 0.999999466598848,
+        "raw_rmse": 286.6203747109421,
+        "raw_rmse_over_reference_std": 1.7949360477205432,
+        "affine_relative_l2": 0.491406822374639,
+        "affine_rmse": 140.84728269263525,
+        "affine_rmse_over_reference_std": 0.882044290059486
+      }
+    }
+  },
+  "npz_audit": {
+    "path": "/Users/zhaoxiang/Desktop/viss_optimize_ws/experiments/parco_followup_20261105/direct450/results_20261109/audit_samples8192.npz",
+    "sha256": "f4acc373eaaf944d6c5790c2e5b6f9c6b86c005e1e69f88baf9c849e5d81ced1",
+    "scope": "Fixed full-resolution pixel sample",
+    "interpretation": "Statistics describe this NPZ domain. Global affine coefficients come from the full-resolution summary.",
+    "metrics": {
+      "sts_vs_dcf_pooled": {
+        "pixels": 8192,
+        "pearson": 0.9583184609373182,
+        "raw_relative_l2": 0.7571488376880305,
+        "raw_rmse_over_reference_std": 0.950581499325556,
+        "affine_rmse_over_reference_std": 0.285702575142646,
+        "alpha_from_full_domain": 3.8008598743725526,
+        "beta_from_full_domain": 2.3824600511968366e-05
+      },
+      "direct_vs_input": {
+        "pixels": 8192,
+        "pearson": 0.46482379202523955,
+        "raw_relative_l2": 0.9999978899832725,
+        "raw_rmse_over_reference_std": 1.7775522955208445,
+        "affine_rmse_over_reference_std": 0.8857584805330252,
+        "alpha_from_full_domain": 104389.79170812984,
+        "beta_from_full_domain": 183.99227403311446
+      },
+      "sts_vs_input": {
+        "pixels": 8192,
+        "pearson": 0.4906403077498653,
+        "raw_relative_l2": 0.9999994610903286,
+        "raw_rmse_over_reference_std": 1.7775550882516913,
+        "affine_rmse_over_reference_std": 0.8717080805345897,
+        "alpha_from_full_domain": 438742.4934170856,
+        "beta_from_full_domain": 181.02737840028277
+      }
+    }
+  },
+  "passed": true,
+  "checks_evaluated": 232,
+  "failed_checks": []
+}

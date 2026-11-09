@@ -1,0 +1,4 @@
+# MPICH/Hydra hostfile example (one MPI process per host).
+gpu-node-a:1
+gpu-node-b:1
+gpu-node-c:1

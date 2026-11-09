@@ -1,0 +1,20 @@
+--- original/viss_recon_kernel.cuh
++++ atomic/viss_recon_kernel.cuh
+@@ -1868,7 +1868,7 @@
+       acc_re += z.x * c - z.y * s;
+     }
+   }
+-  if(active) Cacc[pix] += acc_re;
++  if(active) atomicAdd(&Cacc[pix], acc_re);
+ }
+ 
+ template<int TILE_PIX, int TILE_BL>
+@@ -1978,7 +1978,7 @@
+       acc_re += z.x * c - z.y * s;
+     }
+   }
+-  if(active) Cacc[pix] += acc_re;
++  if(active) atomicAdd(&Cacc[pix], acc_re);
+ }
+ 
+ template<int TILE_BL>

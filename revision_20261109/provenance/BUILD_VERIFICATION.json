@@ -1,0 +1,34 @@
+{
+  "date": "2026-11-09",
+  "environment": {
+    "platform": "Linux",
+    "compiler": "CUDA 12.4 / GCC 11",
+    "architecture": "sm_89"
+  },
+  "scope": "Compilation only. No GPU experiments are started by the public build validator.",
+  "completed_components": [
+    "five_day",
+    "sweep",
+    "forward",
+    "direct450",
+    "mature_direct",
+    "corrected_dcf",
+    "cpu_nufft",
+    "microchunk",
+    "mpi"
+  ],
+  "current_server_source_snapshots_compiled": [
+    "mirror_tile_vissfast",
+    "vissfast_streamonly"
+  ],
+  "mpi": "Compiled with the evaluation server existing MPICH user installation; no new installation or MPI/GPU execution.",
+  "static_checks": {
+    "required_files": 16,
+    "python_sources": 67,
+    "shell_scripts": 40,
+    "quoted_includes": 166,
+    "python_imports": 16,
+    "source_manifest_entries": 206
+  },
+  "state": "passed"
+}

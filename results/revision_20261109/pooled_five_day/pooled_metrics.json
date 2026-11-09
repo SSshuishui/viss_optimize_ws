@@ -1,0 +1,391 @@
+{
+  "scope": "Five nonconsecutive 10 MHz sampled orbital days and 8192 fixed output directions.",
+  "frequency_hz": 10000000,
+  "nside": 4096,
+  "ordering": "NEST",
+  "days": [
+    1,
+    113,
+    225,
+    337,
+    450
+  ],
+  "segments_per_day": 10,
+  "independent_half_baselines_per_day": 1954680,
+  "independent_half_baselines_total": 9773400,
+  "directions": 8192,
+  "direction_exclusions": 0,
+  "common_ids_and_production_coordinates_bitwise_across_days": true,
+  "common_pixel_ids_sha256_le_u32": "4e01e00c4787f67d4f208fc2812a32fb5a2615c10f43452df91f95d2adaa5cf3",
+  "latitude_basis": "Native computational latitude asin(n_original), not a Galactic coordinate label.",
+  "daily_corrected_dcf_compared_with_archived_metrics": [
+    {
+      "day": 1,
+      "independent_half_baselines": 1954680,
+      "segments": 10,
+      "original_sts": {
+        "directions": 8192,
+        "pearson": 0.812056144961526,
+        "relative_l2": 0.6093347462475729,
+        "rmse_over_reference_population_std": 0.6225250632948979
+      },
+      "actual_uv_diagnostic": {
+        "directions": 8192,
+        "pearson": 0.8782018327440967,
+        "relative_l2": 0.4956899666206968,
+        "rmse_over_reference_population_std": 0.5064202062093127
+      }
+    },
+    {
+      "day": 113,
+      "independent_half_baselines": 1954680,
+      "segments": 10,
+      "original_sts": {
+        "directions": 8192,
+        "pearson": 0.8947934416715858,
+        "relative_l2": 0.6161229765398892,
+        "rmse_over_reference_population_std": 0.6248262838798323
+      },
+      "actual_uv_diagnostic": {
+        "directions": 8192,
+        "pearson": 0.9235253176136098,
+        "relative_l2": 0.43805618242935546,
+        "rmse_over_reference_population_std": 0.4442441314801372
+      }
+    },
+    {
+      "day": 225,
+      "independent_half_baselines": 1954680,
+      "segments": 10,
+      "original_sts": {
+        "directions": 8192,
+        "pearson": 0.8084987186571092,
+        "relative_l2": 0.6157400074918975,
+        "rmse_over_reference_population_std": 0.632233671099051
+      },
+      "actual_uv_diagnostic": {
+        "directions": 8192,
+        "pearson": 0.8642680540359566,
+        "relative_l2": 0.5163945227504595,
+        "rmse_over_reference_population_std": 0.5302270453138642
+      }
+    },
+    {
+      "day": 337,
+      "independent_half_baselines": 1954680,
+      "segments": 10,
+      "original_sts": {
+        "directions": 8192,
+        "pearson": 0.8389144520026446,
+        "relative_l2": 0.6524995518157547,
+        "rmse_over_reference_population_std": 0.6643912418455902
+      },
+      "actual_uv_diagnostic": {
+        "directions": 8192,
+        "pearson": 0.8834575448751172,
+        "relative_l2": 0.49152332537430043,
+        "rmse_over_reference_population_std": 0.500481251876349
+      }
+    },
+    {
+      "day": 450,
+      "independent_half_baselines": 1954680,
+      "segments": 10,
+      "original_sts": {
+        "directions": 8192,
+        "pearson": 0.8016667902340104,
+        "relative_l2": 0.7160819463659877,
+        "rmse_over_reference_population_std": 0.7283013966855998
+      },
+      "actual_uv_diagnostic": {
+        "directions": 8192,
+        "pearson": 0.8699979996290317,
+        "relative_l2": 0.5328852913057908,
+        "rmse_over_reference_population_std": 0.5419786155771377
+      }
+    }
+  ],
+  "pooled_definition": "For each method and direction, sum daily N and W separately in FP64 and divide once.",
+  "pooled_comparison_to_corrected_dcf": {
+    "original_sts": {
+      "all": {
+        "directions": 8192,
+        "pearson": 0.8493590243626591,
+        "relative_l2": 0.654881676195108,
+        "rmse_over_reference_population_std": 0.6945328281140642
+      },
+      "native_abs_lat_le_30deg": {
+        "directions": 4089,
+        "pearson": 0.8941566070070603,
+        "relative_l2": 0.6503449645034763,
+        "rmse_over_reference_population_std": 0.7397617178487865
+      },
+      "native_abs_lat_gt_30deg_le_60deg": {
+        "directions": 3003,
+        "pearson": 0.7314662696166672,
+        "relative_l2": 0.6872443821077551,
+        "rmse_over_reference_population_std": 0.689673978122329
+      },
+      "native_abs_lat_gt_60deg": {
+        "directions": 1100,
+        "pearson": 0.7289304045573495,
+        "relative_l2": 0.6934779738645656,
+        "rmse_over_reference_population_std": 0.6935512294622066
+      }
+    },
+    "actual_uv_diagnostic": {
+      "all": {
+        "directions": 8192,
+        "pearson": 0.870157134905841,
+        "relative_l2": 0.5007991408375143,
+        "rmse_over_reference_population_std": 0.5311210501778438
+      },
+      "native_abs_lat_le_30deg": {
+        "directions": 4089,
+        "pearson": 0.8917970967538899,
+        "relative_l2": 0.469623605437928,
+        "rmse_over_reference_population_std": 0.5341927500989291
+      },
+      "native_abs_lat_gt_30deg_le_60deg": {
+        "directions": 3003,
+        "pearson": 0.7350871216123419,
+        "relative_l2": 0.691439560685409,
+        "rmse_over_reference_population_std": 0.6938839877985239
+      },
+      "native_abs_lat_gt_60deg": {
+        "directions": 1100,
+        "pearson": 0.7397111142635574,
+        "relative_l2": 0.6997076437789465,
+        "rmse_over_reference_population_std": 0.6997815574482348
+      }
+    }
+  },
+  "equal_day_mean_relative_to_same_method_pooled": {
+    "corrected_dcf": {
+      "directions": 8192,
+      "pearson": 0.9748868404363676,
+      "relative_l2": 0.23223540113953373,
+      "rmse_over_reference_population_std": 0.24629656899056393
+    },
+    "original_sts": {
+      "directions": 8192,
+      "pearson": 0.9621202047585592,
+      "relative_l2": 0.33549094136413055,
+      "rmse_over_reference_population_std": 0.3607247250290611
+    },
+    "actual_uv_diagnostic": {
+      "directions": 8192,
+      "pearson": 0.9619363996589488,
+      "relative_l2": 0.3378781828228396,
+      "rmse_over_reference_population_std": 0.37899014194193265
+    }
+  },
+  "script_sha256": "c5659ecf5df10248beecfd7927f34de3858bb3960811f0b8a86ed8f895f17d7a",
+  "sources_relative_to_exchange_root": [
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/five_day_values.csv",
+      "bytes": 4029,
+      "sha256": "44e2d9fd2b78f7e5015daee3c8883fd66c8e2136957ed84cc2fabe70f2c556ea"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day1/raw_N_mode1.f32",
+      "bytes": 32768,
+      "sha256": "a0083f2fbea7a7076d059c0669c728953591299e36cc7bf458ccd876561828f7"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day1/W_mode1.f64",
+      "bytes": 65536,
+      "sha256": "562fe2801afc3cc8cf00ec23b462d0a9b96b9df4fcadbd447201ee7467703c4d"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day1/ids.u32",
+      "bytes": 32768,
+      "sha256": "4e01e00c4787f67d4f208fc2812a32fb5a2615c10f43452df91f95d2adaa5cf3"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day1/segments.csv",
+      "bytes": 331,
+      "sha256": "fd7206110b272751e218be4dc63cfb528c1b864679688e74e3daa217b5cf4be3"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day1/execution_metrics.json",
+      "bytes": 205,
+      "sha256": "3575b2d68c82c89edc22620c14dc090d063545b8ad14853056a8c9661ca24158"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day1/case_manifest.json",
+      "bytes": 1852,
+      "sha256": "86c725fa8b7ebf3949eb68da76491cb25592867f43b02b5f78c9b124b745bbdb"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/runs/day1_s10_g1_n8192/case.npz",
+      "bytes": 1053189,
+      "sha256": "5d29e1b8e8ce7885a94f74e3905de9754cd2f32aa8061711ff0eea9357cac4c0"
+    },
+    {
+      "path": "01_common_operator/T21_20261101_rep_phase_correction/runs/day1/candidate.npz",
+      "bytes": 305434,
+      "sha256": "1695ccf3ad4efe96bb5b872dffcf00b9ee8707dcd40ccf7d8e3ae2de3a0870e0"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day113/raw_N_mode1.f32",
+      "bytes": 32768,
+      "sha256": "a918737fef4a4c906a6d32b7ca94addf7cd7e90fc7cfd2644ac5df61893f76c0"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day113/W_mode1.f64",
+      "bytes": 65536,
+      "sha256": "f5679473edc120abfdb6d94a0142df8d46d54871ecebbc58f713916819c73972"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day113/ids.u32",
+      "bytes": 32768,
+      "sha256": "4e01e00c4787f67d4f208fc2812a32fb5a2615c10f43452df91f95d2adaa5cf3"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day113/segments.csv",
+      "bytes": 331,
+      "sha256": "fd7206110b272751e218be4dc63cfb528c1b864679688e74e3daa217b5cf4be3"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day113/execution_metrics.json",
+      "bytes": 215,
+      "sha256": "99fb62cc1c39e1cb9c1217eec715e86f59634624a1c903b8aa31fb019e3532c8"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day113/case_manifest.json",
+      "bytes": 2183,
+      "sha256": "22b83318ee5f6d07e82bb27012d98967a07f572ffd851ea186446c4c27a061ff"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/runs/day113_s10_g1_n8192/case.npz",
+      "bytes": 1053170,
+      "sha256": "223075b737828f9c29f7c55d28ac25d42920501f831f55e001685851f8758407"
+    },
+    {
+      "path": "01_common_operator/T21_20261101_rep_phase_five_day_extension/runs/day113/candidate.npz",
+      "bytes": 305073,
+      "sha256": "46e3595d698c1aded94857dcb5b4b31336d259d16f86995f00b49db7a2c71f52"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day225/raw_N_mode1.f32",
+      "bytes": 32768,
+      "sha256": "50307d16d4f7e531260357901b42fb18912150847b2c5c8a234e8bc6bcb91ed6"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day225/W_mode1.f64",
+      "bytes": 65536,
+      "sha256": "289e4b02b87f0cbb310113929862e9a61174b63ff310bc336189c2c424dfffa1"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day225/ids.u32",
+      "bytes": 32768,
+      "sha256": "4e01e00c4787f67d4f208fc2812a32fb5a2615c10f43452df91f95d2adaa5cf3"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day225/segments.csv",
+      "bytes": 331,
+      "sha256": "fd7206110b272751e218be4dc63cfb528c1b864679688e74e3daa217b5cf4be3"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day225/execution_metrics.json",
+      "bytes": 215,
+      "sha256": "7fb542136f085641beb6fdd392a8863e1e8ef4ef16bb1193d1ffe00434b92184"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day225/case_manifest.json",
+      "bytes": 2183,
+      "sha256": "9f9aa4a036c6c0f72cc66e7df0187f739060477992de649bc1843dfac69510bf"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/runs/day225_s10_g1_n8192/case.npz",
+      "bytes": 1053387,
+      "sha256": "0bbbaf585d68d0c4954cc0ed82dd72ae45d38a75a682b8b67a77da7255f353c6"
+    },
+    {
+      "path": "01_common_operator/T21_20261101_rep_phase_five_day_extension/runs/day225/candidate.npz",
+      "bytes": 305137,
+      "sha256": "c1f8f69c6d7d358a072ffc02e0fd8abbf76e0b3d2743d704448953b2f334c133"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day337/raw_N_mode1.f32",
+      "bytes": 32768,
+      "sha256": "e6ad3815d9b8aa8be3bee7bec0fc9109c138a261d6d69757d4bc9dc624a17ad3"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day337/W_mode1.f64",
+      "bytes": 65536,
+      "sha256": "95deb4ddc1cb88a9370f63a121634e245cf9725e3a0252fda6cfe66e05bf7814"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day337/ids.u32",
+      "bytes": 32768,
+      "sha256": "4e01e00c4787f67d4f208fc2812a32fb5a2615c10f43452df91f95d2adaa5cf3"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day337/segments.csv",
+      "bytes": 331,
+      "sha256": "fd7206110b272751e218be4dc63cfb528c1b864679688e74e3daa217b5cf4be3"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day337/execution_metrics.json",
+      "bytes": 215,
+      "sha256": "1300bf4f61165ed7d10baac591255519dfb8e5a06e03f19d4b946da5363a1496"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day337/case_manifest.json",
+      "bytes": 2183,
+      "sha256": "e418cdf68bc9f370364d465d4c422956e91fb0bf09a62c4c20875ba3cca8414f"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/runs/day337_s10_g1_n8192/case.npz",
+      "bytes": 1046798,
+      "sha256": "6faf59b2b12788cb12a80105990b095284243e4b135ddee2f102db77a4442bb0"
+    },
+    {
+      "path": "01_common_operator/T21_20261101_rep_phase_five_day_extension/runs/day337/candidate.npz",
+      "bytes": 303191,
+      "sha256": "2d175e8cc2080e5a24851ac2664c54095111b967eb3532727fa81fa3b673f10c"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day450/raw_N_mode1.f32",
+      "bytes": 32768,
+      "sha256": "48b80cf215ec7fff1cfd3ee37b1aacee7682febfd1201d7fe86adacb7a7d51ec"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day450/W_mode1.f64",
+      "bytes": 65536,
+      "sha256": "abdd4c3a97f9da040940d78ab40c54235639b9aad61a6b17361a1a50de5e44bf"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day450/ids.u32",
+      "bytes": 32768,
+      "sha256": "4e01e00c4787f67d4f208fc2812a32fb5a2615c10f43452df91f95d2adaa5cf3"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day450/segments.csv",
+      "bytes": 331,
+      "sha256": "fd7206110b272751e218be4dc63cfb528c1b864679688e74e3daa217b5cf4be3"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day450/execution_metrics.json",
+      "bytes": 215,
+      "sha256": "d2218c49cd36a7e3d7731e3bb0e63a28099cdc6555d25d183e8f530ca39a8fbe"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_fixed_dcf_five_day/runs/day450/case_manifest.json",
+      "bytes": 2183,
+      "sha256": "37354cbd5b69fd2f318d5686daf24685a9fecd22ccf1d72640fd1fcf08ba62f0"
+    },
+    {
+      "path": "01_common_operator/T01_20261101_production_replay/runs/day450_s10_g1_n8192/case.npz",
+      "bytes": 1048361,
+      "sha256": "3fd03269bc3a7ce1d89330f53f04711d86f0d57dda04b76840ef6d18528f30d9"
+    },
+    {
+      "path": "01_common_operator/T21_20261101_rep_phase_correction/runs/day450/candidate.npz",
+      "bytes": 305062,
+      "sha256": "b005164d6218829bb9574a760be6dd6046439e6fe818085b5bee02fcec57ba4e"
+    }
+  ]
+}

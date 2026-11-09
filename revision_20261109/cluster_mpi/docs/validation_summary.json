@@ -1,0 +1,36 @@
+{
+  "schema": "cluster_preparation_validation_summary_v2",
+  "date": "2026-10-29",
+  "status": "passed",
+  "physical_nodes": 1,
+  "physical_gpu": "RTX4090 GPU1",
+  "a4000_test": false,
+  "cross_node_test": false,
+  "performance_claim": false,
+  "strategies": [
+    "flat",
+    "hierarchical"
+  ],
+  "mpi_positive_cases": 28,
+  "original_reference_cases": 8,
+  "cross_strategy_comparisons": 14,
+  "invalid_configuration_cases": 6,
+  "cpu_comparator_controls_passed": 9,
+  "cpu_launcher_planning_controls_passed": 13,
+  "original_maps_bitwise_equal": true,
+  "serial_checks_bitwise_equal": true,
+  "max_partition_change_map_relative_l2": 6.394238427905648e-07,
+  "max_cross_strategy_map_relative_l2": 9.937871142128349e-08,
+  "max_peak_normalized_abs_all_comparisons": 1.4910425618099269e-06,
+  "binary_sha256": {
+    "cluster": "99b704c40802f4e8e33c9d45a0f687329307cf5ce7e5209d25fd68decb46f7a2",
+    "original": "17249600be9329a58daf85d30f7fdf63a3d08b65eadd98939f5c255d0903539c"
+  },
+  "smoke_matrix_sha256": "786831f43d650d28cb4428ad859cd235732e4ce9dac9b3e96efd0d4a082bfcc2",
+  "cuda_architectures": [
+    "86",
+    "89"
+  ],
+  "source_binding": "build/build_manifest.json and vendor/ORIGIN.json",
+  "scope": "nside8/16,day1,8timestamps,2segments,rep/exact;1/2/3/6MPI processes on1physicalGPU;hierarchical groups simulated using validation-node-size2; not realnode/GPU scaling."
+}

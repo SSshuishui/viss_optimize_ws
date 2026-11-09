@@ -1,0 +1,40 @@
+{
+  "scope": "Generated frozen regression reference data required for the archived validation queue. Supply these separately to references/.",
+  "files": [
+    {
+      "file": "MODE4_G3_p0_allrep_raw.f64x2",
+      "bytes": 1386688,
+      "sha256": "0c823eef2f9f547797f137d05425e8cd4d4fc338a56a10d14921b56e98346b7a"
+    },
+    {
+      "file": "MODE4_G3_p0_small_audit8_progress.f64x2",
+      "bytes": 4096,
+      "sha256": "53b1c4a21ca076b30d372f390a27c2ff94bd40dd515f6a587332a6eaf9845571"
+    },
+    {
+      "file": "MODE4_G3_sample_NWC.bin",
+      "bytes": 32768,
+      "sha256": "5fed6dfceb36fb40ac884e283a7020e58c225a1d28e8d7ca4460101d322297f8"
+    },
+    {
+      "file": "full_keys.i32",
+      "bytes": 346672,
+      "sha256": "486ac011f922599c140c02d6e006735b046daa058c842c53f65c31a5e5a9e1ec"
+    },
+    {
+      "file": "rep_geometry.bin",
+      "bytes": 5546808,
+      "sha256": "31823e4962be3c7fe6277bc547ff90bd347de008e509d502e9f768f4ee59b02c"
+    },
+    {
+      "file": "rep_half_idx.i32",
+      "bytes": 346672,
+      "sha256": "618bb6496faa34caa3878f37b82e004c3437f9cbbe54f85a53b203d133f2c005"
+    },
+    {
+      "file": "sample_directions.bin",
+      "bytes": 32768,
+      "sha256": "7f670d2ea185c929ce654445018f3c2a4c210fb1c37a92cbe2d304cc99c25f58"
+    }
+  ]
+}

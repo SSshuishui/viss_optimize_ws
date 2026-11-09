@@ -14,3 +14,22 @@ main_recon_online_mirror_tile_vissfast_streamonly
 main_3d_vissfast
 out*/
 experiment_results/
+
+# Revision artifact generated arrays and executables
+*.f32
+*.f64
+*.f32c
+*.u32
+*.npz
+*.npy
+*.ptx
+*.cubin
+*.fatbin
+revision_20261109/**/build/
+revision_20261109/**/bin/
+revision_20261109/**/run/
+revision_20261109/**/cache/
+revision_20261109/**/daily_cache/
+revision_20261109/**/lanes/
+revision_20261109/**/direct_daily/
+revision_20261109/**/forward_uuid/

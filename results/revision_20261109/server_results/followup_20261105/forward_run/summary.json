@@ -1,0 +1,114 @@
+{
+  "metadata": {
+    "frequency_hz": "10000000",
+    "nside": "4096",
+    "pixels": "201326592",
+    "day": "1",
+    "seed": "42",
+    "t0": "0",
+    "tlen": "1280",
+    "half_baselines": "35840",
+    "blocks": "140",
+    "tile": "256",
+    "orbit_init_s": "0.0033346529999999999"
+  },
+  "return_code": 0,
+  "kernel_s": {
+    "tilecone": [
+      4.469720703125,
+      4.47680322265625,
+      4.4826337890625,
+      4.48404296875
+    ],
+    "point_only": [
+      10.8192724609375,
+      10.8230849609375,
+      10.841615234375,
+      10.843203125
+    ]
+  },
+  "kernel_median_s": {
+    "tilecone": 4.479718505859375,
+    "point_only": 10.83235009765625
+  },
+  "point_only_over_tilecone_median_ratio": 2.418087226571886,
+  "point_only_over_tilecone_paired_ratios": [
+    2.4205701383921414,
+    2.417592291339482,
+    2.418581518041522,
+    2.4181755617794
+  ],
+  "point_only_over_tilecone_median_paired_ratio": 2.418378539910461,
+  "geometry_prepare_wall_s": {
+    "online_ready": [
+      2.2212e-05,
+      2.1517e-05,
+      2.0171e-05,
+      2.0822e-05,
+      2.0007e-05,
+      2.0564e-05,
+      2.0691e-05,
+      2.0718e-05
+    ],
+    "cached_file_to_device": [
+      0.00049236,
+      0.000436574,
+      0.000390966,
+      0.00038459,
+      0.000393482,
+      0.00039044,
+      0.000392093,
+      0.00038912
+    ]
+  },
+  "geometry_prepare_median_s": {
+    "online_ready": 2.0704499999999998e-05,
+    "cached_file_to_device": 0.0003915295
+  },
+  "all_geometry_repeats_bitwise": true,
+  "all_kernel_repeats_bitwise_within_variant": true,
+  "tolerance_relative_l2_and_max_over_peak": 1e-05,
+  "all_pairs_numerically_close": true,
+  "raw_complex_vector_pair_errors": [
+    {
+      "pair": "0",
+      "formal": "0",
+      "relative_l2": "3.0792745294950641e-08",
+      "max_over_peak": "2.077001176321781e-07",
+      "max_absolute": "4.2134708470105214e-05",
+      "changed_complex_words": "100"
+    },
+    {
+      "pair": "1",
+      "formal": "1",
+      "relative_l2": "3.0792745294950641e-08",
+      "max_over_peak": "2.077001176321781e-07",
+      "max_absolute": "4.2134708470105214e-05",
+      "changed_complex_words": "100"
+    },
+    {
+      "pair": "2",
+      "formal": "1",
+      "relative_l2": "3.0792745294950641e-08",
+      "max_over_peak": "2.077001176321781e-07",
+      "max_absolute": "4.2134708470105214e-05",
+      "changed_complex_words": "100"
+    },
+    {
+      "pair": "3",
+      "formal": "1",
+      "relative_l2": "3.0792745294950641e-08",
+      "max_over_peak": "2.077001176321781e-07",
+      "max_absolute": "4.2134708470105214e-05",
+      "changed_complex_words": "100"
+    },
+    {
+      "pair": "4",
+      "formal": "1",
+      "relative_l2": "3.0792745294950641e-08",
+      "max_over_peak": "2.077001176321781e-07",
+      "max_absolute": "4.2134708470105214e-05",
+      "changed_complex_words": "100"
+    }
+  ]
+}

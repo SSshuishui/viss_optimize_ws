@@ -1,0 +1,313 @@
+--- original_main.txt
++++ main_production_regression.cu
+@@ -1,8 +1,21 @@
+-#include "common_mirror_tile_vissfast_streamonly.hpp"
+-#include "orbit_online_mirror_tile_vissfast_streamonly.cuh"
+-#include "viss_recon_kernel_mirror_tile_vissfast_streamonly.cuh"
++#include "production/common_mirror_tile_vissfast_streamonly.hpp"
++#include "allocation_tracking.hpp"
++#include "production/orbit_online_mirror_tile_vissfast_streamonly.cuh"
++#include "production/viss_recon_kernel_mirror_tile_vissfast_streamonly.cuh"
++#include "validated/candidate_generated.cuh"
++#include "regression_support.hpp"
+ 
+ int main(int argc,char** argv){
++  try {
++  HostTimer process_timer;process_timer.tic();
++  const std::string stage=get_arg(argc,argv,"--regression_stage","INVALID");
++  const int reg_mode=to_int(get_arg(argc,argv,"--regression_mode","-1"),-1);
++  const std::string reg_identity=get_arg(argc,argv,"--execution_identity","");
++  const std::string refs_dir=get_arg(argc,argv,"--references","");
++  prod::require((stage=="prefix"||stage=="capacity"||stage=="full")&&(reg_mode==0||reg_mode==4)&&reg_identity.size()==64&&!refs_dir.empty(),"regression CLI identity/stage");
++  prod::pause_path=get_arg(argc,argv,"--pause_file","");
++  std::signal(SIGTERM,prod::stop_handler);std::signal(SIGINT,prod::stop_handler);
++  prod::References references(refs_dir);
+   std::string btag=get_arg(argc,argv,"--btag","10M");
+   int nside=to_int(get_arg(argc,argv,"--nside","4096"),4096);
+   int day=to_int(get_arg(argc,argv,"--day","1"),1);
+@@ -54,8 +67,14 @@
+   if(!out_dir.empty() && out_dir.back()!='/') out_dir.push_back('/');
+   ensure_dir(out_dir);
+ 
+-  auto visible_gpus = parse_gpus(gpus_s);
+-  int requested_G = (int)visible_gpus.size();
++  const std::string uuid2="GPU-d26f44d0-c546-24e1-433c-49a053ecf0ee",uuid3="GPU-99fbd651-f080-aa22-391b-f33caa723578";
++  prod::require(gpus_s==(stage=="prefix"?uuid2:uuid2+","+uuid3),"only frozen GPU2/3 UUIDs in fixed order allowed");
++  prod::require(btag=="30M"&&nside==16384&&day_start==1&&day_count==1&&segs==10&&segment_limit==1&&sample_count==2048&&blockage==1&&occ_mode==2&&write_output==0&&write_viss==0&&write_baseline_txt==0&&B_mode=="bin"&&orbit_seed==42&&viss_tile_pix==256&&gen_gpu_index==0,"fixed full original production parameters");
++  prod::require(sky_slab_pix==(1LL<<25)||sky_slab_pix==(1LL<<27),"frozen IO layouts only");
++  prod::require(stage!="prefix"||sky_slab_pix==(1LL<<25),"prefix uses first original 2^25 pixels");
++  int requested_G=stage=="prefix"?1:2;
++  prodalloc::log.open(out_dir+"allocation.csv");prodalloc::log<<"logical,requested_bytes,rc,free_bytes,total_bytes\n";
++  prod::require(!prod::pause(),"PAUSE before CUDA work");
+ 
+   int devCount=0;
+   CHECK_CUDA(cudaGetDeviceCount(&devCount));
+@@ -64,13 +83,8 @@
+     return 1;
+   }
+ 
+-  int G = devCount;
+-  if(requested_G > 0 && requested_G != devCount){
+-    std::cerr<<"WARNING requested "<<requested_G
+-             <<" GPUs via --gpus="<<gpus_s
+-             <<", but CUDA sees "<<devCount
+-             <<". Use visible count = "<<devCount<<".\n";
+-  }
++  prod::require(devCount==requested_G,"visible CUDA count must equal frozen UUID list; no fallback");
++  int G=devCount;
+ 
+   std::vector<int> gpus(G);
+   for(int i=0;i<G;i++) gpus[i] = i;
+@@ -145,7 +159,9 @@
+             << " max_segN=" << max_segN
+             << " max_segN_half=" << max_segN_half << "\n";
+ 
++  prod::require(npix==3221225472LL&&max_tlen==20944&&max_segN_half==586432&&OrbitRes==62832&&T==209440,"full 30MHz computational plan");
+   std::vector<GpuCtx> ctx(G);
++  std::vector<std::array<double2*,2>> d_state(G),d_comp(G);
+   std::vector<size_t> peak_used_bytes((size_t)G, 0);
+   auto sample_gpu_memory = [&](){
+     for(int gi=0; gi<G; ++gi){
+@@ -255,10 +271,13 @@
+       CHECK_CUDA(cudaMalloc(&sg.d_invn2,(size_t)max_segN*sizeof(float)));
+       CHECK_CUDA(cudaMalloc(&sg.d_Vpart,(size_t)max_segN_half*sizeof(float2)));
+       CHECK_CUDA(cudaMalloc(&sg.d_Viss,(size_t)max_segN_half*sizeof(float2)));
++      CHECK_CUDA(cudaMalloc(&d_state[gi][slot],(size_t)max_segN_half*sizeof(double2)));
++      CHECK_CUDA(cudaMalloc(&d_comp[gi][slot],(size_t)max_segN_half*sizeof(double2)));
+       CHECK_CUDA(cudaMallocHost(&sg.h_Vpart,(size_t)max_segN_half*sizeof(float2)));
+       CHECK_CUDA(cudaEventCreateWithFlags(&sg.ready, cudaEventDisableTiming));
+     }
+ 
++    if(stage!="prefix"){
+     CHECK_CUDA(cudaMalloc(&ctx[gi].d_Cacc,(size_t)n_chunk*sizeof(float)));
+     CHECK_CUDA(cudaMemsetAsync(ctx[gi].d_Cacc,0,(size_t)n_chunk*sizeof(float),ctx[gi].xfer_stream));
+     CHECK_CUDA(cudaMalloc(&ctx[gi].d_Cseg,(size_t)work_cap*sizeof(float)));
+@@ -268,6 +287,7 @@
+       CHECK_CUDA(cudaMalloc(&ctx[gi].d_Wseg,(size_t)work_cap*sizeof(uint32_t)));
+     }
+ 
++    }
+     CHECK_CUDA(cudaMalloc(&ctx[gi].d_keys_buf, (size_t)max_segN_half*sizeof(int)));
+     CHECK_CUDA(cudaMalloc(&ctx[gi].d_repidx_buf, (size_t)max_segN_half*sizeof(int)));
+     CHECK_CUDA(cudaMalloc(&ctx[gi].d_ugu_buf, (size_t)max_segN_half*sizeof(float)));
+@@ -341,7 +361,7 @@
+     double reconstruction_total_s = 0.0;
+     long long occupied_groups_total = 0;
+     std::cout << "===== Day " << dayid << " / " << (day_start + day_count - 1) << " =====\n";
+-    reset_daily_accumulators();
++    if(stage!="prefix") reset_daily_accumulators();
+ 
+     std::ofstream ofsViss;
+     if(write_viss){
+@@ -397,48 +417,106 @@
+         write_txt_3cols_stream(ofsXYZb, gcur.h_x2, gcur.h_y2, gcur.h_z2, (size_t)segN);
+       }
+ 
++      uint64_t geom_hash=references.geometry(gcur,cosphi);
++      prod::require(t0==0&&tlen==20944&&segN_half==586432,"first original segment/full half baseline identity");
++      prod::memory(out_dir,G,stage!="prefix");
+       HostTimer t_vseg; t_vseg.tic();
+       const int BLOCKV=256;
+       int gridV=(segN_half + BLOCKV - 1)/BLOCKV;
+       size_t shmem=(size_t)viss_tile_pix*5*sizeof(float);
+       std::vector<std::vector<float2>> partial_gpu(G, std::vector<float2>((size_t)segN_half, make_float2(0,0)));
+ 
++
++      if(stage=="prefix"){
++        int gi=0;CHECK_CUDA(cudaSetDevice(0));auto stream=ctx[0].compute_stream;auto&slot=ctx[0].slots[cur];
++        CHECK_CUDA(cudaStreamWaitEvent(stream,slot.ready,0));int slabN=1<<25;
++        int ntile_cur=prepare_slab_viss(0,0,slabN,stream);
++        HostTimer prefix_original;prefix_original.tic();
++        viss_partial_all_halfsym_tilecone<256,true><<<gridV,BLOCKV,shmem,stream>>>(
++            ctx[gi].d_B,ctx[gi].d_l,ctx[gi].d_m,ctx[gi].d_n,ctx[gi].d_nm1,slabN,
++            ctx[gi].d_tile_cx,ctx[gi].d_tile_cy,ctx[gi].d_tile_cz,ctx[gi].d_tile_cosA,ctx[gi].d_tile_sinA,ntile_cur,
++            slot.d_u,slot.d_v,slot.d_w,slot.d_x1,slot.d_y1,slot.d_z1,slot.d_invn1,
++            slot.d_x2,slot.d_y2,slot.d_z2,slot.d_invn2,segN_half,cosphi,slot.d_Vpart);
++        std::vector<float2>a(segN_half),b(segN_half);CHECK_CUDA(cudaMemcpyAsync(a.data(),slot.d_Vpart,a.size()*8,cudaMemcpyDeviceToHost,stream));CHECK_CUDA(cudaStreamSynchronize(stream));
++        double prefix_original_s=prefix_original.toc_s();
++        slab_candidate<256,true,0><<<gridV,BLOCKV,shmem,stream>>>(
++            ctx[gi].d_B,ctx[gi].d_l,ctx[gi].d_m,ctx[gi].d_n,ctx[gi].d_nm1,slabN,
++            ctx[gi].d_tile_cx,ctx[gi].d_tile_cy,ctx[gi].d_tile_cz,ctx[gi].d_tile_cosA,ctx[gi].d_tile_sinA,ntile_cur,
++            slot.d_u,slot.d_v,slot.d_w,slot.d_x1,slot.d_y1,slot.d_z1,slot.d_invn1,
++            slot.d_x2,slot.d_y2,slot.d_z2,slot.d_invn2,segN_half,cosphi,slot.d_Vpart,d_state[0][cur],d_comp[0][cur]);
++        CHECK_CUDA(cudaMemcpyAsync(b.data(),slot.d_Vpart,b.size()*8,cudaMemcpyDeviceToHost,stream));CHECK_CUDA(cudaStreamSynchronize(stream));
++        bool clone=!std::memcmp(a.data(),b.data(),a.size()*8);prod::text(std::filesystem::path(out_dir)/"clone_gate.json",std::string("{\"pass\":")+(clone?"true":"false")+",\"bitwise\":"+(clone?"true":"false")+",\"all_half_baselines\":586432,\"input_pixels\":33554432}\n");prod::require(clone,"original header versus MODE0 clone");
++        for(int z=0;z<2;z++){CHECK_CUDA(cudaMemsetAsync(d_state[0][z],0,segN_half*16,stream));CHECK_CUDA(cudaMemsetAsync(d_comp[0][z],0,segN_half*16,stream));}
++        HostTimer prefix_micro;prefix_micro.tic();
++        slab_candidate<256,true,4><<<gridV,BLOCKV,shmem,stream>>>(
++            ctx[gi].d_B,ctx[gi].d_l,ctx[gi].d_m,ctx[gi].d_n,ctx[gi].d_nm1,slabN,
++            ctx[gi].d_tile_cx,ctx[gi].d_tile_cy,ctx[gi].d_tile_cz,ctx[gi].d_tile_cosA,ctx[gi].d_tile_sinA,ntile_cur,
++            slot.d_u,slot.d_v,slot.d_w,slot.d_x1,slot.d_y1,slot.d_z1,slot.d_invn1,
++            slot.d_x2,slot.d_y2,slot.d_z2,slot.d_invn2,segN_half,cosphi,slot.d_Vpart,d_state[0][cur],d_comp[0][cur]);
++        std::vector<double2>state(segN_half);CHECK_CUDA(cudaMemcpyAsync(state.data(),d_state[0][cur],state.size()*16,cudaMemcpyDeviceToHost,stream));CHECK_CUDA(cudaStreamSynchronize(stream));
++        double prefix_micro_s=prefix_micro.toc_s();
++        references.state(state,std::filesystem::path(out_dir)/"prefix_micro_reference",true);
++        // Exercise reset of the alternate state buffer using the same first-segment geometry.
++        CHECK_CUDA(cudaMemsetAsync(d_state[0][cur^1],0x5a,segN_half*16,stream));CHECK_CUDA(cudaMemsetAsync(d_state[0][cur^1],0,segN_half*16,stream));
++        slab_candidate<256,true,4><<<gridV,BLOCKV,shmem,stream>>>(
++            ctx[gi].d_B,ctx[gi].d_l,ctx[gi].d_m,ctx[gi].d_n,ctx[gi].d_nm1,slabN,
++            ctx[gi].d_tile_cx,ctx[gi].d_tile_cy,ctx[gi].d_tile_cz,ctx[gi].d_tile_cosA,ctx[gi].d_tile_sinA,ntile_cur,
++            slot.d_u,slot.d_v,slot.d_w,slot.d_x1,slot.d_y1,slot.d_z1,slot.d_invn1,
++            slot.d_x2,slot.d_y2,slot.d_z2,slot.d_invn2,segN_half,cosphi,slot.d_Vpart,d_state[0][cur^1],d_comp[0][cur^1]);
++        std::vector<double2>second(segN_half);CHECK_CUDA(cudaMemcpyAsync(second.data(),d_state[0][cur^1],second.size()*16,cudaMemcpyDeviceToHost,stream));CHECK_CUDA(cudaStreamSynchronize(stream));prod::require(!std::memcmp(state.data(),second.data(),state.size()*16),"alternate-buffer reset gate");
++        prod::text(std::filesystem::path(out_dir)/"prefix.json","{\"pass\":true,\"all_half_baselines\":586432,\"input_pixels\":33554432,\"original_plan_segments\":10,\"reset_buffers_bitwise\":true,\"scope\":\"one first-segment prefix and alternate state-buffer reset; no full C/W allocated; not complete production\"}\n");
++        std::ostringstream costs;costs<<std::setprecision(12)<<"{\"original_first33M_forward_s\":"<<prefix_original_s<<",\"micro_first33M_forward_s\":"<<prefix_micro_s<<",\"includes_D2H_sync\":true,\"total_internal_process_s\":"<<process_timer.toc_s()<<"}\n";prod::text(std::filesystem::path(out_dir)/"pilot_cost.json",costs.str());
++        std::cout<<"PREFIX_GATE_PASS elapsed_s="<<process_timer.toc_s()<<std::endl;return 0;
++      }
++
++      const std::filesystem::path cache=std::filesystem::path(out_dir)/"forward_raw.f32x2";
++      bool cached=std::filesystem::exists(std::filesystem::path(out_dir)/"forward_committed.bin");
++      std::vector<std::string> forward_errors(G);
++      if(stage=="capacity"){
++        for(int gi=0;gi<G;gi++){CHECK_CUDA(cudaSetDevice(gi));CHECK_CUDA(cudaMemsetAsync(ctx[gi].slots[cur].d_Viss,0,segN_half*8,ctx[gi].compute_stream));CHECK_CUDA(cudaStreamSynchronize(ctx[gi].compute_stream));}
++      }else if(!cached){
+       #pragma omp parallel for num_threads(G)
+       for(int gi=0; gi<G; ++gi){
+-        CHECK_CUDA(cudaSetDevice(ctx[gi].dev));
+-        cudaStream_t stream=ctx[gi].compute_stream;
+-        GpuSegSlot &slot = ctx[gi].slots[cur];
+-        CHECK_CUDA(cudaStreamWaitEvent(stream, slot.ready, 0));
+-        for(long long slab_off=0; slab_off<ctx[gi].n_chunk; slab_off += sky_slab_pix){
+-          int slabN = (int)std::min<long long>(sky_slab_pix, ctx[gi].n_chunk - slab_off);
+-          int ntile_cur = full_sky_resident ? ctx[gi].ntile : prepare_slab_viss(gi, slab_off, slabN, stream);
+-          if(viss_tile_pix==256){
+-            viss_partial_all_halfsym_tilecone<256,true><<<gridV,BLOCKV,shmem,stream>>>(
+-              ctx[gi].d_B,ctx[gi].d_l,ctx[gi].d_m,ctx[gi].d_n,ctx[gi].d_nm1,slabN,
+-              ctx[gi].d_tile_cx, ctx[gi].d_tile_cy, ctx[gi].d_tile_cz,
+-              ctx[gi].d_tile_cosA, ctx[gi].d_tile_sinA, ntile_cur,
+-              slot.d_u, slot.d_v, slot.d_w,
+-              slot.d_x1, slot.d_y1, slot.d_z1, slot.d_invn1,
+-              slot.d_x2, slot.d_y2, slot.d_z2, slot.d_invn2,
+-              segN_half, cosphi, slot.d_Vpart);
+-          } else {
+-            viss_partial_all_halfsym_tilecone<512,true><<<gridV,BLOCKV,shmem,stream>>>(
+-              ctx[gi].d_B,ctx[gi].d_l,ctx[gi].d_m,ctx[gi].d_n,ctx[gi].d_nm1,slabN,
+-              ctx[gi].d_tile_cx, ctx[gi].d_tile_cy, ctx[gi].d_tile_cz,
+-              ctx[gi].d_tile_cosA, ctx[gi].d_tile_sinA, ntile_cur,
+-              slot.d_u, slot.d_v, slot.d_w,
+-              slot.d_x1, slot.d_y1, slot.d_z1, slot.d_invn1,
+-              slot.d_x2, slot.d_y2, slot.d_z2, slot.d_invn2,
+-              segN_half, cosphi, slot.d_Vpart);
+-          }
++       try{
++        CHECK_CUDA(cudaSetDevice(ctx[gi].dev));auto stream=ctx[gi].compute_stream;auto&slot=ctx[gi].slots[cur];CHECK_CUDA(cudaStreamWaitEvent(stream,slot.ready,0));
++        // State starts at zero once per segment / physical partition. Dcomp is identically zero in MODE4.
++        CHECK_CUDA(cudaMemsetAsync(d_state[gi][cur],0,segN_half*16,stream));CHECK_CUDA(cudaMemsetAsync(d_comp[gi][cur],0,segN_half*16,stream));
++        prodck::Header h;std::memcpy(h.identity,reg_identity.c_str(),65);h.geometry_hash=geom_hash;h.npix=npix;h.nside=nside;h.day=dayid;h.seed=orbit_seed;h.t0=t0;h.tlen=tlen;h.mode=reg_mode;h.gi=gi;h.G=G;h.pix0=ctx[gi].pix0;h.n_chunk=ctx[gi].n_chunk;h.slab=sky_slab_pix;h.N_half=segN_half;
++        auto ck=std::filesystem::path(out_dir)/("forward_gpu"+std::to_string(gi)+".ck");
++        std::vector<double2> host_state(segN_half);
++        if(std::filesystem::exists(ck)){auto read=prodck::read(ck,h);h=read.header;if(reg_mode==4)CHECK_CUDA(cudaMemcpyAsync(d_state[gi][cur],read.payload.data(),read.payload.size(),cudaMemcpyHostToDevice,stream));else std::memcpy(partial_gpu[gi].data(),read.payload.data(),read.payload.size());CHECK_CUDA(cudaStreamSynchronize(stream));if(reg_mode==4&&gi==0&&h.next>=(1ULL<<30)){if(h.next==(1ULL<<30)){std::memcpy(host_state.data(),read.payload.data(),read.payload.size());references.state(host_state,std::filesystem::path(out_dir)/"same_prefix_allrep_gate",false);}else prod::require(std::filesystem::exists(std::filesystem::path(out_dir)/"same_prefix_allrep_gate.json"),"checkpoint passed oracle boundary without accepted gate; audit required");}}
++        for(long long slab_off=h.next;slab_off<ctx[gi].n_chunk;slab_off+=sky_slab_pix){
++          if(prod::pause())throw std::runtime_error("paused at saved forward slab boundary");
++          int slabN=(int)std::min<long long>(sky_slab_pix,ctx[gi].n_chunk-slab_off);
++          int ntile_cur=prepare_slab_viss(gi,slab_off,slabN,stream);
++          if(reg_mode==0){viss_partial_all_halfsym_tilecone<256,true><<<gridV,BLOCKV,shmem,stream>>>(
++            ctx[gi].d_B,ctx[gi].d_l,ctx[gi].d_m,ctx[gi].d_n,ctx[gi].d_nm1,slabN,
++            ctx[gi].d_tile_cx,ctx[gi].d_tile_cy,ctx[gi].d_tile_cz,ctx[gi].d_tile_cosA,ctx[gi].d_tile_sinA,ntile_cur,
++            slot.d_u,slot.d_v,slot.d_w,slot.d_x1,slot.d_y1,slot.d_z1,slot.d_invn1,
++            slot.d_x2,slot.d_y2,slot.d_z2,slot.d_invn2,segN_half,cosphi,slot.d_Vpart);}else{slab_candidate<256,true,4><<<gridV,BLOCKV,shmem,stream>>>(
++            ctx[gi].d_B,ctx[gi].d_l,ctx[gi].d_m,ctx[gi].d_n,ctx[gi].d_nm1,slabN,
++            ctx[gi].d_tile_cx,ctx[gi].d_tile_cy,ctx[gi].d_tile_cz,ctx[gi].d_tile_cosA,ctx[gi].d_tile_sinA,ntile_cur,
++            slot.d_u,slot.d_v,slot.d_w,slot.d_x1,slot.d_y1,slot.d_z1,slot.d_invn1,
++            slot.d_x2,slot.d_y2,slot.d_z2,slot.d_invn2,segN_half,cosphi,slot.d_Vpart,d_state[gi][cur],d_comp[gi][cur]);}
+           CHECK_CUDA(cudaPeekAtLastError());
+-          CHECK_CUDA(cudaMemcpyAsync(slot.h_Vpart, slot.d_Vpart, (size_t)segN_half*sizeof(float2), cudaMemcpyDeviceToHost, stream));
+-          CHECK_CUDA(cudaStreamSynchronize(stream));
+-          for(int i=0;i<segN_half;i++){
+-            partial_gpu[gi][i].x += slot.h_Vpart[i].x;
+-            partial_gpu[gi][i].y += slot.h_Vpart[i].y;
+-          }
++          if(reg_mode==0){
++            CHECK_CUDA(cudaMemcpyAsync(slot.h_Vpart,slot.d_Vpart,segN_half*8,cudaMemcpyDeviceToHost,stream));CHECK_CUDA(cudaStreamSynchronize(stream));
++            // This is exactly the original host FP32 per-IO-slab += path.
++            for(int i=0;i<segN_half;i++){partial_gpu[gi][i].x+=slot.h_Vpart[i].x;partial_gpu[gi][i].y+=slot.h_Vpart[i].y;}
++          }else{CHECK_CUDA(cudaMemcpyAsync(host_state.data(),d_state[gi][cur],segN_half*16,cudaMemcpyDeviceToHost,stream));CHECK_CUDA(cudaStreamSynchronize(stream));}
++          h.next=slab_off+slabN;h.nslabs++;
++          prodck::write(ck,h,reg_mode==4?(void*)host_state.data():(void*)partial_gpu[gi].data(),prodck::payload_bytes(h));
++          if(reg_mode==4&&gi==0&&h.next==(1ULL<<30))references.state(host_state,std::filesystem::path(out_dir)/"same_prefix_allrep_gate",false);
++          std::cout<<"FORWARD_CHECKPOINT mode="<<reg_mode<<" gpu="<<gi<<" pixels="<<h.next<<'/'<<h.n_chunk<<std::endl;
+         }
++        if(reg_mode==4){
++          // The persistent DP prefix must be cast once, at physical-partition completion.
++          prod::cast_state<<<gridV,BLOCKV,0,stream>>>(d_state[gi][cur],slot.d_Vpart,segN_half);
++          CHECK_CUDA(cudaMemcpyAsync(partial_gpu[gi].data(),slot.d_Vpart,segN_half*8,cudaMemcpyDeviceToHost,stream));CHECK_CUDA(cudaStreamSynchronize(stream));
++        }
++       }catch(const std::exception&e){forward_errors[gi]=e.what();}
++      }
++      for(const auto&e:forward_errors)if(!e.empty())throw std::runtime_error(e);
+       }
+ 
+       std::vector<float2> hViss_half(segN_half, make_float2(0,0));
+@@ -448,7 +526,13 @@
+           hViss_half[i].y += partial_gpu[gi][i].y;
+         }
+       }
++      if(stage!="capacity"){
++        if(cached){hViss_half=prod::load_forward(out_dir,prod::forward_identity(reg_identity,reg_mode,G,sky_slab_pix,geom_hash));prod::checkpoint_cleanup(out_dir,G);}
++        else{prod::commit_forward(out_dir,prod::forward_identity(reg_identity,reg_mode,G,sky_slab_pix,geom_hash),hViss_half);prod::checkpoint_cleanup(out_dir,G);}
++        for(const auto&v:hViss_half)prod::require(std::isfinite(v.x)&&std::isfinite(v.y),"full forward V finite gate");
++      }
+       phase_correct_viss_halfsym_host(hViss_half.data(), gcur.h_w, segN_half);
++      if(stage!="capacity")prod::blob(std::filesystem::path(out_dir)/"forward_consumed.f32x2",hViss_half.data(),hViss_half.size()*8);
+ 
+       std::vector<float2> hViss_seg;
+       if(write_viss){ hViss_seg.assign(segN, make_float2(0,0)); expand_viss_halfsym_to_full(hViss_half, hViss_seg); }
+@@ -479,6 +563,10 @@
+       CHECK_CUDA(cudaSetDevice(ctx[0].dev));
+       build_groups_device0_half(ctx[0].dev, ctx[0].compute_stream, ctx[0].slots[cur].d_u, ctx[0].slots[cur].d_v, ctx[0].slots[cur].d_Viss, segN_half, du, RES, half, blockage, occ_mode, grp);
+       if(grp.nuniq<=0){ std::cout<<"[day "<<dayid<<" seg "<<(s+1)<<"/"<<segs<<"] nuniq<=0, skip\n"; continue; }
++      references.groups(grp,fa,fb,du,RES,half);
++      prod::memory(out_dir,G,true);
++      prod::text(std::filesystem::path(out_dir)/"group_gate.json","{\"pass\":true,\"half_baselines\":586432,\"groups\":86668,\"full_keys_repidx_geometry_fit_bitwise\":true}\n");
++      if(stage=="capacity"){prod::text(std::filesystem::path(out_dir)/"capacity.json","{\"pass\":true,\"G\":2,\"npix\":3221225472,\"resident_C_W_bytes_each\":12884901888,\"full_geometry_slots\":2,\"original_full_CUB_group_executed\":true}\n");return 0;}
+       occupied_groups_total += (long long)grp.nuniq;
+       if(blockage==0) W_scalar_total += (long long)grp.nuniq;
+ 
+@@ -529,6 +617,7 @@
+         cudaStream_t stream=ctx[gi].compute_stream;
+         long long work_cap = full_sky_resident ? ctx[gi].n_chunk : sky_slab_pix;
+         for(long long slab_off=0; slab_off<ctx[gi].n_chunk; slab_off += sky_slab_pix){
++          if(prod::pause()){CHECK_CUDA(cudaStreamSynchronize(stream));break;}
+           int slabN = (int)std::min<long long>(sky_slab_pix, ctx[gi].n_chunk - slab_off);
+           if(!full_sky_resident) prepare_slab_recon(gi, slab_off, slabN, stream);
+           CHECK_CUDA(cudaMemsetAsync(ctx[gi].d_Cseg, 0, (size_t)slabN*sizeof(float), stream));
+@@ -549,6 +638,7 @@
+         CHECK_CUDA(cudaStreamSynchronize(stream));
+       }
+ 
++      if(prod::pause())throw std::runtime_error("paused inverse; explicit resume replays inverse from committed full forward V");
+       #pragma omp parallel for num_threads(G)
+       for(int gi=0; gi<G; ++gi){
+         CHECK_CUDA(cudaSetDevice(ctx[gi].dev));
+@@ -567,6 +657,8 @@
+       std::cout<<"\n";
+     }
+ 
++    prod::scan(ctx,out_dir,"N");prod::samples(ctx,npix,chunk_size,out_dir,"N");
++    prod::scan(ctx,out_dir,"W");prod::samples(ctx,npix,chunk_size,out_dir,"W");
+     #pragma omp parallel for num_threads(G)
+     for(int gi=0; gi<G; ++gi){
+       CHECK_CUDA(cudaSetDevice(ctx[gi].dev));
+@@ -576,6 +668,8 @@
+       CHECK_CUDA(cudaStreamSynchronize(stream));
+     }
+ 
++    prod::scan(ctx,out_dir,"C");prod::samples(ctx,npix,chunk_size,out_dir,"C");
++    prod::final_info(out_dir,reg_mode,G,sky_slab_pix,process_timer.toc_s());
+     double segment_loop_total_s = t_rec.toc_s();
+     std::cout<<"SHORT_PROFILE segment_limit="<<segment_limit<<" original_segs="<<segs<<" sample_count="<<sample_count<<"\n";
+     if(sample_count>0){
+@@ -661,6 +755,7 @@
+     if(ctx[gi].d_Cacc) cudaFree(ctx[gi].d_Cacc);
+     for(int slot=0; slot<2; ++slot){
+       GpuSegSlot &sg = ctx[gi].slots[slot];
++      if(d_state[gi][slot])cudaFree(d_state[gi][slot]);if(d_comp[gi][slot])cudaFree(d_comp[gi][slot]);
+       if(sg.ready) cudaEventDestroy(sg.ready);
+       if(sg.h_Vpart) cudaFreeHost(sg.h_Vpart);
+       if(sg.d_Viss) cudaFree(sg.d_Viss);
+@@ -702,4 +797,5 @@
+     if(ctx[gi].compute_stream) cudaStreamDestroy(ctx[gi].compute_stream);
+   }
+   return 0;
++  }catch(const std::exception&e){std::cerr<<"REGRESSION_STOP "<<e.what()<<std::endl;return prod::pause()?75:1;}
+ }

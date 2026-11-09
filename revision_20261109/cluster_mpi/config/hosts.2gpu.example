@@ -1,0 +1,5 @@
+# Open MPI: three actual rented hosts, two available GPUs and two ranks per host.
+# Replace these placeholders; this file cannot be used unchanged by the launcher.
+gpu-node-a slots=2 max_slots=2
+gpu-node-b slots=2 max_slots=2
+gpu-node-c slots=2 max_slots=2

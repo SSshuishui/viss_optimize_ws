@@ -1,0 +1,60 @@
+{
+  "schema": "masked_roi_external_baseline_v1",
+  "created_local_date": "2026-11-01",
+  "timezone": "Asia/Shanghai",
+  "status": "CPU_preparation_only_GPU_not_started",
+  "question": "Can type-3 NUFFT exactly represent the baseline-dependent binary mask on declared finite compact ROIs by grouping identical complete mask rows?",
+  "input": {
+    "baseline_selection": "All 1120 existing day1 records of production_fp32_geometry_export_v1, mapped by global timestamp and node pair to the existing production consumed-n visibility cache",
+    "baseline_coordinates_and_endpoints": "Use the mapped cached production rows, no coordinate rescaling",
+    "visibility": "Existing full201M-sky production consumed-n V; no new forward simulation",
+    "phase": "positive 2pi*(u*l+v*m+w*n), FP64 direct/NUFFT from promoted frozen FP32 inputs",
+    "weight": "unit independent baseline weights, no DCF",
+    "normalization": "real dirty C=2*Re(sum(M*V*exp(i phase)))/(2*sum M), zero where denominator is zero"
+  },
+  "ROI_selection_before_statistics": {
+    "nside": 4096,
+    "ordering": "NEST",
+    "faces": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    "within_face_start": 0,
+    "sizes": [4096, 16384, 65536],
+    "case_count": 36,
+    "policy": "Report every case, including all-visible, all-hidden, many-pattern and slow cases. Do not select ROI according to speed or errors.",
+    "coordinate_method": "Face0 prefix uses existing production GPU-exported l/m/n; other faces use frozen CPU production-style NEST conversion. Both implementations consume exactly the same frozen coordinates/masks. CPU-vs-existing-GPU geometry rounding is reported separately, not claimed bitwise equivalent."
+  },
+  "mask_definition": {
+    "source": "Cached raw endpoint xyz and invnorm; original cosphi FP32 from exported geometry",
+    "arithmetic": "Explicit FP32 non-FMA left-associated sum ((l*x + m*y) + n*z)*invnorm for each endpoint; compare >=cosphi, joint AND",
+    "scope": "A frozen finite-precision point-mask target shared exactly by direct and grouped NUFFT. No cone shortcuts and no approximate row clustering.",
+    "check": "Compare this specified CPU arithmetic with existing 2048-direction exported production masks, report count and max dot deviations, without relabeling as original full production mask identity"
+  },
+  "exact_mask_factorization": "For every group g of identical rows m_g(p), sum_j M_j(p)V_j exp(i phase_jp) = sum_g m_g(p) * NUFFT_g(p). All-hidden rows skip; all-visible and boundary groups retain exact row membership. Evaluating each group only at its visible target pixels is the same finite-domain operator.",
+  "planned_methods": [
+    "FP64 CPU direct (1 and16 threads, matching input and mask)",
+    "FP64 GPU direct (same physical GPU/process as cuFINUFFT when authorized)",
+    "exact-mask-group CPU FINUFFT and GPU cuFINUFFT eps1e-6 and1e-9"
+  ],
+  "timing": {
+    "warmup_apply": 1,
+    "measured_apply": 10,
+    "separate": ["mask_build_and_grouping", "input_H2D", "JIT", "all_group_plan_and_setpts", "complete_all_group_apply_mask_scatter", "D2H", "normalization"],
+    "all_valid_observations_kept": true,
+    "failure": "Record memory/time/library failure without retrying faster-looking ROIs. Exact-mask group count can make NUFFT slower; keep the negative result."
+  },
+  "numerical_metrics": ["complex raw sum relativeL2 and max absolute against CPU FP64 direct", "real dirty relativeL2 and RMSE/reference std on fixed direct D>0; candidate zeros retained", "D exact equality", "row_grouping_reconstruction exact bitwise"],
+  "gates": {
+    "group_reconstructed_mask": "exact",
+    "D": "exact",
+    "CPU_GPU_direct_raw_relativeL2_max": 1e-10,
+    "NUFFT_raw_relativeL2_descriptive_thresholds": {"1e-6": 0.0001, "1e-9": 0.0000001},
+    "threshold_scope": "finite declared ROI only; no global production accuracy claim; thresholds are not a reason to discard observations"
+  },
+  "resources": {
+    "new_GPU_execution_currently_allowed": false,
+    "new_forward_or_450day_or_multinode": false,
+    "additional_retained_bytes_max": 104857600,
+    "full_mask_matrices_persisted": false,
+    "resume": "Each ROI/size/epsilon atomic completion with source/input/mask hashes; skip verified completed cases. Plans are per case and released; no full-sky arrays copied."
+  },
+  "limits": ["Exact mask factorization on a compact finite ROI is not proof of fullsphere feasibility", "Actual UVW scale unchanged", "1120 baseline subset is not full daily production coverage", "No claim that all NUFFT or gridding schemes are impossible if this factorization is slow"]
+}

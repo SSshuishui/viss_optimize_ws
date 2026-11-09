@@ -1,0 +1,339 @@
+{
+  "R2.6a_mask_union_census": {
+    "scope": "Exact union census over 12 disjoint face prefixes at Nside=4096. No new NUFFT timing.",
+    "common_half_baseline_rows": 1120,
+    "common_selected_geometry_rows_sha256": "027dee310a9dca261b37a165e3fdf3feaf2f361e691f283dd2e7148c444bda4f",
+    "identity": "Two mask rows match over the union exactly when their archived group IDs match in every face prefix.",
+    "unions": [
+      {
+        "targets_per_face_prefix": 4096,
+        "directions_in_disjoint_union": 49152,
+        "unique_groups": 7,
+        "nonzero_groups": 7,
+        "singleton_nonzero_groups": 0,
+        "median_nonzero_group_size": 112.0,
+        "largest_nonzero_group": 336
+      },
+      {
+        "targets_per_face_prefix": 16384,
+        "directions_in_disjoint_union": 196608,
+        "unique_groups": 83,
+        "nonzero_groups": 83,
+        "singleton_nonzero_groups": 11,
+        "median_nonzero_group_size": 4.0,
+        "largest_nonzero_group": 336
+      },
+      {
+        "targets_per_face_prefix": 65536,
+        "directions_in_disjoint_union": 786432,
+        "unique_groups": 225,
+        "nonzero_groups": 225,
+        "singleton_nonzero_groups": 126,
+        "median_nonzero_group_size": 1.0,
+        "largest_nonzero_group": 336
+      }
+    ],
+    "sources_relative_to_exchange_root": [
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/mask_statistics.json",
+        "bytes": 61680,
+        "sha256": "6c2618bba56e2c7ca5f382d6a666b6812448903de9f9abe45e6e4ba360f85408"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face00_n4096.npz",
+        "bytes": 1289,
+        "sha256": "ff8727164f45b129c69f4ea8852d576d509dbca6bb3c3d201c4f14e9ceb97867"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face01_n4096.npz",
+        "bytes": 1286,
+        "sha256": "c77ef0b5faf1d1191313715bdb071f82882607c0b4571a5e1bdaf39770e47d9b"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face02_n4096.npz",
+        "bytes": 1210,
+        "sha256": "d4d4cf02d96c92269af2ab2ee42efd27f205625e40872b1d47bd790f692f9d8a"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face03_n4096.npz",
+        "bytes": 1282,
+        "sha256": "7ba59144432f871cffdb26eae2a218f5de6f37f021a7ffc73e71aa04a111a6ec"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face04_n4096.npz",
+        "bytes": 1287,
+        "sha256": "17c0d8e05a7203f36ae9009f321fd65f3f535780338961b87a3d54c9c3d62264"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face05_n4096.npz",
+        "bytes": 1286,
+        "sha256": "b31ba431f932d5d3a12b3d84749410d3a4b45bd3f3d0eb288e83039dd059304c"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face06_n4096.npz",
+        "bytes": 1290,
+        "sha256": "c14cad08c90ce4fa7aeed80397dcfea52bab0fd7d6c2fa24db74758984bc773a"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face07_n4096.npz",
+        "bytes": 1210,
+        "sha256": "d4d4cf02d96c92269af2ab2ee42efd27f205625e40872b1d47bd790f692f9d8a"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face08_n4096.npz",
+        "bytes": 1210,
+        "sha256": "d4d4cf02d96c92269af2ab2ee42efd27f205625e40872b1d47bd790f692f9d8a"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face09_n4096.npz",
+        "bytes": 1210,
+        "sha256": "d4d4cf02d96c92269af2ab2ee42efd27f205625e40872b1d47bd790f692f9d8a"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face10_n4096.npz",
+        "bytes": 1210,
+        "sha256": "d4d4cf02d96c92269af2ab2ee42efd27f205625e40872b1d47bd790f692f9d8a"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face11_n4096.npz",
+        "bytes": 1210,
+        "sha256": "d4d4cf02d96c92269af2ab2ee42efd27f205625e40872b1d47bd790f692f9d8a"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face00_n16384.npz",
+        "bytes": 1334,
+        "sha256": "78b0d08ce18e24ed2a587c019d56812770345d350e5c7074fdd45e7d02391aff"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face01_n16384.npz",
+        "bytes": 1331,
+        "sha256": "11b6dc0652d95f965b5bba7c7bbc66f40470e9cc79c84c4fc4ac4d081f516b37"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face02_n16384.npz",
+        "bytes": 1256,
+        "sha256": "6d128c5f1f2457a7a1851dbe1f6421e97f5e3265b07f2d069ceba137590c7b76"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face03_n16384.npz",
+        "bytes": 1327,
+        "sha256": "0b640b56a4d4a881421b686a14d50b63a33d2bb55bdfa89af29a2da0704fd54c"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face04_n16384.npz",
+        "bytes": 4259,
+        "sha256": "431103d632251d40fa5881dad360b1fb63540f66c18195ddd5e2b331b0163680"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face05_n16384.npz",
+        "bytes": 1331,
+        "sha256": "d155d3541543fa8e6e481ff25afa81d3c54baa80e6f253a19287cf5f730c824f"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face06_n16384.npz",
+        "bytes": 1335,
+        "sha256": "1f8cf1aa899467861513b9dd220bcf0abff672d203d9319cd9cf92a8105ff0f2"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face07_n16384.npz",
+        "bytes": 1256,
+        "sha256": "6d128c5f1f2457a7a1851dbe1f6421e97f5e3265b07f2d069ceba137590c7b76"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face08_n16384.npz",
+        "bytes": 3088,
+        "sha256": "993faad5566207815464ed6a6480ee44c45e7634bee915edb33ee1fc68bc4868"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face09_n16384.npz",
+        "bytes": 2971,
+        "sha256": "5f8b32c2fa9438b75e4ab48d2b9fe27078de9c7ffa830e641306f4a30c9b89da"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face10_n16384.npz",
+        "bytes": 1256,
+        "sha256": "6d128c5f1f2457a7a1851dbe1f6421e97f5e3265b07f2d069ceba137590c7b76"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face11_n16384.npz",
+        "bytes": 1256,
+        "sha256": "6d128c5f1f2457a7a1851dbe1f6421e97f5e3265b07f2d069ceba137590c7b76"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face00_n65536.npz",
+        "bytes": 1519,
+        "sha256": "07f30a35126417cbf379d9c68c5b56509dff085bcff324da87563999380c59b6"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face01_n65536.npz",
+        "bytes": 1517,
+        "sha256": "822fe6bbe02385e0dc9c7d827a9231ed474eaa969bff9c131543d1f6a2d39f28"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face02_n65536.npz",
+        "bytes": 1447,
+        "sha256": "04a3ae5f9d8f926811bded391179a0f748ea091cfa1b4cf3c921a089db15105d"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face03_n65536.npz",
+        "bytes": 1513,
+        "sha256": "13d0f94cad2876508b8bbf9a5786a093b07e3969524e6b1023a30969fbe623b0"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face04_n65536.npz",
+        "bytes": 8055,
+        "sha256": "eb93b4fb34e625c9068a2c4aafb164e304ef93bd83dc7801a33fb5b5dbd3858e"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face05_n65536.npz",
+        "bytes": 1516,
+        "sha256": "84a4b60026b10de6588c8f51fb0cdeadc57c6e5a097b00fbf1a342f7ea360719"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face06_n65536.npz",
+        "bytes": 1520,
+        "sha256": "d0af2688f245fe5a0fdb7f1fd9c6eec448020b275c03652d22c6b23da599e9f1"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face07_n65536.npz",
+        "bytes": 1447,
+        "sha256": "04a3ae5f9d8f926811bded391179a0f748ea091cfa1b4cf3c921a089db15105d"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face08_n65536.npz",
+        "bytes": 14294,
+        "sha256": "579287ebd146418b1d60c442ee9c0b45bff23c4bd3a687853d10dbcd7c11907d"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face09_n65536.npz",
+        "bytes": 8223,
+        "sha256": "82652e404469d967d14e47e12f468658f534df8af1a7ff5f242f06db8ba457a9"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face10_n65536.npz",
+        "bytes": 1447,
+        "sha256": "04a3ae5f9d8f926811bded391179a0f748ea091cfa1b4cf3c921a089db15105d"
+      },
+      {
+        "path": "05_baselines/T22_20261101_masked_roi/cases/face11_n65536.npz",
+        "bytes": 1447,
+        "sha256": "04a3ae5f9d8f926811bded391179a0f748ea091cfa1b4cf3c921a089db15105d"
+      }
+    ]
+  },
+  "R2.8_angular_sampling": {
+    "scope": "10 MHz model. Widths use day-1 analytic injections, eight fixed sources, and all 16 opposite-direction pairs per source.",
+    "characteristic_equal_area_pixel_arcmin": 0.8588716029543514,
+    "directional_widths_summary": {
+      "natural": {
+        "observed_opposite_pairs": 125,
+        "right_censored_opposite_pairs": 3,
+        "observed_min_arcmin": 5.634804919755137,
+        "observed_median_arcmin": 8.479933430485715,
+        "observed_max_arcmin": 28.351398058370297,
+        "censored_lower_bounds_arcmin": [
+          38.13027615000918,
+          38.13027615000918,
+          38.13027615000918
+        ],
+        "observed_min_in_characteristic_pixels": 6.560706979218434,
+        "observed_median_in_characteristic_pixels": 9.873342419654337
+      },
+      "fixedDCF": {
+        "observed_opposite_pairs": 126,
+        "right_censored_opposite_pairs": 2,
+        "observed_min_arcmin": 4.4824986328159095,
+        "observed_median_arcmin": 6.6262884837791125,
+        "observed_max_arcmin": 36.12706025591274,
+        "censored_lower_bounds_arcmin": [
+          38.13027615000918,
+          38.13027615000918
+        ],
+        "observed_min_in_characteristic_pixels": 5.2190555810635555,
+        "observed_median_in_characteristic_pixels": 7.715109523921815
+      },
+      "original": {
+        "observed_opposite_pairs": 126,
+        "right_censored_opposite_pairs": 2,
+        "observed_min_arcmin": 3.8588687872976064,
+        "observed_median_arcmin": 5.736354585283234,
+        "observed_max_arcmin": 29.059738457793504,
+        "censored_lower_bounds_arcmin": [
+          38.13027615000918,
+          38.13027615000918
+        ],
+        "observed_min_in_characteristic_pixels": 4.492951884803093,
+        "observed_median_in_characteristic_pixels": 6.678943122058395
+      },
+      "actualuv": {
+        "observed_opposite_pairs": 126,
+        "right_censored_opposite_pairs": 2,
+        "observed_min_arcmin": 4.01277290734604,
+        "observed_median_arcmin": 6.0469273974616,
+        "observed_max_arcmin": 29.51171900896684,
+        "censored_lower_bounds_arcmin": [
+          37.362189107686966,
+          38.13027615000918
+        ],
+        "observed_min_in_characteristic_pixels": 4.672145281719504,
+        "observed_median_in_characteristic_pixels": 7.040548757999851
+      }
+    },
+    "nominal_baseline_scales_by_day": [
+      {
+        "day": 1,
+        "min_baseline_m": 128.996901665872,
+        "max_baseline_m": 21637.903217445928,
+        "lambda_over_Bmax_arcmin": 4.7662845187511484,
+        "nominal_fringe_in_characteristic_pixels": 5.5494727062299605,
+        "nominal_nside_floor_for_two_characteristic_samples_per_fringe": 1476.1762844249115
+      },
+      {
+        "day": 113,
+        "min_baseline_m": 113.32966573156409,
+        "max_baseline_m": 22064.84557737202,
+        "lambda_over_Bmax_arcmin": 4.6740595923006465,
+        "nominal_fringe_in_characteristic_pixels": 5.4420935285586225,
+        "nominal_nside_floor_for_two_characteristic_samples_per_fringe": 1505.3030524026497
+      },
+      {
+        "day": 225,
+        "min_baseline_m": 109.00503527221593,
+        "max_baseline_m": 21504.678011974396,
+        "lambda_over_Bmax_arcmin": 4.795812476993203,
+        "nominal_fringe_in_characteristic_pixels": 5.583852650962658,
+        "nominal_nside_floor_for_two_characteristic_samples_per_fringe": 1467.0874236961997
+      },
+      {
+        "day": 337,
+        "min_baseline_m": 131.24851787047305,
+        "max_baseline_m": 22118.475783884784,
+        "lambda_over_Bmax_arcmin": 4.662726497577606,
+        "nominal_fringe_in_characteristic_pixels": 5.42889819798295,
+        "nominal_nside_floor_for_two_characteristic_samples_per_fringe": 1508.9618005811294
+      },
+      {
+        "day": 450,
+        "min_baseline_m": 745.2337140284059,
+        "max_baseline_m": 34543.100409532046,
+        "lambda_over_Bmax_arcmin": 2.9856151272133395,
+        "nominal_fringe_in_characteristic_pixels": 3.476206591233665,
+        "nominal_nside_floor_for_two_characteristic_samples_per_fringe": 2356.591814956762
+      }
+    ],
+    "interpretation": "Nominal fringe and measured directional widths describe sampling density; neither establishes a full-sky band limit or a sufficient Nyquist grid.",
+    "sources_relative_to_exchange_root": [
+      {
+        "path": "04_geometry_psf/T11_20261101_production_point_responses/opposite_pair_widths.csv",
+        "bytes": 73267,
+        "sha256": "1ac6c237d6970e275f669d3c047d9d40706275976e7a3cf0a69366906e37a4f1"
+      },
+      {
+        "path": "01_common_operator/T01_20261101_production_replay/baseline_scale.json",
+        "bytes": 18431,
+        "sha256": "8cd6e25ccd9b952ac845bf45765010cc0342716da58a61e582586ce12443bb4d"
+      }
+    ]
+  },
+  "script_sha256": "5c33c0f4966fd5c38bda62af80723ef4017fa4eb8ecaa8b9cff5865829da8b28"
+}

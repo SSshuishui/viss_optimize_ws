@@ -1,0 +1,149 @@
+{
+  "state": "completed",
+  "nside": 4096,
+  "pixels": 201326592,
+  "ordering": "NEST",
+  "direction_exclusions": 0,
+  "region_basis": "GPU-native direction tags",
+  "affine_fit": "input = alpha * dirty + beta; a single fit per method applied unchanged to each region",
+  "files": {
+    "input": {
+      "path": "/data/zhaox/research/viss_optimize_ws/earth_10Mhz/B_10M.bin",
+      "sha256": "277b6cb7299f2e8e54cc1758a045e7589686e28dc79a1df2f56aba5fc2d2d5ac",
+      "bytes": 805306368
+    },
+    "direct": {
+      "path": "/data/zhaox/research/parco_revision_20261026/agent_exchange/followup_20261105/r2_3_full_gpu1/direct_export/corrected_dcf_C.f32",
+      "sha256": "0c565355944419f9873d3fbc64e26d1e4ca547065b34330c53b5ee3a689f903d",
+      "bytes": 805306368
+    },
+    "sts": {
+      "path": "/data/zhaox/research/parco_revision_20261026/agent_exchange/07_performance_system/T07_20261027T141000+0800_agentB_timing12gpu01/runs/t07b_rep_1gpu/run_1/C1day10M_t07_t07b_rep_1gpu_r1.bin",
+      "sha256": "fd33641ccfe89fbfd1375bf3c7f8110d7b6781809b08a51ae714244614961f03",
+      "bytes": 805306368
+    },
+    "regions": {
+      "path": "/data/zhaox/research/parco_revision_20261026/agent_exchange/followup_20261105/r2_3_full_gpu1/direct_export/native_regions.u8",
+      "sha256": "a68f591c59da7f5516e6cc6e41f458573031bd513ee274a4392bec27dd3c9fb3",
+      "bytes": 201326592
+    }
+  },
+  "metrics": {
+    "direct": {
+      "global_alpha": 967.0219922084186,
+      "global_beta": 236.43943900590526,
+      "regions": {
+        "all": {
+          "pixels": 201326592,
+          "pearson": 0.046680492432691484,
+          "input_mean": 238.01835475290014,
+          "input_std_population": 159.6827781552062,
+          "dirty_mean": 0.0016327609503368728,
+          "raw_relative_l2": 0.9999945703218334,
+          "raw_rmse": 286.6189713374409,
+          "raw_rmse_over_input_std": 1.794927259211742,
+          "affine_relative_l2": 0.5565152809048869,
+          "affine_rmse": 159.50870342745003,
+          "affine_rmse_over_input_std": 0.9989098716231818
+        },
+        "abs_lat_le_30": {
+          "pixels": 100679680,
+          "pearson": 0.038471370513868584,
+          "input_mean": 235.65831166509858,
+          "input_std_population": 159.42579786189745,
+          "dirty_mean": 0.0031004787441999324,
+          "raw_relative_l2": 0.9999902332694613,
+          "raw_rmse": 284.51686000474933,
+          "raw_rmse_over_input_std": 1.7846350077621187,
+          "affine_relative_l2": 0.560198254827527,
+          "affine_rmse": 159.38740513750562,
+          "affine_rmse_over_input_std": 0.9997591812309756
+        },
+        "abs_lat_gt_30_le_60": {
+          "pixels": 73679664,
+          "pearson": 0.10559443592016818,
+          "input_mean": 250.90784281433343,
+          "input_std_population": 172.6933414729548,
+          "dirty_mean": 0.00022592463370675077,
+          "raw_relative_l2": 0.9999985205688907,
+          "raw_rmse": 304.5939284662496,
+          "raw_rmse_over_input_std": 1.763785018393147,
+          "affine_relative_l2": 0.5675836854947538,
+          "affine_rmse": 172.88280026639234,
+          "affine_rmse_over_input_std": 1.0010970822141814
+        },
+        "abs_lat_gt_60": {
+          "pixels": 26967248,
+          "pearson": 0.008635762820458658,
+          "input_mean": 211.61281397868575,
+          "input_std_population": 113.21523364207441,
+          "dirty_mean": -3.0800781631081577e-06,
+          "raw_relative_l2": 0.999999942479012,
+          "raw_rmse": 239.99513649750804,
+          "raw_rmse_over_input_std": 2.1198131097467274,
+          "affine_relative_l2": 0.48308550313629106,
+          "affine_rmse": 115.93817793404007,
+          "affine_rmse_over_input_std": 1.0240510415813313
+        }
+      }
+    },
+    "sts": {
+      "global_alpha": 3319.8814448927587,
+      "global_beta": 234.7804840348529,
+      "regions": {
+        "all": {
+          "pixels": 201326592,
+          "pearson": 0.09752743829344092,
+          "input_mean": 238.01835475290014,
+          "input_std_population": 159.6827781552062,
+          "dirty_mean": 0.0009752970917164287,
+          "raw_relative_l2": 0.9999962851209959,
+          "raw_rmse": 286.6194628340816,
+          "raw_rmse_over_input_std": 1.7949303371682155,
+          "affine_relative_l2": 0.5544667214586395,
+          "affine_rmse": 158.9215442381576,
+          "affine_rmse_over_input_std": 0.9952328364658792
+        },
+        "abs_lat_le_30": {
+          "pixels": 100679680,
+          "pearson": 0.09642130217826823,
+          "input_mean": 235.65831166509858,
+          "input_std_population": 159.42579786189745,
+          "dirty_mean": 0.0017173509238827256,
+          "raw_relative_l2": 0.9999940080449131,
+          "raw_rmse": 284.51793400249755,
+          "raw_rmse_over_input_std": 1.7846417444243317,
+          "affine_relative_l2": 0.5580235587550845,
+          "affine_rmse": 158.76866139640623,
+          "affine_rmse_over_input_std": 0.9958781045834222
+        },
+        "abs_lat_gt_30_le_60": {
+          "pixels": 73679664,
+          "pearson": 0.1404017970044077,
+          "input_mean": 250.90784281433343,
+          "input_std_population": 172.6933414729548,
+          "dirty_mean": 0.0003494027747033185,
+          "raw_relative_l2": 0.9999980667532138,
+          "raw_rmse": 304.5937902365453,
+          "raw_rmse_over_input_std": 1.763784217958671,
+          "affine_relative_l2": 0.5647979096471554,
+          "affine_rmse": 172.0342686018018,
+          "affine_rmse_over_input_std": 0.996183565240376
+        },
+        "abs_lat_gt_60": {
+          "pixels": 26967248,
+          "pearson": -0.009334245207288538,
+          "input_mean": 211.61281397868575,
+          "input_std_population": 113.21523364207441,
+          "dirty_mean": -8.502835892803836e-05,
+          "raw_relative_l2": 1.000000392351173,
+          "raw_rmse": 239.99524446464497,
+          "raw_rmse_over_input_std": 2.119814063391687,
+          "affine_relative_l2": 0.48557238119659174,
+          "affine_rmse": 116.53501660790535,
+          "affine_rmse_over_input_std": 1.0293227585991325
+        }
+      }
+    }
+  }
+}

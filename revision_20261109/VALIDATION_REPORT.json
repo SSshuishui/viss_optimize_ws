@@ -1,0 +1,13 @@
+{
+  "schema": "artifact_source_validation_v1",
+  "state": "passed",
+  "required_files": 16,
+  "python_sources_compiled": 67,
+  "shell_scripts_syntax_checked": 40,
+  "quoted_includes_checked": 166,
+  "local_python_imports_checked": 16,
+  "source_manifest_entries_checked": 206,
+  "errors": [],
+  "scope": "Static package, Python syntax compilation, bash -n, quoted local/header search dependencies and published source fingerprints.",
+  "cuda_compilation": "Use revision_20261109/build_artifact.py on Linux with CUDA. This validator starts no CUDA runtime or GPU experiment."
+}

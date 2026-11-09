@@ -1,0 +1,239 @@
+{
+  "schema": "parco_public_source_files_v1",
+  "assembled_utc": "2026-11-09T06:19:06.962100+00:00",
+  "files": [
+    {
+      "source": "cluster_mpi/src/main_cluster_mpi.cu",
+      "target": "revision_20261109/cluster_mpi/src/main_cluster_mpi.cu",
+      "bytes": 59625,
+      "source_sha256": "39bdb749d50e426749cdddb2781c8d53d02e7d2ab207c68c429529ef12661aed",
+      "target_sha256": "39bdb749d50e426749cdddb2781c8d53d02e7d2ab207c68c429529ef12661aed",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/vendor/ORIGIN.json",
+      "target": "revision_20261109/cluster_mpi/vendor/ORIGIN.json",
+      "bytes": 2337,
+      "source_sha256": "0e83b5768fdc8eb6a31338d89df4f1e8fa6aedba8f5400a9baa5385ee547e39f",
+      "target_sha256": "0e83b5768fdc8eb6a31338d89df4f1e8fa6aedba8f5400a9baa5385ee547e39f",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/vendor/final_sts/common_mirror_tile_vissfast.hpp",
+      "target": "revision_20261109/cluster_mpi/vendor/final_sts/common_mirror_tile_vissfast.hpp",
+      "bytes": 10689,
+      "source_sha256": "0c6fa65037dae9cd48337fceac27c00bb00647af8e7b228539404438b35c5e0b",
+      "target_sha256": "0c6fa65037dae9cd48337fceac27c00bb00647af8e7b228539404438b35c5e0b",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/vendor/final_sts/main_recon_online_mirror_tile_vissfast.cu",
+      "target": "revision_20261109/cluster_mpi/vendor/final_sts/main_recon_online_mirror_tile_vissfast.cu",
+      "bytes": 42965,
+      "source_sha256": "1daf59a7778c9258594d837b45a02d2013c03514a46a700d47ed4d34eda66990",
+      "target_sha256": "1daf59a7778c9258594d837b45a02d2013c03514a46a700d47ed4d34eda66990",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/vendor/final_sts/orbit_online_mirror_tile_vissfast.cuh",
+      "target": "revision_20261109/cluster_mpi/vendor/final_sts/orbit_online_mirror_tile_vissfast.cuh",
+      "bytes": 18390,
+      "source_sha256": "417f6dee9c52583c27b39c28d0b33034625d88f47295a51d164c49c05fd1d345",
+      "target_sha256": "417f6dee9c52583c27b39c28d0b33034625d88f47295a51d164c49c05fd1d345",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/vendor/final_sts/viss_recon_kernel_mirror_tile_vissfast.cuh",
+      "target": "revision_20261109/cluster_mpi/vendor/final_sts/viss_recon_kernel_mirror_tile_vissfast.cuh",
+      "bytes": 52684,
+      "source_sha256": "d5794f2f13d26174342db7cdbc20cc4959685a7fede4fae9bd58b559d8cec320",
+      "target_sha256": "d5794f2f13d26174342db7cdbc20cc4959685a7fede4fae9bd58b559d8cec320",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/tests/compare_runs.py",
+      "target": "revision_20261109/cluster_mpi/tests/compare_runs.py",
+      "bytes": 13897,
+      "source_sha256": "8dd13889d32c3ec3c4bf304fa59b73ec37404561710709343adbe4a205e77b29",
+      "target_sha256": "8dd13889d32c3ec3c4bf304fa59b73ec37404561710709343adbe4a205e77b29",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/tests/mpi_transport_probe.cpp",
+      "target": "revision_20261109/cluster_mpi/tests/mpi_transport_probe.cpp",
+      "bytes": 11922,
+      "source_sha256": "89e825cde7c8e6c6e420f6f89c334e9b3f3e756c9ab8f1e926cb729bdfa4e888",
+      "target_sha256": "89e825cde7c8e6c6e420f6f89c334e9b3f3e756c9ab8f1e926cb729bdfa4e888",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/tests/run_smoke_matrix.py",
+      "target": "revision_20261109/cluster_mpi/tests/run_smoke_matrix.py",
+      "bytes": 15595,
+      "source_sha256": "f4c76c96839d27b7febc9ddd7f7b2627a9bbfa590616e43d79a6af3c75349278",
+      "target_sha256": "f4c76c96839d27b7febc9ddd7f7b2627a9bbfa590616e43d79a6af3c75349278",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/tests/test_compare_runs.py",
+      "target": "revision_20261109/cluster_mpi/tests/test_compare_runs.py",
+      "bytes": 5614,
+      "source_sha256": "f48629395cebe1da684800023a31a5fd412f81afe2b9ff230fecadee79169f18",
+      "target_sha256": "f48629395cebe1da684800023a31a5fd412f81afe2b9ff230fecadee79169f18",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/tests/test_launcher_plans.py",
+      "target": "revision_20261109/cluster_mpi/tests/test_launcher_plans.py",
+      "bytes": 8164,
+      "source_sha256": "ebef3e67a38279ca9f9b42c40ffcd87b9ca696c3b887957eac67380d82c6d9d0",
+      "target_sha256": "ebef3e67a38279ca9f9b42c40ffcd87b9ca696c3b887957eac67380d82c6d9d0",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/docs/EXPERIMENT_PLAN.md",
+      "target": "revision_20261109/cluster_mpi/docs/EXPERIMENT_PLAN.md",
+      "bytes": 4885,
+      "source_sha256": "fedd7c4ef61318831879ccd7ad6672b896d20bc01edfec1dbb31a6b5a677c111",
+      "target_sha256": "fedd7c4ef61318831879ccd7ad6672b896d20bc01edfec1dbb31a6b5a677c111",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/docs/VALIDATION_PROTOCOL.md",
+      "target": "revision_20261109/cluster_mpi/docs/VALIDATION_PROTOCOL.md",
+      "bytes": 7191,
+      "source_sha256": "029cacca7865b1b1f84c11c8525c14de6b0b0c47fefc6f7acfd1e737667bb32a",
+      "target_sha256": "029cacca7865b1b1f84c11c8525c14de6b0b0c47fefc6f7acfd1e737667bb32a",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/docs/validation_summary.json",
+      "target": "revision_20261109/cluster_mpi/docs/validation_summary.json",
+      "bytes": 1381,
+      "source_sha256": "9c9d22f3f97d8c19d7a1ffefd6bae93f0e72703925a8d1772cb5eee7d5c74c7e",
+      "target_sha256": "9c9d22f3f97d8c19d7a1ffefd6bae93f0e72703925a8d1772cb5eee7d5c74c7e",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/scripts/build.sh",
+      "target": "revision_20261109/cluster_mpi/scripts/build.sh",
+      "bytes": 140,
+      "source_sha256": "e98585f7806333be827ad264a32038027a67d78e98b7371b9c45f94ef7211aff",
+      "target_sha256": "e98585f7806333be827ad264a32038027a67d78e98b7371b9c45f94ef7211aff",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/scripts/build.py",
+      "target": "revision_20261109/cluster_mpi/scripts/build.py",
+      "bytes": 7308,
+      "source_sha256": "9f3dc71f1c53959d6e345d6a3a5cc634e67ae3e442d5bf84d854bce050d64b1d",
+      "target_sha256": "9f3dc71f1c53959d6e345d6a3a5cc634e67ae3e442d5bf84d854bce050d64b1d",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/scripts/env.sh",
+      "target": "revision_20261109/cluster_mpi/scripts/env.sh",
+      "bytes": 395,
+      "source_sha256": "5523d6d44b703af07d690a44ecc8a885bc855fcb1cc94f3b805a2d7ca07384e7",
+      "target_sha256": "5523d6d44b703af07d690a44ecc8a885bc855fcb1cc94f3b805a2d7ca07384e7",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/scripts/bootstrap_mpich.py",
+      "target": "revision_20261109/cluster_mpi/scripts/bootstrap_mpich.py",
+      "bytes": 6510,
+      "source_sha256": "b8d61575be997dda22da7a6f379a0a927c04d84c381df34f5882dd96e152e346",
+      "target_sha256": "b8d61575be997dda22da7a6f379a0a927c04d84c381df34f5882dd96e152e346",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/scripts/launch_background.py",
+      "target": "revision_20261109/cluster_mpi/scripts/launch_background.py",
+      "bytes": 17225,
+      "source_sha256": "092bccde5912154544ed150ba6757647c6a5849362264bb292f014cccc4ac08f",
+      "target_sha256": "092bccde5912154544ed150ba6757647c6a5849362264bb292f014cccc4ac08f",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/scripts/package.sh",
+      "target": "revision_20261109/cluster_mpi/scripts/package.sh",
+      "bytes": 142,
+      "source_sha256": "8eb5264c71aad8eb477d379989c6b74c09e02999d5890ba5dc7a9b0f5a0a1245",
+      "target_sha256": "8eb5264c71aad8eb477d379989c6b74c09e02999d5890ba5dc7a9b0f5a0a1245",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/scripts/package.py",
+      "target": "revision_20261109/cluster_mpi/scripts/package.py",
+      "bytes": 5496,
+      "source_sha256": "3fe178b121e0023d3272c8501aa4ee189479de00a06172c1896fe58face33a3f",
+      "target_sha256": "3fe178b121e0023d3272c8501aa4ee189479de00a06172c1896fe58face33a3f",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/scripts/verify_package.py",
+      "target": "revision_20261109/cluster_mpi/scripts/verify_package.py",
+      "bytes": 1753,
+      "source_sha256": "ca3a6c4a94bbf0c07ba664c4f8b6af176ea7d8ece7d9a220ef12123332b754cd",
+      "target_sha256": "ca3a6c4a94bbf0c07ba664c4f8b6af176ea7d8ece7d9a220ef12123332b754cd",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/config/hosts.2gpu.example",
+      "target": "revision_20261109/cluster_mpi/config/hosts.2gpu.example",
+      "bytes": 257,
+      "source_sha256": "bdc3cbbf3745d7c298fb84b2a14711b1248e3d65e103c85ccb8380607de72cdd",
+      "target_sha256": "bdc3cbbf3745d7c298fb84b2a14711b1248e3d65e103c85ccb8380607de72cdd",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/config/hosts.example",
+      "target": "revision_20261109/cluster_mpi/config/hosts.example",
+      "bytes": 216,
+      "source_sha256": "ee423ad080542c21c775e1cdf7052098ca6b19ce045ffa4c7f13d383df5b2d06",
+      "target_sha256": "ee423ad080542c21c775e1cdf7052098ca6b19ce045ffa4c7f13d383df5b2d06",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/config/hosts.mpich.2gpu.example",
+      "target": "revision_20261109/cluster_mpi/config/hosts.mpich.2gpu.example",
+      "bytes": 109,
+      "source_sha256": "8a9d90f16d8815cfa5bccd9a72d47f3d135e60cd097c65cb38f9b2ea7e78aa72",
+      "target_sha256": "8a9d90f16d8815cfa5bccd9a72d47f3d135e60cd097c65cb38f9b2ea7e78aa72",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/config/hosts.mpich.example",
+      "target": "revision_20261109/cluster_mpi/config/hosts.mpich.example",
+      "bytes": 98,
+      "source_sha256": "c663eb13912969b13a951bfcb67dc5307c235a4d9c3dc191b625ce51506313d0",
+      "target_sha256": "c663eb13912969b13a951bfcb67dc5307c235a4d9c3dc191b625ce51506313d0",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/config/nodes.2gpu.example.json",
+      "target": "revision_20261109/cluster_mpi/config/nodes.2gpu.example.json",
+      "bytes": 422,
+      "source_sha256": "3912bfca17562020d429aa10db8d0ed7af54786eef362bb0eea0ea2561ca3507",
+      "target_sha256": "3912bfca17562020d429aa10db8d0ed7af54786eef362bb0eea0ea2561ca3507",
+      "modified": false
+    },
+    {
+      "source": "cluster_mpi/config/nodes.example.json",
+      "target": "revision_20261109/cluster_mpi/config/nodes.example.json",
+      "bytes": 298,
+      "source_sha256": "a6e83be506977df948972f2a3657f19350510119cbc1477a70035acc54d273ee",
+      "target_sha256": "a6e83be506977df948972f2a3657f19350510119cbc1477a70035acc54d273ee",
+      "modified": false
+    }
+  ],
+  "copied_files": 28,
+  "copied_bytes": 295708,
+  "build_source_dependencies_closed": true,
+  "configuration_templates_only": true,
+  "external_runtime_dependencies": [
+    "CUDA toolkit and C++17/OpenMP compiler",
+    "One consistent MPI compiler/runtime/launcher installation",
+    "Input sky for non-synthetic runs"
+  ]
+}

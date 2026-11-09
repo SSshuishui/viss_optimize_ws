@@ -1,142 +1,56 @@
 # Multi-GPU lunar-orbit radio-interferometric imaging
 
-This branch is the curated code-and-results artifact for the manuscript
-**“A Data-Intensive Multi-GPU Pipeline for Lunar-Orbit Radio Interferometric
-Imaging with Approximation-Controlled Short-Time Stacking.”**
+This repository provides the CUDA implementations, experiment drivers, numerical checks, and compact measurements for *Multi-GPU Acceleration for Data-Intensive Lunar-Orbit Radio Interferometric Imaging*. The `paper-artifact-v2` branch adds the major-revision experiments to the original `paper-artifact-v1` artifact. Cite the fixed release and full commit SHA recorded with the submitted revision. Citation metadata is in [CITATION.cff](CITATION.cff).
 
-It contains the CUDA/C++ implementations used in the controlled experiments,
-portable launch and analysis scripts, compact raw measurements, paper-facing
-summary tables, and the data and script for the sensitivity figure. Large sky
-maps, full-resolution reconstructed maps, compiled executables, and profiler
-databases are deliberately excluded.
+The original modules and measurements remain under `source`, `experiments`, `results`, and `figures`. Revision code is under `revision_20261109`. Its `agent_exchange` directory preserves the frozen implementations and relative dependencies of the evaluated experiments. The current server source snapshot has its own source identities. [MANIFEST.md](MANIFEST.md) maps each experiment to code and results, and [DATA.md](DATA.md) specifies the external inputs.
 
-## Get this artifact
+| Module | Entry point |
+|---|---|
+| Original exact-group and representative STS | `source/final_sts/build.sh` |
+| Original controlled direct 3D | `source/direct_3d_reference/build.sh` |
+| Original 30 MHz streaming | `source/stream_30mhz/build_4090.sh` |
+| Five-day direct/STS inverse timing | `revision_20261109/build_artifact.py --component five_day` |
+| Repeated segmentation/grid settings | `revision_20261109/build_artifact.py --component sweep` |
+| Matched forward tile paths | `revision_20261109/build_artifact.py --component forward` |
+| Corrected direct N/W and 450-day lanes | `revision_20261109/build_artifact.py --component direct450` |
+| Mature direct and corrected-DCF export | `--component mature_direct` and `--component corrected_dcf` |
+| CPU and masked Fourier controls | `--component cpu_nufft` |
+| Fixed-microchunk streaming and MPI | `--component microchunk` and `--component mpi` |
 
-This is a self-contained artifact branch. Clone it directly with:
+On Linux, install CUDA 12.4, a CUDA-compatible OpenMP C++ compiler, Python 3.9 or later, and OpenSSL development headers/libraries. The reported 4090 builds used GCC 11.4 and `sm_89`. Direct 450-day portability also used `sm_75` and `sm_86`. MPI compilation additionally requires an installed `mpicxx` wrapper. Numerical Python analyses use NumPy. CPU NUFFT controls use FINUFFT 2.5.1, and GPU Fourier controls use CuPy and cuFINUFFT 2.5.1. Plotting requires Matplotlib and, for the older sensitivity plot, pandas.
 
-```bash
-git clone --branch paper-artifact-v1 --single-branch \
-  https://github.com/SSshuishui/viss_optimize_ws.git
-cd viss_optimize_ws
-```
-
-## Artifact contents
-
-| Component | Purpose | Recorded evidence |
-|---|---|---|
-| `source/final_sts` | Exact-group and representative-group STS | `results/sensitivity` and `results/controlled_method_comparison` |
-| `source/direct_3d_reference` | Direct 3D+DCF reference implementation | `results/controlled_method_comparison` |
-| `source/stream_30mhz` | Memory-bounded 30 MHz reconstruction | `results/slab_30mhz` |
-| `experiments` | Five-day paired comparison and 1/2/4-GPU scaling wrappers | `results/scaling_and_orbital` |
-| `results/summary` | Compact averages and scaling values used for manuscript tables | Three normalized CSV files |
-| `figures` | Sensitivity-figure source and output | `sensitivity_tradeoff.png` |
-
-For a detailed experiment-to-file mapping, see [`MANIFEST.md`](MANIFEST.md).
-Input formats and exclusion policy are documented in [`DATA.md`](DATA.md).
-
-## Evaluation environment
-
-The reported experiments used:
-
-- Linux kernel 5.15;
-- CUDA 12.4 and GCC 11.4;
-- four NVIDIA GeForce RTX 4090 GPUs with 24 GiB per GPU;
-- CUDA architecture target `sm_89`.
-
-The build scripts accept an explicit compiler path, for example:
+Run the static package checks from the repository root. They compile Python syntax, run `bash -n`, resolve quoted headers, and verify published source fingerprints. They import no numerical drivers.
 
 ```bash
-NVCC=/usr/local/cuda-12.4/bin/nvcc ./build.sh
+python3 -B validate_artifact.py
+python3 -B revision_20261109/build_artifact.py --dry-run
 ```
 
-Absolute timings can change with GPU model, driver, compiler, NUMA placement,
-and filesystem. Use the included logs and system records when comparing a new
-run with the reported measurements.
-
-## Input data
-
-Set `SKY_DIR` to a directory containing the required sky map:
-
-- `B_10M.bin` for the 10 MHz, HEALPix `Nside=4096` experiments;
-- `B_30M.bin` for the 30 MHz, HEALPix `Nside=16384` experiments.
-
-These maps are not included because of upstream redistribution terms and their
-size. The direct 3D reference DCF is included at
-`source/direct_3d_reference/dcf_mb_10M_days450_seed42.bin`.
-
-## Build and run
-
-Build the final STS implementation:
+Compile all revision components with an explicit compiler and GPU architecture. This command builds programs and CPU libraries without launching GPU experiments or reading sky arrays. It writes a build receipt under `revision_20261109/build`.
 
 ```bash
-cd source/final_sts
-./build.sh
+python3 -B revision_20261109/build_artifact.py \
+  --arch sm_89 --nvcc /usr/local/cuda-12.4/bin/nvcc \
+  --host-cxx /usr/bin/g++-11
 ```
 
-Run the default 10 MHz representative-group configuration without writing the
-full-resolution output map:
+Repeat `--component` to build a subset. For example, the following prepares the single-card 450-day code for an RTX 2080 Ti.
 
 ```bash
-SKY_DIR=/path/to/earth_10Mhz GPUS=0,1,2,3 \
-  WRITE_OUTPUT=0 ./scripts/run_one.sh
+python3 -B revision_20261109/build_artifact.py \
+  --component direct450 --arch sm_75 \
+  --nvcc /usr/local/cuda-12.4/bin/nvcc --host-cxx /usr/bin/g++-11
 ```
 
-From the repository root, run the strong-scaling experiment:
+[The revision reproduction guide](revision_20261109/README.md) gives cache generation, timing, CPU/Fourier, lane, and merge entry points. Historical benchmark drivers retain their numerical acceptance checks and require the corresponding external reference datasets. The public build entry compiles their frozen sources independently of the original server's scheduling markers.
+
+The original strong-scaling and grouped-STS comparison can be run with the supplied sky input.
 
 ```bash
-SKY_DIR=/path/to/earth_10Mhz \
-  ./experiments/run_scaling_10m.sh
+SKY_DIR=/path/to/earth_10Mhz ./experiments/run_scaling_10m.sh
+SKY_DIR=/path/to/earth_10Mhz ./experiments/run_five_day_paired_10m.sh
 ```
 
-Run the paired exact/representative comparison on the five sampled orbital
-days:
+The five-day script writes full-resolution maps for its accuracy comparison. Inspect its output and resource settings before running it. Absolute timings depend on the GPU, compiler, driver, NUMA placement, clocks, and shared-node conditions. Each recorded batch retains its own timer and output definition. Direct DCF numerators and cell-normalized STS responses have different estimators, and their timing ratios require the associated numerical comparisons.
 
-```bash
-SKY_DIR=/path/to/earth_10Mhz \
-  ./experiments/run_five_day_paired_10m.sh
-```
-
-The paired script writes two full-resolution maps per day by default because
-the accuracy calculation requires them. Set `WRITE_OUTPUT=0` only for a
-timing-only run.
-
-Instructions for the 3D+DCF and 30 MHz implementations are in their respective
-source directories.
-
-## Analysis and Figure 4
-
-The analysis scripts require Python 3. Install the small Python dependency set
-in an isolated environment:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python3 -m pip install numpy pandas matplotlib
-```
-
-Regenerate the sensitivity figure:
-
-```bash
-python3 figures/plot_sensitivity_tradeoff.py
-```
-
-![Sensitivity trade-off](figures/sensitivity_tradeoff.png)
-
-## Result summaries
-
-The paper-facing averages are provided separately from the raw per-day logs:
-
-- `results/summary/five_day_method_average.csv`;
-- `results/summary/five_day_accuracy_average.csv`;
-- `results/summary/scaling_10mhz.csv`.
-
-Historical logs retain the absolute paths recorded on the evaluation server.
-All runnable scripts in this branch use repository-relative paths or explicit
-environment variables.
-
-## License and data availability
-
-No license is asserted in this artifact yet. Add one only after confirming that
-all source files and derived inputs may be redistributed under the selected
-terms. Input sky maps and full-resolution reconstruction arrays should be
-shared only where their source terms and repository limits permit it.
+The artifact contains source code, input identities, compact measured records, and plotting inputs. Sky maps, visibility caches, and full-resolution output arrays are external inputs or generated products. Their required formats, hashes, and scopes are documented in [DATA.md](DATA.md).

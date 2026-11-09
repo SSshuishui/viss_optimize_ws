@@ -1,0 +1,47 @@
+{
+  "retrieved": "2026-11-09",
+  "origin": "author 4xRTX4090 evaluation server",
+  "scope": "Current working source snapshot. Historical measured implementations remain frozen separately.",
+  "files": [
+    {
+      "path": "mirror_tile_vissfast/common_mirror_tile_vissfast.hpp",
+      "bytes": 10419,
+      "sha256": "0d55e2236aa2ae650a93b5dfa5f75c0ac8851a768773254052be2979948006e7"
+    },
+    {
+      "path": "mirror_tile_vissfast/main_recon_online_mirror_tile_vissfast.cu",
+      "bytes": 30174,
+      "sha256": "f5a55fb0af19821803859d0c92258efc4eecd311b8d3c6e622a22bfd52e49aca"
+    },
+    {
+      "path": "mirror_tile_vissfast/orbit_online_mirror_tile_vissfast.cuh",
+      "bytes": 18390,
+      "sha256": "417f6dee9c52583c27b39c28d0b33034625d88f47295a51d164c49c05fd1d345"
+    },
+    {
+      "path": "mirror_tile_vissfast/viss_recon_kernel_mirror_tile_vissfast.cuh",
+      "bytes": 52370,
+      "sha256": "39b980995b3dc380eb74b7e1bebdb5179b34bb341de9c364b6ceaa5e42144395"
+    },
+    {
+      "path": "vissfast_streamonly/common_mirror_tile_vissfast_streamonly.hpp",
+      "bytes": 10427,
+      "sha256": "827e12513f638c6fba15c88214a82afdba973a5b38fad3b08ed7330f8ca2821a"
+    },
+    {
+      "path": "vissfast_streamonly/main_recon_online_mirror_tile_vissfast_streamonly.cu",
+      "bytes": 31276,
+      "sha256": "4dad629dc2e39a309de760125be58e74147c8c0b5648a75ee2d55c40b206ebf7"
+    },
+    {
+      "path": "vissfast_streamonly/orbit_online_mirror_tile_vissfast_streamonly.cuh",
+      "bytes": 18401,
+      "sha256": "c5eb93c36de3a7e7b0c7e6b4c1041f824a369607e44d3ab377ebc33e4f3efec0"
+    },
+    {
+      "path": "vissfast_streamonly/viss_recon_kernel_mirror_tile_vissfast_streamonly.cuh",
+      "bytes": 50296,
+      "sha256": "60713c0b9d5c42c47976f85c8fdc25eab9ed18c77e1a82428a77a1bd0dd117a3"
+    }
+  ]
+}

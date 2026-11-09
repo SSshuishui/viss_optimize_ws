@@ -1,0 +1,10 @@
+{
+  "template_only": true,
+  "gpus_per_node": 2,
+  "nodes": [
+    {"ssh": "gpu-node-a", "address": "10.0.0.11", "expected_gpu_count": 2},
+    {"ssh": "gpu-node-b", "address": "10.0.0.12", "expected_gpu_count": 2},
+    {"ssh": "gpu-node-c", "address": "10.0.0.13", "expected_gpu_count": 2}
+  ],
+  "note": "Planned resource only. Replace addresses, confirm physical instance IDs and set template_only=false after rental."
+}

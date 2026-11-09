@@ -1,0 +1,102 @@
+{
+  "state": "prepared_pending_root_execution_marker",
+  "scope": "isolated actual original STS production regression; original default and old results unchanged",
+  "frequency_Hz": 30000000,
+  "wavelength_m": 10,
+  "nside": 16384,
+  "input_and_output_pixels": 3221225472,
+  "original_segment_plan": 10,
+  "executed_segment": {
+    "day": 1,
+    "t0": 0,
+    "tlen": 20944,
+    "signed_baselines": 1172864,
+    "half_baselines": 586432
+  },
+  "production_G": 2,
+  "partition_pixels_each": 1610612736,
+  "GPU_UUIDs": [
+    "GPU-d26f44d0-c546-24e1-433c-49a053ecf0ee",
+    "GPU-99fbd651-f080-aa22-391b-f33caa723578"
+  ],
+  "microchunk_pixels": 32768,
+  "microchunk_accumulation": "FP32 original phase/term/sum within each fixed microchunk; persistent FP64 outer state across all IO slabs; exactly one FP32 cast per physical partition; original host GPU-order FP32 reduction and original phase correction",
+  "input": {
+    "path": "/data/zhaox/research/viss_optimize_ws/earth_30Mhz/B_30M.bin",
+    "bytes": 12884901888,
+    "sha256": "2114f0adf6d0f7d01362998101c15190ce0441aa9b008b912931b4fe5be27898",
+    "scaling": "original raw B; no pixel normalization; not copied"
+  },
+  "process_cases": [
+    "prefix",
+    "capacity",
+    "m0_default",
+    "m4_default",
+    "m4_small",
+    "CPU_finalize"
+  ],
+  "program_process_limit_seconds": {
+    "prefix": 120,
+    "capacity": 60,
+    "m0_default": 1100,
+    "m4_default": 1100,
+    "m4_small": 1100,
+    "CPU_finalize": 120
+  },
+  "cumulative_process_wall_budget_seconds": 3600,
+  "sum_predeclared_process_caps_seconds": 3600,
+  "boundary_and_controller_deadline_reserve_seconds": 120.29134478908964,
+  "temporary_storage_limit_bytes": 536870912,
+  "final_storage_limit_bytes": 268435456,
+  "next_fullcase_storage_reserve_bytes": 134217728,
+  "minimum_disk_free_bytes": 107374182400,
+  "minimum_observed_allocation_free_bytes_each_GPU": 2147483648,
+  "production_cases": [
+    {
+      "name": "m0_default",
+      "mode": 0,
+      "IO_slab_pixels": 134217728
+    },
+    {
+      "name": "m4_default",
+      "mode": 4,
+      "IO_slab_pixels": 134217728
+    },
+    {
+      "name": "m4_small",
+      "mode": 4,
+      "IO_slab_pixels": 33554432
+    }
+  ],
+  "gates": {
+    "prefix": "first 33554432 original raw input pixels, all586432 baselines: original-header versus MODE0-clone bitwise; MODE4 eight predeclared baseline states match frozen full-rep first-prefix reference bitwise; two state buffers zero/reset replay bitwise. Diagnostic only, no full C/W",
+    "capacity": "actual G2 full C/W, work, two geometry slots, micro-state, generator and original full CUB group; each observed free >=2GiB; no reduced resolution or baseline fallback",
+    "same_prefix_reference": "GPU0 at global input prefix2^30, all original86668 consumed representative DP states before any partition cast match accepted G3 partition0 reference bitwise; recovery rechecks a checkpoint exactly at the boundary",
+    "production": "full586432 forward and all3.22B inverse pixels; original group keys/representative IDs/fit/grid geometry exact; full N,W,C finite and SHA; all output map writing disabled; fixed2048 samples only",
+    "primary_across_IO": "MODE4 default versus small full raw and consumed V bitwise; full N,W,C SHA and fixed2048 IDs,N,W,C bitwise; no error-based sample selection",
+    "W_all_modes": "full W SHA and2048 W exact for all three complete production cases",
+    "independent_inverse": "16 predeclared samples x all86668 groups; CPU FP64 phase/long-double sum N relativeL2<=1e-3, original canonical FP32 visibility count W exact/nonempty; done separately for each of three production cases",
+    "scope_limit": "one original segment, two IO layouts at G2; old G3 final outputs only diagnostic; no full450days, no multi-node, no exact physical-equivalence claim"
+  },
+  "checkpoint": "each forward GPU atomically stores raw FP32 host sum(mode0) or persistent DP state(mode4) at each IO boundary, strict execution/geometry/mode/G/slab/progress/checksum/EOF identity. Completed rawV is SHA+identity committed before registered checkpoints are deleted. No full C/W disk checkpoint: explicit resumed inverse replays from committed fullV. No automatic retry or budget reset; interrupted unsubmitted case is preserved and blocks normal queue until explicit audit",
+  "pilot_stop": "prefix and capacity both must pass. Before any complete case, compute conservative pilot estimate=1.5*48*(original first33M seconds+2*MODE4 first33M seconds)+3*225s inverse+3*90s full-field scans+120s CPU; if estimate exceeds remaining3600s budget stop with data and estimates. Do not extend budget or choose modes by errors",
+  "original_method_preserved": {
+    "all_half_baselines_forward": true,
+    "raw_B": true,
+    "original_STS_midpoint_group_phase_weight_mask": true,
+    "Efast_added": false,
+    "lazy_rep_forward": false,
+    "default_modified": false
+  },
+  "resource_revision": {
+    "count": 1,
+    "old_limit_seconds": 3000,
+    "already_used_seconds": 59.708655210910365,
+    "future_reserved_seconds": 3420,
+    "remaining_after_future_caps_seconds": 120.29134478908964,
+    "root_authorization": "RESOURCE_AMENDMENT.json",
+    "old_freeze_and_ledger": "resource_history/cap3000",
+    "no_gates_repeated": true,
+    "no_science_gate_change": true
+  }
+}
